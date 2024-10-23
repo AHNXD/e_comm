@@ -96,7 +96,8 @@ class _DetailPageState extends State<DetailPage> {
                               // For price
                               Center(
                                 child: Text(
-                                  '${widget.product.newSellingPrice ?? widget.product.sellingPrice} ${"sp".tr(context)}',
+                                  '${widget.product.newSellingPrice}',
+                                  //'${widget.product.newSellingPrice ?? widget.product.sellingPrice} ${"sp".tr(context)}',
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 24,
@@ -195,28 +196,28 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         const Spacer(),
                         // For kcla
-                        const Icon(
-                          Icons.fiber_manual_record,
-                          color: Colors.red,
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        if (widget.product.wight != null)
-                          Text(
-                            '${widget.product.wight} ${widget.product.weightMeasurement!.name}',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                        const Spacer(),
+                        // const Icon(
+                        //   Icons.fiber_manual_record,
+                        //   color: Colors.red,
+                        // ),
+                        // const SizedBox(
+                        //   width: 4,
+                        // ),
+                        // if (widget.product.wight != null)
+                        //   Text(
+                        //     '${widget.product.wight} ${widget.product.weightMeasurement!.name}',
+                        //     style: const TextStyle(
+                        //         fontWeight: FontWeight.bold, fontSize: 16),
+                        //   ),
+                        // const Spacer(),
                         // For time
-                        const Icon(
-                          Icons.access_time_filled,
-                          color: Colors.amber,
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
+                        // const Icon(
+                        //   Icons.access_time_filled,
+                        //   color: Colors.amber,
+                        // ),
+                        // const SizedBox(
+                        //   width: 4,
+                        // ),
                         // Text(
                         //   widget.product.cookingTime,
                         //   maxLines: 1,
@@ -226,9 +227,9 @@ class _DetailPageState extends State<DetailPage> {
                       ],
                     ),
                     // For description
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    // const SizedBox(
+                    //   height: 10,
+                    // ),
                     Text(
                       widget.product.descrption!,
                       style:

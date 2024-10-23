@@ -1,12 +1,11 @@
 // ignore_for_file: file_names
 
 class Urls {
-  static const String ip = "192.168.43.3:8000";
+  static const String ip = "192.168.43.121:8000";
 
   static const String baseUrl = "http://$ip/api/";
   static const String storageProducts = "http://$ip/uploads/products/";
-  static const String storageCategories =
-      "http://$ip/BaseDashboard/public//uploads//categories/";
+  static const String storageCategories = "http://$ip/uploads//categories/";
   static const String logInApi = "${baseUrl}login";
   static const String registerApi = "${baseUrl}register";
   static const String verificationCode = "${baseUrl}verify_email";

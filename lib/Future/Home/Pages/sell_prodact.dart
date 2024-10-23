@@ -12,6 +12,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../Utils/colors.dart';
 import '../../../Utils/constants.dart';
+import '../../Auth/Widgets/my_button_widget.dart';
 import '../Widgets/custom_note_label.dart';
 import '../Widgets/sellProduct/sell_product_from.dart';
 import '../models/sell_product_model.dart';
@@ -275,24 +276,31 @@ class _SellProdactState extends State<SellProdact> {
                   ],
                 ),
               ),
-            const SizedBox(height: 20),
-            Container(
-              margin: const EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                  color: AppColors.primaryColors,
-                  borderRadius: BorderRadius.circular(10)),
-              height: 75,
-              child: TextButton(
-                onPressed: submit,
-                child: Text(
-                  'send_info'.tr(context),
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 20),
-                ),
-              ),
+            SizedBox(height: 2.h),
+            MyButtonWidget(
+              color: AppColors.buttonCategoryColor,
+              verticalHieght: 2.h,
+              text: 'send_info'.tr(context),
+              onPressed: submit,
+              horizontalWidth: 8.w,
             ),
+            // Container(
+            //   margin: const EdgeInsets.all(15),
+            //   decoration: BoxDecoration(
+            //       color: AppColors.primaryColors,
+            //       borderRadius: BorderRadius.circular(10)),
+            //   height: 75,
+            //   child: TextButton(
+            //     onPressed: submit,
+            //     child: Text(
+            //       'send_info'.tr(context),
+            //       style: const TextStyle(
+            //           color: Colors.white,
+            //           fontWeight: FontWeight.w500,
+            //           fontSize: 20),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

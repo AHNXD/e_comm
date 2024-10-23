@@ -312,7 +312,7 @@ class LastestProductAndTitle extends StatelessWidget {
                       TitleCardWidget(title: name, id: id, cData: cData),
                       CarouselSliderWidget(
                         list: productCardList(true, state.allProducts[index]),
-                        height: 50.h,
+                        height: 45.h,
                       ),
                     ],
                   );

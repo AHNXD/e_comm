@@ -12,6 +12,7 @@ import 'package:sizer/sizer.dart';
 import '../../../Utils/colors.dart';
 import '../../../Utils/constants.dart';
 
+import '../../Auth/Widgets/my_button_widget.dart';
 import '../Cubits/print_image_cubit/print_image_cubit.dart';
 import '../Widgets/print_image/print_image_form.dart';
 import '../models/print_image_model.dart';
@@ -269,23 +270,30 @@ class _PrintImageState extends State<PrintImageScreen> {
                 ),
               ),
             const SizedBox(height: 20),
-            Container(
-              margin: const EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                  color: AppColors.primaryColors,
-                  borderRadius: BorderRadius.circular(10)),
-              height: 75,
-              child: TextButton(
-                onPressed: submit,
-                child: Text(
-                  'print_img'.tr(context),
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 20),
-                ),
-              ),
-            ),
+            MyButtonWidget(
+              color: AppColors.buttonCategoryColor,
+              verticalHieght: 2.h,
+              text: 'print_img'.tr(context),
+              onPressed: submit,
+              horizontalWidth: 8.w,
+            )
+            // Container(
+            //   margin: const EdgeInsets.all(15),
+            //   decoration: BoxDecoration(
+            //       color: AppColors.primaryColors,
+            //       borderRadius: BorderRadius.circular(10)),
+            //   height: 75,
+            //   child: TextButton(
+            //     onPressed: submit,
+            //     child: Text(
+            //       'print_img'.tr(context),
+            //       style: const TextStyle(
+            //           color: Colors.white,
+            //           fontWeight: FontWeight.w500,
+            //           fontSize: 20),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

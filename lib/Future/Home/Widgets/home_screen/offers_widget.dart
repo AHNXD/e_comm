@@ -42,7 +42,7 @@ class OffersWidget extends StatelessWidget {
                 style: TextStyle(color: Colors.black, fontSize: 8.sp),
               ),
               Text(
-                "30% off on your\n First Purchase",
+                '${data.percentageDiscount}% off on your\n First Purchase',
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 12.sp,
