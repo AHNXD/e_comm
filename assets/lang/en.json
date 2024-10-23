@@ -112,5 +112,7 @@
     "reset_password" : "Reset Password",
     "reset_password_success" : "Reset Password Successfully",
     "create_account" : "Create Account",
-    "register_account" : "Register Account"
+    "register_account" : "Register Account",
+    "are_you_sure" : "'Are you sure ?",
+    "do_you_want_to_exit_the_app" : "Do you want to exit the app ?"
 }

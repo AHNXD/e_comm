@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
-import '../../../../Utils/functions.dart';
 import '/Apis/ExceptionsHandle.dart';
 import '/Apis/Network.dart';
 import '/Apis/Urls.dart';
@@ -25,7 +24,7 @@ class GetCatigoriesCubit extends Cubit<GetCatigoriesState> {
       await Network.getData(url: Urls.getCatigories).then((response) {
         if (response.statusCode == 200 || response.statusCode == 201) {
           catigoriesModel = CatigoriesModel.fromJson(response.data);
-          homeData = getMainCategoryByParentId(catigoriesModel!);
+          homeData = catigoriesModel!.data ?? [];
           emit(GetCatigoriesSuccessfulState());
         }
       });

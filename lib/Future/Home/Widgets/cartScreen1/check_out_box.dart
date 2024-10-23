@@ -1,4 +1,5 @@
 import 'package:e_comm/Future/Home/Pages/cart_information.dart';
+import 'package:e_comm/Future/Home/Widgets/custom_note_label.dart';
 import 'package:e_comm/Future/Home/models/product_model.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
@@ -15,7 +16,7 @@ class CheckOutBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 25.h,
+      height: 26.h,
       width: double.infinity,
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -82,6 +83,10 @@ class CheckOutBox extends StatelessWidget {
                 ),
               ),
             ),
+          ),
+          const SizedBox(height: 10),
+          CustomNoteLabel(
+            noteText: "cart_note".tr(context),
           ),
         ],
       ),

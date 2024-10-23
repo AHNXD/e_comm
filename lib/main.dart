@@ -49,6 +49,26 @@ final scaffoldKey = GlobalKey<ScaffoldState>();
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  Future<dynamic> onBackPressed(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('are_you_sure'.tr(context)),
+        content: Text('do_you_want_to_exit_the_app'.tr(context)),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text('no'.tr(context)),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text('yes'.tr(context)),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Sizer(

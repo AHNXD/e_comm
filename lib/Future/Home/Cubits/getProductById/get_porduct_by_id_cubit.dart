@@ -16,7 +16,8 @@ class GetPorductByIdCubit extends Cubit<GetPorductByIdState> {
   void getProductsByCategory(int id) async {
     emit(GetPorductByIdLoading());
     try {
-      await Network.getData(url: "${Urls.getProductsByGategoryId}/$id")
+      await Network.getData(
+              url: "${Urls.getProductsByGategoryId}/$id?per_page=100&page=1")
           .then((response) {
         ProductsModel products = ProductsModel.fromJson(response.data);
         emit(GetPorductByIdSuccess(products: products.data!));

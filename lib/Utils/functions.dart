@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/favoriteCubit/favorite_cubit.dart';
