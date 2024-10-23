@@ -116,5 +116,7 @@
     "reset_password": "إعادة تعيين كلمة المرور",
     "reset_password_success": "إعادة تعيين كلمة المرور بنجاح",
     "create_account": "إنشاء حساب",
-    "register_account": "تسجيل حساب"
+    "register_account": "تسجيل حساب",
+    "are_you_sure": "هل أنت متأكد؟",
+    "do_you_want_to_exit_the_app": "هل تريد الخروج من التطبيق؟"
 }
