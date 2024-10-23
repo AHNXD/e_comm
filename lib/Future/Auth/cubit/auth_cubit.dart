@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 
+import '../../../Utils/constants.dart';
+
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
@@ -242,11 +244,15 @@ class AuthCubit extends Cubit<AuthState> {
   void logOut() async {
     emit(AuthLoadingState());
     try {
-      await Network.postData(url: Urls.verificationCode, data: {})
-          .then((value) {
+      await Network.postData(
+        url: Urls.logout,
+      ).then((value) {
         if (value.statusCode == 200 || value.statusCode == 201) {
-          AppSharedPreferences.saveToken(value.data['data']);
-          emit(AuthSuccessfulState("the Account Created successfully"));
+          AppSharedPreferences.removeToken();
+          emit(LogoutSuccessState(
+              message: lang == 'en'
+                  ? "You have successfully logged out"
+                  : "لقد قمت بتسجيل الخروج بنجاح"));
         }
       });
     } catch (error) {

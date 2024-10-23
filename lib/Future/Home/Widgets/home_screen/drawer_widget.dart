@@ -1,4 +1,5 @@
 import 'package:e_comm/Future/Auth/Widgets/my_button_widget.dart';
+import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/GetCatigoriesOffers/get_catigories_offers_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/favoriteCubit/favorite_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/getCatigories/get_catigories_cubit.dart';
@@ -120,7 +121,9 @@ class DrawerWidget extends StatelessWidget {
                     )
                   : MyButtonWidget(
                       text: "logOut".tr(context),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.read<AuthCubit>().logOut();
+                      },
                       verticalHieght: 1.h,
                       horizontalWidth: 2.w,
                       color: AppColors.buttonCategoryColor),

@@ -1,3 +1,4 @@
+import 'package:e_comm/Future/Home/Pages/navbar_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -82,40 +83,39 @@ class MyApp extends StatelessWidget {
         ],
         child: BlocBuilder<LocaleCubit, ChangeLocaleState>(
           builder: (context, state) {
+            if (state is LogoutSuccessState) {}
             return MaterialApp(
-              locale: state.locale,
-              supportedLocales: const [
-                Locale("en"),
-                Locale("ar"),
-              ],
-              localizationsDelegates: const [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              localeResolutionCallback: (deviceLocal, supportedLocales) {
-                for (var locale in supportedLocales) {
-                  if (deviceLocal != null &&
-                      deviceLocal.languageCode == locale.languageCode) {
-                    return deviceLocal;
+                locale: state.locale,
+                supportedLocales: const [
+                  Locale("en"),
+                  Locale("ar"),
+                ],
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                localeResolutionCallback: (deviceLocal, supportedLocales) {
+                  for (var locale in supportedLocales) {
+                    if (deviceLocal != null &&
+                        deviceLocal.languageCode == locale.languageCode) {
+                      return deviceLocal;
+                    }
                   }
-                }
-                return supportedLocales.first;
-              },
-              debugShowCheckedModeBanner: false,
-              title: 'E-Commerce',
-              theme: ThemeData(
-                fontFamily: "cocon-next-arabic",
-                colorScheme:
-                    ColorScheme.fromSeed(seedColor: AppColors.primaryColors),
-                // useMaterial3: true,
-              ),
-              home:
-                  //  ProductScreen(clickIndex: 2,)
-                  // const NavBarPage(),
-                  LoginScreen(),
-            );
+                  return supportedLocales.first;
+                },
+                debugShowCheckedModeBanner: false,
+                title: 'E-Commerce',
+                theme: ThemeData(
+                  fontFamily: "cocon-next-arabic",
+                  colorScheme:
+                      ColorScheme.fromSeed(seedColor: AppColors.primaryColors),
+                  // useMaterial3: true,
+                ),
+                home: AppSharedPreferences.hasToken
+                    ? const NavBarPage()
+                    : LoginScreen());
           },
         ),
       ),

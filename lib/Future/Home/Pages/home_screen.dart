@@ -1,3 +1,5 @@
+import 'package:e_comm/Future/Auth/Pages/login_screen.dart';
+import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/GetCatigoriesOffers/get_catigories_offers_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
@@ -43,99 +45,110 @@ class HomeScreen extends StatelessWidget {
       );
     }
 
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 11.h),
-        child: const AppBarWidget(),
-      ),
-      backgroundColor: AppColors.backgroundColor,
-      body: BlocListener<CartCubit, CartState>(
-        listener: (context, state) {
-          if (state is AddToCartState) {
-            showMessage('add_product_done'.tr(context), Colors.green);
-          } else if (state is AlreadyInCartState) {
-            showMessage('product_in_cart'.tr(context), Colors.grey);
-          }
-        },
-        child: ListView(
-          shrinkWrap: true,
-          controller: controller,
-          children: [
-            BlocBuilder<GetCatigoriesOffersCubit, GetCatigoriesOffersState>(
-              builder: (context, state) {
-                final model = context.read<GetCatigoriesOffersCubit>();
-                if (state is GetCatigoriesOffersLoadingState) {
-                  return const Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                } else if (state is GetCatigoriesOffersErrorState) {
-                  return MyErrorWidget(
-                    msg: state.msg,
-                    onPressed: () {
-                      model.getOffersCatigories();
-                    },
-                  );
-                }
-                return model.offersCatigoriesModel!.data!.isNotEmpty
-                    ? Column(
-                        children: [
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "offers".tr(context),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30,
-                                      color: AppColors.textTitleAppBarColor),
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is LogoutSuccessState) {
+          showMessage(state.message, Colors.green);
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (builder) {
+            return LoginScreen();
+          }));
+        }
+      },
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size(double.infinity, 11.h),
+          child: const AppBarWidget(),
+        ),
+        backgroundColor: AppColors.backgroundColor,
+        body: BlocListener<CartCubit, CartState>(
+          listener: (context, state) {
+            if (state is AddToCartState) {
+              showMessage('add_product_done'.tr(context), Colors.green);
+            } else if (state is AlreadyInCartState) {
+              showMessage('product_in_cart'.tr(context), Colors.grey);
+            }
+          },
+          child: ListView(
+            shrinkWrap: true,
+            controller: controller,
+            children: [
+              BlocBuilder<GetCatigoriesOffersCubit, GetCatigoriesOffersState>(
+                builder: (context, state) {
+                  final model = context.read<GetCatigoriesOffersCubit>();
+                  if (state is GetCatigoriesOffersLoadingState) {
+                    return const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  } else if (state is GetCatigoriesOffersErrorState) {
+                    return MyErrorWidget(
+                      msg: state.msg,
+                      onPressed: () {
+                        model.getOffersCatigories();
+                      },
+                    );
+                  }
+                  return model.offersCatigoriesModel!.data!.isNotEmpty
+                      ? Column(
+                          children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "offers".tr(context),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 30,
+                                        color: AppColors.textTitleAppBarColor),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          CarouselSliderWidget(
-                            list:
-                                offersList(model.offersCatigoriesModel!.data!),
-                            height: 30.h,
-                          ),
-                        ],
-                      )
-                    : const SizedBox();
-              },
-            ),
-            SizedBox(height: 1.h),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "categoris".tr(context),
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                    color: AppColors.textTitleAppBarColor),
+                              ],
+                            ),
+                            CarouselSliderWidget(
+                              list: offersList(
+                                  model.offersCatigoriesModel!.data!),
+                              height: 30.h,
+                            ),
+                          ],
+                        )
+                      : const SizedBox();
+                },
               ),
-            ),
-            SizedBox(
-              height: 8.h,
-              child: const HomePageCategoriesButtonWidget(),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "latest_products".tr(context),
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                    color: AppColors.textTitleAppBarColor),
+              SizedBox(height: 1.h),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "categoris".tr(context),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: AppColors.textTitleAppBarColor),
+                ),
               ),
-            ),
-            LastestProductAndTitle(controller: controller),
-            SizedBox(
-              height: 2.h,
-            )
-          ],
+              SizedBox(
+                height: 8.h,
+                child: const HomePageCategoriesButtonWidget(),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "latest_products".tr(context),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: AppColors.textTitleAppBarColor),
+                ),
+              ),
+              LastestProductAndTitle(controller: controller),
+              SizedBox(
+                height: 2.h,
+              )
+            ],
+          ),
         ),
       ),
     );

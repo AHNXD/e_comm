@@ -22,3 +22,9 @@ final class AuthErrorState extends AuthState {
   final String message;
   AuthErrorState(this.message);
 }
+
+final class LogoutSuccessState extends AuthState {
+  final String message;
+
+  LogoutSuccessState({required this.message});
+}
