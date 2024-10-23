@@ -26,6 +26,12 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
+  @override
+  void initState() {
+    context.read<GetPorductByIdCubit>().getProductsByCategory(widget.cData.id!);
+    super.initState();
+  }
+
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showMessage(
       String message, Color color) {
     return ScaffoldMessenger.of(context).showSnackBar(
