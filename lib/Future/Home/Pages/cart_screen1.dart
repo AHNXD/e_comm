@@ -2,7 +2,6 @@ import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:sizer/sizer.dart';
 import '../../../Utils/colors.dart';
-import '../Widgets/custom_note_label.dart';
 import '/Future/Home/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -99,17 +98,11 @@ class CartListViewItem extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
         child: Column(
           children: [
-            CustomNoteLabel(
-              noteText: "cart_note".tr(context),
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
             CheckOutBox(
               items: context.read<CartCubit>().pcw,
             ),
             SizedBox(
-              height: 2.h,
+              height: 1.h,
             ),
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
