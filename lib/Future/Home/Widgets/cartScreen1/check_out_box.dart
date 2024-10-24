@@ -41,7 +41,7 @@ class CheckOutBox extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "${items.length > 1 ? items.map((e) => (e.userQuantity * double.tryParse(e.isOffer != null && e.isOffer == false ? e.sellingPrice! : e.offers!.priceAfterOffer!)!)).reduce((value1, value2) => value1 + value2) : items[0].userQuantity * double.tryParse(items[0].isOffer != null && items[0].isOffer == false ? items[0].sellingPrice! : items[0].offers!.priceAfterOffer!)!}",
+                    "${items.length > 1 ? items.map((e) => (e.userQuantity * double.tryParse(e.isOffer == false ? e.sellingPrice! : e.offers!.priceAfterOffer!)!)).reduce((value1, value2) => value1 + value2) : items[0].userQuantity * double.tryParse(items[0].isOffer == false ? items[0].sellingPrice! : items[0].offers!.priceAfterOffer!)!}",
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

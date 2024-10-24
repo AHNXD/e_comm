@@ -33,15 +33,16 @@ class CartCubit extends Cubit<CartState> {
     }
     if (!productWithSameSize) {
       MainProduct newProduct = MainProduct(
-        id: p.id,
-        name: p.name,
-        categoryId: p.categoryId,
-        descrption: p.descrption,
-        files: p.files,
-        sellingPrice: p.sellingPrice,
-        sizes: p.sizes,
-        selectedSize: size,
-      );
+          id: p.id,
+          name: p.name,
+          categoryId: p.categoryId,
+          descrption: p.descrption,
+          files: p.files,
+          sellingPrice: p.sellingPrice,
+          sizes: p.sizes,
+          selectedSize: size,
+          isOffer: p.isOffer,
+          offers: p.offers);
 
       pcw.add(newProduct);
       emit(AddToCartState());

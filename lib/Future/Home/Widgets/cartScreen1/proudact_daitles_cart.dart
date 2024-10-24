@@ -23,6 +23,17 @@ class PrudoctDaitlesCart extends StatelessWidget {
           ),
         ),
         SizedBox(height: 1.h),
+        if (product.selectedSize != null &&
+            product.selectedSize != "NULL" &&
+            product.selectedSize!.isNotEmpty)
+          Text(
+            "size: ${product.selectedSize}",
+            style: TextStyle(
+              fontSize: 11.sp,
+              color: Colors.grey.shade600,
+            ),
+          ),
+        SizedBox(height: 1.h),
         if (product.isOffer != null && product.isOffer == true)
           CircleAvatar(
             backgroundColor: Colors.red,
@@ -30,19 +41,6 @@ class PrudoctDaitlesCart extends StatelessWidget {
               "${(1 - (double.tryParse(product.offers!.priceAfterOffer!)! / double.tryParse(product.offers!.priceAfterOffer!)!)) * 100}%",
               style: const TextStyle(
                   color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-          ),
-        if (product.selectedSize != null &&
-            product.selectedSize != "NULL" &&
-            product.selectedSize!.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(right: 72.0),
-            child: Text(
-              "size: ${product.selectedSize}",
-              style: TextStyle(
-                fontSize: 11.sp,
-                color: Colors.grey.shade600,
-              ),
             ),
           ),
       ],

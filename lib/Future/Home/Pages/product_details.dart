@@ -173,8 +173,7 @@ class _DetailPageState extends State<DetailPage> {
                                     height: 4,
                                   ),
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
                                         "${widget.product.offers!.priceAfterOffer} ${"sp".tr(context)}",
@@ -184,15 +183,16 @@ class _DetailPageState extends State<DetailPage> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      CircleAvatar(
-                                        backgroundColor: Colors.red,
-                                        child: Text(
-                                          "${(1 - (double.tryParse(widget.product.offers!.priceAfterOffer!)! / double.tryParse(widget.product.offers!.priceAfterOffer!)!)) * 100}%",
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      )
+                                      // const SizedBox(width: 8,),
+                                      // CircleAvatar(
+                                      //   backgroundColor: Colors.red,
+                                      //   child: Text(
+                                      //     "${(1 - (double.tryParse(widget.product.offers!.priceAfterOffer!)! / double.tryParse(widget.product.offers!.priceAfterOffer!)!)) * 100}%",
+                                      //     style: const TextStyle(
+                                      //         color: Colors.white,
+                                      //         fontWeight: FontWeight.bold),
+                                      //   ),
+                                      // ),
                                     ],
                                   ),
                                 ],
@@ -367,6 +367,19 @@ class _DetailPageState extends State<DetailPage> {
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
           const Spacer(),
+          if (widget.product.isOffer!)
+            CircleAvatar(
+              backgroundColor: Colors.red,
+              child: Text(
+                "${(1 - (double.tryParse(widget.product.offers!.priceAfterOffer!)! / double.tryParse(widget.product.offers!.priceAfterOffer!)!)) * 100}%",
+                style: const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+          if (widget.product.isOffer!)
+            const SizedBox(
+              width: 16,
+            ),
           InkWell(
             onTap: () async {
               bool result = await context
