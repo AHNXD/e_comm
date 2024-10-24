@@ -1,6 +1,6 @@
 import 'package:e_comm/Future/Auth/Widgets/my_button_widget.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
-import 'package:e_comm/Future/Home/Cubits/GetCatigoriesOffers/get_catigories_offers_cubit.dart';
+import 'package:e_comm/Future/Home/Cubits/GetOffers/get_offers_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/favoriteCubit/favorite_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/getCatigories/get_catigories_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/getMyOrders/get_my_orders_cubit.dart';
@@ -135,9 +135,7 @@ class DrawerWidget extends StatelessWidget {
                     lang = langCode == "en" ? "ar" : "en";
                     context.read<LocaleCubit>().changeLanguage(lang);
                     context.read<GetCatigoriesCubit>().getCatigories();
-                    context
-                        .read<GetCatigoriesOffersCubit>()
-                        .getOffersCatigories();
+                    context.read<GetOffersCubit>().getOffers();
                     context.read<GetProductsCubit>().getProducts();
                     context.read<FavoriteCubit>().getProductsFavorite();
                     context.read<GetMyOrdersCubit>().getMyOrders();

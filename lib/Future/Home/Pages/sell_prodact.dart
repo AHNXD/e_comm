@@ -276,7 +276,7 @@ class _SellProdactState extends State<SellProdact> {
                   ],
                 ),
               ),
-            SizedBox(height: 2.h),
+
             MyButtonWidget(
               color: AppColors.buttonCategoryColor,
               verticalHieght: 2.h,

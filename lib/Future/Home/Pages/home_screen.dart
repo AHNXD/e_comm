@@ -1,6 +1,6 @@
 import 'package:e_comm/Future/Auth/Pages/login_screen.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
-import 'package:e_comm/Future/Home/Cubits/GetCatigoriesOffers/get_catigories_offers_cubit.dart';
+import 'package:e_comm/Future/Home/Cubits/GetOffers/get_offers_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/models/catigories_model.dart';
@@ -73,21 +73,21 @@ class HomeScreen extends StatelessWidget {
             shrinkWrap: true,
             controller: controller,
             children: [
-              BlocBuilder<GetCatigoriesOffersCubit, GetCatigoriesOffersState>(
+              BlocBuilder<GetOffersCubit, GetOffersState>(
                 builder: (context, state) {
-                  final model = context.read<GetCatigoriesOffersCubit>();
-                  if (state is GetCatigoriesOffersLoadingState) {
+                  final model = context.read<GetOffersCubit>();
+                  if (state is GetOffersLoadingState) {
                     return const Center(
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: CircularProgressIndicator(),
                       ),
                     );
-                  } else if (state is GetCatigoriesOffersErrorState) {
+                  } else if (state is GetOffersErrorState) {
                     return MyErrorWidget(
                       msg: state.msg,
                       onPressed: () {
-                        model.getOffersCatigories();
+                        model.getOffers();
                       },
                     );
                   }
