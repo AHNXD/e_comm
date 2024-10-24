@@ -1,3 +1,4 @@
+import 'package:e_comm/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
 import 'package:e_comm/Future/Home/Pages/navbar_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -99,7 +100,12 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => SellProductCubit()),
           BlocProvider(create: (_) => PrintImageCubit()),
           BlocProvider(create: (_) => AllProductsByAllCategoryCubit()),
-          BlocProvider(create: (_) => GetPrintSizesCubit()..getPrintSizes())
+          BlocProvider(
+            create: (_) => GetPrintSizesCubit()..getPrintSizes(),
+          ),
+          BlocProvider(
+            create: (_) => GetMinMaxCubit(),
+          ),
         ],
         child: BlocBuilder<LocaleCubit, ChangeLocaleState>(
           builder: (context, state) {

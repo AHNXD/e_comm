@@ -1,6 +1,8 @@
+import 'package:e_comm/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
 import 'package:e_comm/Future/Home/Pages/navbar_screen.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/product_card_widget.dart';
+
 import 'package:e_comm/Utils/app_localizations.dart';
 import '../Cubits/cartCubit/cart.bloc.dart';
 import '../Cubits/getProductById/get_porduct_by_id_cubit.dart';
@@ -29,6 +31,8 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   void initState() {
     context.read<GetPorductByIdCubit>().getProductsByCategory(widget.cData.id!);
+    context.read<GetMinMaxCubit>().getMinMax(widget.cData.id);
+
     super.initState();
   }
 

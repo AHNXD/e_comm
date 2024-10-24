@@ -44,4 +44,41 @@ class SearchProductByCategoryIdCubit
       }
     }
   }
+
+  Future<void> filterProductByPrice(
+      double? min, double? max, int categoryId) async {
+    print(categoryId);
+    emit(SearchProductByCategoryIdLoading());
+    try {
+      await Network.postData(url: Urls.filterProducts, data: {
+        "min": min,
+        "max": max,
+        "category_id": categoryId,
+      }).then((value) {
+        if (value.statusCode == 200 || value.statusCode == 201) {
+          if (value.data['data'] != null &&
+              (value.data['data'] as List).isNotEmpty) {
+            ProductsModel resault = ProductsModel.fromJson(value.data);
+            emit(SearchProductByCategoryIdSuccess(products: resault.data!));
+          } else {
+            emit(SearchProductByCategoryIdNotFound());
+          }
+        }
+      });
+    } catch (error) {
+      if (error is DioException) {
+        emit(
+          SearchProductByCategoryIdError(
+            message: exceptionsHandle(error: error),
+          ),
+        );
+      } else {
+        emit(SearchProductByCategoryIdError(message: error.toString()));
+      }
+    }
+  }
+
+  void reset() {
+    emit(SearchProductByCategoryIdInitial());
+  }
 }

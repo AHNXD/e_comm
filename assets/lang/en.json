@@ -114,5 +114,9 @@
     "create_account" : "Create Account",
     "register_account" : "Register Account",
     "are_you_sure" : "'Are you sure ?",
-    "do_you_want_to_exit_the_app" : "Do you want to exit the app ?"
+    "do_you_want_to_exit_the_app" : "Do you want to exit the app ?",
+    "invalid_price_range" : "Invalid price range",
+    "max_price" : "Max Price",
+    "min_price" : "Min Price",
+    "apply" : "apply"
 }

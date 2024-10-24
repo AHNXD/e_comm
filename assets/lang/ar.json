@@ -118,5 +118,9 @@
     "create_account": "إنشاء حساب",
     "register_account": "تسجيل حساب",
     "are_you_sure": "هل أنت متأكد؟",
-    "do_you_want_to_exit_the_app": "هل تريد الخروج من التطبيق؟"
+    "do_you_want_to_exit_the_app": "هل تريد الخروج من التطبيق؟",
+    "invalid_price_range" : "القيم المدخلة غير صحيحة",
+    "max_price" : "اعلى سعر",
+    "min_price" : "ادنى سعر",
+    "apply" : "طبق"
 }

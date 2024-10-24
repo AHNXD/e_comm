@@ -81,18 +81,21 @@ class PrintImageForm extends StatelessWidget {
             SizedBox(height: 2.h),
             BlocBuilder<GetPrintSizesCubit, GetPrintSizesState>(
               builder: (context, state) {
-                List<int> sizeIdList = [];
+                List<String> printSizes = [];
+
                 if (state is GetPrintSizesSuccess) {
                   state.printSizes
-                      .map((size) => sizeIdList.add(size.id!))
+                      .map((e) => printSizes
+                          .add("width: ${e.width!} * height: ${e.height!}"))
                       .toList();
+
                   return CustomDropDownWidget(
                       printSizeIdController: printSizeIdController,
-                      sizeIdList: sizeIdList);
+                      printSizes: printSizes);
                 }
                 return CustomDropDownWidget(
                     printSizeIdController: printSizeIdController,
-                    sizeIdList: sizeIdList);
+                    printSizes: printSizes);
               },
             ),
           ],
@@ -106,12 +109,11 @@ class CustomDropDownWidget extends StatelessWidget {
   const CustomDropDownWidget({
     super.key,
     required this.printSizeIdController,
-    required this.sizeIdList,
+    required this.printSizes,
   });
 
   final TextEditingController printSizeIdController;
-  final List<int> sizeIdList;
-
+  final List<String> printSizes;
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
@@ -124,10 +126,10 @@ class CustomDropDownWidget extends StatelessWidget {
       value: printSizeIdController.text.isNotEmpty
           ? printSizeIdController.text
           : null,
-      items: sizeIdList.map((int sizeId) {
+      items: printSizes.map((String size) {
         return DropdownMenuItem<String>(
-          value: sizeId.toString(),
-          child: Text(sizeId.toString()),
+          value: size,
+          child: Text(size),
         );
       }).toList(),
       onChanged: (String? newValue) {
