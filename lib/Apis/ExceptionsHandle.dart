@@ -101,18 +101,22 @@ String exceptionsHandle({required DioException error}) {
             break;
         }
       } else {
-        message = messages["serverError"];
+        message = lang == "en"
+            ? "Opps there is was an error"
+            : "هنالك خطأ ماالرجاء المحاولة لاحقا ";
       }
       return message!;
-
     default:
-      message = messages["serverError"];
-      return message!;
+      message = lang == "en"
+          ? "Opps there is was an error"
+          : "هنالك خطأ ماالرجاء المحاولة لاحقا ";
+      return message;
   }
 }
 
 String _handleValidationErrors(
     Map<String, dynamic> data, Map<String, String> messages) {
+  String? generalMessage = data['message'];
   Map<String, dynamic>? errors = data['errors'];
 
   if (errors != null && errors.isNotEmpty) {
@@ -123,7 +127,9 @@ String _handleValidationErrors(
         errorMessages.addAll(value.map((v) => v.toString()));
       }
     });
-    return errorMessages.join(", ");
+
+    String combinedErrors = errorMessages.join(", ");
+    return "$generalMessage: $combinedErrors";
   }
 
   return messages["validationError"]!;

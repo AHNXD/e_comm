@@ -29,7 +29,6 @@ class ProductCardWidget extends StatefulWidget {
 }
 
 class _ProductCardWidgetState extends State<ProductCardWidget> {
-  // int number = 0;
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showMessage(
       String message, Color color) {
     return ScaffoldMessenger.of(context).showSnackBar(
@@ -55,8 +54,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
           return DetailPage(
             product: widget.product,
           );
@@ -70,36 +68,52 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
             color: const Color.fromARGB(84, 168, 240, 249)),
         child: Column(
           children: [
-            BlocBuilder<FavoriteCubit, FavoriteState>(
-              builder: (context, state) {
-                return Align(
-                  alignment: Alignment.topLeft,
-                  child: IconButton(
-                      onPressed: () async {
-                        widget.product.isFavorite = await context
-                            .read<FavoriteCubit>()
-                            .addAndDelFavoriteProducts(
-                              widget.product.id!,
-                            );
-                        setState(() {
-                          massege(
-                              context,
-                              widget.product.isFavorite
-                                  ? "added_fav".tr(context)
-                                  : "removed_fav".tr(context),
-                              Colors.green);
-                        });
-                      },
-                      icon: Icon(
-                        widget.product.isFavorite
-                            ? Icons.favorite
-                            : Icons.favorite_border_outlined,
-                        color: widget.product.isFavorite
-                            ? AppColors.textTitleAppBarColor
-                            : Colors.black,
-                      )),
-                );
-              },
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  BlocBuilder<FavoriteCubit, FavoriteState>(
+                    builder: (context, state) {
+                      return IconButton(
+                          onPressed: () async {
+                            widget.product.isFavorite = await context
+                                .read<FavoriteCubit>()
+                                .addAndDelFavoriteProducts(
+                                  widget.product.id!,
+                                );
+                            setState(() {
+                              massege(
+                                  context,
+                                  widget.product.isFavorite
+                                      ? "added_fav".tr(context)
+                                      : "removed_fav".tr(context),
+                                  Colors.green);
+                            });
+                          },
+                          icon: Icon(
+                            widget.product.isFavorite
+                                ? Icons.favorite
+                                : Icons.favorite_border_outlined,
+                            color: widget.product.isFavorite
+                                ? AppColors.textTitleAppBarColor
+                                : Colors.black,
+                          ));
+                    },
+                  ),
+                  widget.product.isOffer!
+                      ? CircleAvatar(
+                          backgroundColor: Colors.red,
+                          child: Text(
+                            "${(1 - (double.tryParse(widget.product.offers!.priceAfterOffer!)! / double.tryParse(widget.product.offers!.priceAfterOffer!)!)) * 100}%",
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      : const Spacer()
+                ],
+              ),
             ),
             if (widget.product.files != null)
               MyCachedNetworkImage(
@@ -116,71 +130,44 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                   color: AppColors.textButtonColors,
                   fontSize: 13.sp,
                 )),
-            // if (widget.product.weightMeasurement != null)
-            //   Text(
-            //       "${widget.product.wight} ${widget.product.weightMeasurement!.name}",
-            //       style: TextStyle(
-            //         color: Colors.black54,
-            //         fontSize: 8.sp,
-            //       )),
-            SizedBox(
-              height: 1.h,
-            ),
-            if (widget.product.newSellingPrice != null)
+            const Spacer(),
+            if (widget.product.isOffer! == false)
               Text(
-                "${widget.product.newSellingPrice} ${"sp".tr(context)}",
+                "${widget.product.sellingPrice} ${"sp".tr(context)}",
                 style: TextStyle(
                     color: AppColors.textButtonColors,
-                    fontSize: 9.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w900),
               ),
-
-            // if (widget.product.newSellingPrice != null)
-            //   SizedBox(
-            //     height: 5.h,
-            //     child: Stack(
-            //       children: [
-            //         Padding(
-            //           padding:
-            //               EdgeInsets.only(right: 17.w, top: 2.6.h, left: 4.w),
-            //           child: Text(
-            //             "${widget.product.newSellingPrice} ${"sp".tr(context)}",
-            //             style: TextStyle(
-            //                 color: AppColors.textButtonColors,
-            //                 fontSize: 9.sp,
-            //                 fontWeight: FontWeight.w900),
-            //           ),
-            //         ),
-            //         Positioned(
-            //           bottom: 2.h,
-            //           left: 18.w,
-            //           child: Text(
-            //             "${widget.product.sellingPrice} ${"sp".tr(context)}",
-            //             style: TextStyle(
-            //                 decoration: TextDecoration.lineThrough,
-            //                 color: AppColors.textButtonColors,
-            //                 fontSize: 6.sp,
-            //                 fontWeight: FontWeight.w600),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   )
-            // else
-            //   Text(
-            //     "${widget.product.sellingPrice} ${"sp".tr(context)}",
-            //     style: TextStyle(
-            //         color: AppColors.textButtonColors,
-            //         fontSize: 9.sp,
-            //         fontWeight: FontWeight.w900),
-            //   ),
-            const SizedBox(
-              height: 20,
-            ),
+            if (widget.product.isOffer!)
+              Column(
+                children: [
+                  Text(
+                    "${widget.product.sellingPrice} ${"sp".tr(context)}",
+                    style: TextStyle(
+                        color: AppColors.textButtonColors,
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.w900,
+                        decoration: TextDecoration.lineThrough),
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    "${widget.product.offers!.priceAfterOffer} ${"sp".tr(context)}",
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ],
+              ),
+            const Spacer(),
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: widget.addToCartPaddingButton ?? 10.w,
-              ),
+                  horizontal: widget.addToCartPaddingButton ?? 10.w,
+                  vertical: 16),
               child: SizedBox(
                 width: double.infinity,
                 child: TextButton(
@@ -211,31 +198,6 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                 ),
               ),
             ),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(
-            //       horizontal: widget.addToCartPaddingButton ?? 10.w),
-            //   child: TextButton(
-            //     style: ElevatedButton.styleFrom(
-            //       backgroundColor: AppColors.buttonCategoryColor,
-            //       minimumSize: const Size(double.infinity, 55),
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(25),
-            //       ),
-            //     ),
-            //     onPressed: () {
-            //       context.read<CartCubit>().addToCart(widget.product);
-            //     },
-            //     child: Text(
-            //       "add_to_cart".tr(context),
-            //       textAlign: TextAlign.center,
-            //       style: const TextStyle(
-            //         fontSize: 14,
-            //         fontWeight: FontWeight.w600,
-            //         color: Colors.white,
-            //       ),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

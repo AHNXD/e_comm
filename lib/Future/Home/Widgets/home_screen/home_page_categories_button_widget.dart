@@ -68,11 +68,30 @@ class _CategoriesButtonWidgetState
                     });
                   }
                 },
-                child: Text(
-                  index == 0 ? "all".tr(context) : model[index - 1].name!,
-                  style: TextStyle(
-                      color: index == 0 ? Colors.white : Colors.black,
-                      fontWeight: FontWeight.bold),
+                child: Row(
+                  children: [
+                    Text(
+                      index == 0 ? "all".tr(context) : model[index - 1].name!,
+                      style: TextStyle(
+                          color: index == 0 ? Colors.white : Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    if (index != 0 && model[index - 1].isOffer!)
+                      const SizedBox(
+                        width: 8,
+                      ),
+                    index != 0 && model[index - 1].isOffer!
+                        ? const CircleAvatar(
+                            backgroundColor: Colors.red,
+                            child: Text(
+                              "%",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          )
+                        : const SizedBox()
+                  ],
                 ),
               ),
             );

@@ -1,6 +1,6 @@
 import 'package:e_comm/Future/Auth/Pages/login_screen.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
-import 'package:e_comm/Future/Home/Cubits/GetCatigoriesOffers/get_catigories_offers_cubit.dart';
+import 'package:e_comm/Future/Home/Cubits/GetOffers/get_offers_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/models/catigories_model.dart';
@@ -73,25 +73,25 @@ class HomeScreen extends StatelessWidget {
             shrinkWrap: true,
             controller: controller,
             children: [
-              BlocBuilder<GetCatigoriesOffersCubit, GetCatigoriesOffersState>(
+              BlocBuilder<GetOffersCubit, GetOffersState>(
                 builder: (context, state) {
-                  final model = context.read<GetCatigoriesOffersCubit>();
-                  if (state is GetCatigoriesOffersLoadingState) {
+                  final model = context.read<GetOffersCubit>();
+                  if (state is GetOffersLoadingState) {
                     return const Center(
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: CircularProgressIndicator(),
                       ),
                     );
-                  } else if (state is GetCatigoriesOffersErrorState) {
+                  } else if (state is GetOffersErrorState) {
                     return MyErrorWidget(
                       msg: state.msg,
                       onPressed: () {
-                        model.getOffersCatigories();
+                        model.getOffers();
                       },
                     );
                   }
-                  return model.offersCatigoriesModel!.data!.isNotEmpty
+                  return model.productOffers!.isNotEmpty
                       ? Column(
                           children: [
                             Row(
@@ -110,7 +110,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                             CarouselSliderWidget(
                               list: offersList(
-                                  model.offersCatigoriesModel!.data!),
+                                  model.productOffers!),
                               height: 30.h,
                             ),
                           ],
@@ -155,105 +155,6 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-// class LastestProductAndTitle extends StatelessWidget {
-//   const LastestProductAndTitle({
-//     super.key,
-//     required this.controller,
-//   });
-//   final ScrollController controller;
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<GetCatigoriesCubit, GetCatigoriesState>(
-//       builder: (context, catigoryState) {
-//         if (catigoryState is GetCatigoriesLoadingState) {
-//           return const Center(
-//             child: Padding(
-//               padding: EdgeInsets.all(8.0),
-//               child: CircularProgressIndicator(),
-//             ),
-//           );
-//         } else if (catigoryState is GetCatigoriesErrorState) {
-//           return MyErrorWidget(
-//             msg: catigoryState.msg,
-//             onPressed: () {
-//               context.read<GetCatigoriesCubit>().getCatigories();
-//             },
-//           );
-//         }
-//         return BlocBuilder<GetProductsCubit, GetProductsState>(
-//           builder: (context, productState) {
-//             if (productState is GetProductsLoadingState) {
-//               return const Center(
-//                 child: Padding(
-//                   padding: EdgeInsets.all(8.0),
-//                   child: CircularProgressIndicator(),
-//                 ),
-//               );
-//             } else if (productState is GetProductsErrorState) {
-//               return MyErrorWidget(
-//                 msg: productState.msg,
-//                 onPressed: () {
-//                   context.read<GetProductsCubit>().getProducts();
-//                 },
-//               );
-//             } else {
-//               return ListView.builder(
-//                 shrinkWrap: true,
-//                 controller: controller,
-//                 itemCount: context
-//                     .read<GetCatigoriesCubit>()
-//                     .catigoriesModel!
-//                     .data!
-//                     .length,
-//                 itemBuilder: (BuildContext context, int index) {
-//                   String name = context
-//                       .read<GetCatigoriesCubit>()
-//                       .catigoriesModel!
-//                       .data![index]
-//                       .name!;
-//                   int id = context
-//                       .read<GetCatigoriesCubit>()
-//                       .catigoriesModel!
-//                       .data![index]
-//                       .id!;
-//                   CatigoriesData cData = context
-//                       .read<GetCatigoriesCubit>()
-//                       .catigoriesModel!
-//                       .data![index];
-//                   int len =
-//                       context.read<GetProductsCubit>().model!.data!.length;
-//                   List<MainProduct> l = <MainProduct>[];
-//                   for (int i = 0; i < len; i++) {
-//                     MainProduct m =
-//                         context.read<GetProductsCubit>().model!.data![i];
-//                     if (m.categoryId ==
-//                         context
-//                             .read<GetCatigoriesCubit>()
-//                             .catigoriesModel!
-//                             .data![index]
-//                             .id) {
-//                       l.add(m);
-//                     }
-//                   }
-
-//                   return Column(
-//                     children: [
-//                       TitleCardWidget(title: name, id: id, cData: cData),
-//                       CarouselSliderWidget(
-//                         list: productCardList(true, l),
-//                         height: 50.h,
-//                       ),
-//                     ],
-//                   );
-//                 },
-//               );
-//             }
-//           },
-//         );
-//       },
-//     );
-//   }
-// }
 class LastestProductAndTitle extends StatelessWidget {
   const LastestProductAndTitle({
     super.key,

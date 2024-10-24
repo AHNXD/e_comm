@@ -269,7 +269,7 @@ class _PrintImageState extends State<PrintImageScreen> {
                   ],
                 ),
               ),
-            const SizedBox(height: 20),
+
             MyButtonWidget(
               color: AppColors.buttonCategoryColor,
               verticalHieght: 2.h,

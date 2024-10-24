@@ -1,6 +1,6 @@
 import 'package:e_comm/Future/Auth/Widgets/my_button_widget.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
-import 'package:e_comm/Future/Home/Cubits/GetCatigoriesOffers/get_catigories_offers_cubit.dart';
+import 'package:e_comm/Future/Home/Cubits/GetOffers/get_offers_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/favoriteCubit/favorite_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/getCatigories/get_catigories_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/getMyOrders/get_my_orders_cubit.dart';
@@ -54,8 +54,9 @@ class DrawerWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 2.h,
+              const Divider(
+                thickness: 2,
+                color: AppColors.buttonCategoryColor,
               ),
               MyButtonWidget(
                   text: "contact_us".tr(context),
@@ -75,6 +76,10 @@ class DrawerWidget extends StatelessWidget {
                   verticalHieght: 1.h,
                   horizontalWidth: 2.w,
                   color: AppColors.buttonCategoryColor),
+              const Divider(
+                thickness: 2,
+                color: AppColors.buttonCategoryColor,
+              ),
               MyButtonWidget(
                   text: "sell_product".tr(context),
                   onPressed: () {
@@ -98,6 +103,32 @@ class DrawerWidget extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const PrintImageScreen()));
+                  },
+                  verticalHieght: 1.h,
+                  horizontalWidth: 2.w,
+                  color: AppColors.buttonCategoryColor),
+              const Divider(
+                thickness: 2,
+                color: AppColors.buttonCategoryColor,
+              ),
+              MyButtonWidget(
+                  text: "language".tr(context),
+                  onPressed: () async {
+                    String langCode =
+                        await SaveService.retrieve("LOCALE") ?? "en";
+                    lang = langCode == "en" ? "ar" : "en";
+                    context.read<LocaleCubit>().changeLanguage(lang);
+                    context.read<GetCatigoriesCubit>().getCatigories();
+                    context.read<GetOffersCubit>().getOffers();
+                    context.read<GetProductsCubit>().getProducts();
+                    context.read<FavoriteCubit>().getProductsFavorite();
+                    context.read<GetMyOrdersCubit>().getMyOrders();
+                    context.read<CartCubit>().refreshCartOnLanguageChange();
+                    context.read<GetPrintSizesCubit>().getPrintSizes();
+                    await Future.delayed(const Duration(milliseconds: 500), () {
+                      Navigator.pop(context);
+                      massege(context, "change_lang".tr(context), Colors.green);
+                    });
                   },
                   verticalHieght: 1.h,
                   horizontalWidth: 2.w,
@@ -127,30 +158,6 @@ class DrawerWidget extends StatelessWidget {
                       verticalHieght: 1.h,
                       horizontalWidth: 2.w,
                       color: AppColors.buttonCategoryColor),
-              MyButtonWidget(
-                  text: "language".tr(context),
-                  onPressed: () async {
-                    String langCode =
-                        await SaveService.retrieve("LOCALE") ?? "en";
-                    lang = langCode == "en" ? "ar" : "en";
-                    context.read<LocaleCubit>().changeLanguage(lang);
-                    context.read<GetCatigoriesCubit>().getCatigories();
-                    context
-                        .read<GetCatigoriesOffersCubit>()
-                        .getOffersCatigories();
-                    context.read<GetProductsCubit>().getProducts();
-                    context.read<FavoriteCubit>().getProductsFavorite();
-                    context.read<GetMyOrdersCubit>().getMyOrders();
-                    context.read<CartCubit>().refreshCartOnLanguageChange();
-                    context.read<GetPrintSizesCubit>().getPrintSizes();
-                    await Future.delayed(const Duration(milliseconds: 500), () {
-                      Navigator.pop(context);
-                      massege(context, "change_lang".tr(context), Colors.green);
-                    });
-                  },
-                  verticalHieght: 1.h,
-                  horizontalWidth: 2.w,
-                  color: AppColors.buttonCategoryColor),
             ],
           ),
         ),

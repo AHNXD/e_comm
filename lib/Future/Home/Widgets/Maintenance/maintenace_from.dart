@@ -63,8 +63,6 @@ class MaintenaceForm extends StatelessWidget {
                 controller: regionController),
             TextFieldWidget(
                 validatorFun: (p0) => validation(p0, ValidationState.normal),
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
                 text: "address".tr(context),
                 isPassword: false,
                 controller: addressController),

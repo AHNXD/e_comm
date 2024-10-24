@@ -26,7 +26,7 @@ import '/Apis/Network.dart';
 import '/Future/Auth/cubit/auth_cubit.dart';
 import '/Utils/SharedPreferences/SharedPreferencesHelper.dart';
 import 'Future/Home/Cubits/CompairPruductsCubit/compair_products_cubit.dart';
-import 'Future/Home/Cubits/GetCatigoriesOffers/get_catigories_offers_cubit.dart';
+import 'Future/Home/Cubits/GetOffers/get_offers_cubit.dart';
 import 'Future/Home/Cubits/cartCubit/cart.bloc.dart';
 import 'Future/Home/Cubits/pages_cubit/pages_cubit.dart';
 import 'Future/Home/Cubits/postOrders/post_orders_cubit.dart';
@@ -76,8 +76,7 @@ class MyApp extends StatelessWidget {
       builder: (context, orientation, deviceType) => MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => LocaleCubit()..getSaveLanguage()),
-          BlocProvider(
-              create: (_) => GetCatigoriesOffersCubit()..getOffersCatigories()),
+          BlocProvider(create: (_) => GetOffersCubit()..getOffers()),
           BlocProvider(create: (_) => AuthCubit()),
           BlocProvider(create: (_) => GetCatigoriesCubit()..getCatigories()),
           BlocProvider(create: (_) => GetProductsCubit()..getProducts()),

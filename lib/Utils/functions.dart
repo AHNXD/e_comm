@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import '../Future/Auth/Widgets/text_field_widget.dart';
-import '../Future/Home/Cubits/GetCatigoriesOffers/get_catigories_offers_cubit.dart';
+import '../Future/Home/Cubits/GetOffers/get_offers_cubit.dart';
 import '../Future/Home/Cubits/getProducts/get_products_cubit.dart';
 import '../Future/Home/Cubits/postOrders/post_orders_cubit.dart';
 
@@ -199,7 +199,7 @@ void showAwesomeDialogForAskCode(
 }
 
 void getAllApiInMainPage(BuildContext context) {
-  BlocProvider.of<GetCatigoriesOffersCubit>(context).getOffersCatigories();
+  BlocProvider.of<GetOffersCubit>(context).getOffers();
   BlocProvider.of<GetCatigoriesCubit>(context).getCatigories();
   BlocProvider.of<GetProductsCubit>(context).getProducts();
   BlocProvider.of<FavoriteCubit>(context).getProductsFavorite();
