@@ -29,7 +29,6 @@ class ProductCardWidget extends StatefulWidget {
 }
 
 class _ProductCardWidgetState extends State<ProductCardWidget> {
-  // int number = 0;
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showMessage(
       String message, Color color) {
     return ScaffoldMessenger.of(context).showSnackBar(
@@ -132,7 +131,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                   color: AppColors.textButtonColors,
                   fontSize: 13.sp,
                 )),
-            Spacer(),
+            const Spacer(),
             if (widget.product.isOffer! == false)
               Text(
                 "${widget.product.sellingPrice} ${"sp".tr(context)}",
@@ -165,8 +164,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                   ),
                 ],
               ),
-
-            Spacer(),
+            const Spacer(),
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: widget.addToCartPaddingButton ?? 10.w,
@@ -201,31 +199,6 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                 ),
               ),
             ),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(
-            //       horizontal: widget.addToCartPaddingButton ?? 10.w),
-            //   child: TextButton(
-            //     style: ElevatedButton.styleFrom(
-            //       backgroundColor: AppColors.buttonCategoryColor,
-            //       minimumSize: const Size(double.infinity, 55),
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(25),
-            //       ),
-            //     ),
-            //     onPressed: () {
-            //       context.read<CartCubit>().addToCart(widget.product);
-            //     },
-            //     child: Text(
-            //       "add_to_cart".tr(context),
-            //       textAlign: TextAlign.center,
-            //       style: const TextStyle(
-            //         fontSize: 14,
-            //         fontWeight: FontWeight.w600,
-            //         color: Colors.white,
-            //       ),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),
