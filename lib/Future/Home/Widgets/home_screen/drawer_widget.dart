@@ -54,8 +54,9 @@ class DrawerWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 2.h,
+              const Divider(
+                thickness: 2,
+                color: AppColors.buttonCategoryColor,
               ),
               MyButtonWidget(
                   text: "contact_us".tr(context),
@@ -75,6 +76,10 @@ class DrawerWidget extends StatelessWidget {
                   verticalHieght: 1.h,
                   horizontalWidth: 2.w,
                   color: AppColors.buttonCategoryColor),
+              const Divider(
+                thickness: 2,
+                color: AppColors.buttonCategoryColor,
+              ),
               MyButtonWidget(
                   text: "sell_product".tr(context),
                   onPressed: () {
@@ -102,6 +107,10 @@ class DrawerWidget extends StatelessWidget {
                   verticalHieght: 1.h,
                   horizontalWidth: 2.w,
                   color: AppColors.buttonCategoryColor),
+              const Divider(
+                thickness: 2,
+                color: AppColors.buttonCategoryColor,
+              ),
               !AppSharedPreferences.hasToken
                   ? Column(
                       children: [
