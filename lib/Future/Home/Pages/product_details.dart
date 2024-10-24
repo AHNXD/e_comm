@@ -352,12 +352,15 @@ class _DetailPageState extends State<DetailPage> {
             color: Colors.white.withOpacity(0.21),
             borderRadius: BorderRadius.circular(10),
             child: BackButton(
-              onPressed: () => setState(() {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (builder) {
-                  return const NavBarPage();
-                }));
-              }),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              // onPressed: () => setState(() {
+              //   Navigator.pushReplacement(context,
+              //       MaterialPageRoute(builder: (builder) {
+              //     return const NavBarPage();
+              //   }));
+              // }),
               color: Colors.white,
             ),
           ),

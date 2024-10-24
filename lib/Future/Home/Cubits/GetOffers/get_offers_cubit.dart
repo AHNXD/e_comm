@@ -1,3 +1,4 @@
+import 'package:e_comm/Future/Home/models/product_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:e_comm/Apis/ExceptionsHandle.dart';
@@ -10,14 +11,17 @@ part 'get_offers_state.dart';
 
 class GetOffersCubit extends Cubit<GetOffersState> {
   GetOffersCubit() : super(GetOffersInitial());
-  OffersCatigoriesModel? offersCatigoriesModel;
+  List<MainProduct>? productOffers = [];
 
   void getOffers() async {
     emit(GetOffersLoadingState());
     try {
-      await Network.getData(url: Urls.getOffersCatigories).then((response) {
+      await Network.getData(
+              url: Urls.getOffersProducts + "?per_page=100&page=1")
+          .then((response) {
         if (response.statusCode == 200 || response.statusCode == 201) {
-          offersCatigoriesModel = OffersCatigoriesModel.fromJson(response.data);
+          response.data['data'].forEach(
+              (offer) => productOffers?.add(MainProduct.fromJson(offer)));
 
           emit(GetOffersSuccessfulState());
         }
