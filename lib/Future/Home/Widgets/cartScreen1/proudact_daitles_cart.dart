@@ -23,13 +23,15 @@ class PrudoctDaitlesCart extends StatelessWidget {
           ),
         ),
         SizedBox(height: 1.h),
-        // Text(
-        //   product.category!.name!,
-        //   style: TextStyle(
-        //     fontSize: 11.sp,
-        //     color: Colors.grey.shade600,
-        //   ),
-        // ),
+        if (product.isOffer != null && product.isOffer == true)
+          CircleAvatar(
+            backgroundColor: Colors.red,
+            child: Text(
+              "${(1 - (double.tryParse(product.offers!.priceAfterOffer!)! / double.tryParse(product.offers!.priceAfterOffer!)!)) * 100}%",
+              style: const TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+          ),
         if (product.selectedSize != null &&
             product.selectedSize != "NULL" &&
             product.selectedSize!.isNotEmpty)
