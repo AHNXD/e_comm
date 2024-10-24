@@ -59,39 +59,5 @@ class BackWidget extends StatelessWidget {
             color: textColor, fontSize: 15.sp, fontWeight: FontWeight.w500),
       ),
     );
-    // Padding(
-    //   padding: EdgeInsets.only(top: 4.h),
-    //   child: Row(
-    //     children: [
-    //       if (hasBackButton)
-    //         IconButton(
-    //           style: hasStyle
-    //               ? ButtonStyle(
-    //                   backgroundColor: MaterialStateColor.resolveWith(
-    //                       (states) => AppColors.buttonCategoryColor),
-    //                 )
-    //               : null,
-    //           onPressed: () {
-    //             Navigator.pop(context);
-    //           },
-    //           icon: SvgPicture.asset(
-    //             AppImagesAssets.back,
-    //             color: iconColor,
-    //             height: 4.h,
-    //           ),
-    //           color: iconColor,
-    //           iconSize: 25.sp,
-    //         ),
-    //       SizedBox(
-    //         width: 1.w,
-    //       ),
-    //       Text(
-    //         text,
-    //         style: TextStyle(
-    //             color: textColor, fontSize: 15.sp, fontWeight: FontWeight.w500),
-    //       )
-    //     ],
-    //   ),
-    // );
   }
 }
