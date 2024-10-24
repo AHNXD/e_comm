@@ -111,6 +111,28 @@ class DrawerWidget extends StatelessWidget {
                 thickness: 2,
                 color: AppColors.buttonCategoryColor,
               ),
+              MyButtonWidget(
+                  text: "language".tr(context),
+                  onPressed: () async {
+                    String langCode =
+                        await SaveService.retrieve("LOCALE") ?? "en";
+                    lang = langCode == "en" ? "ar" : "en";
+                    context.read<LocaleCubit>().changeLanguage(lang);
+                    context.read<GetCatigoriesCubit>().getCatigories();
+                    context.read<GetOffersCubit>().getOffers();
+                    context.read<GetProductsCubit>().getProducts();
+                    context.read<FavoriteCubit>().getProductsFavorite();
+                    context.read<GetMyOrdersCubit>().getMyOrders();
+                    context.read<CartCubit>().refreshCartOnLanguageChange();
+                    context.read<GetPrintSizesCubit>().getPrintSizes();
+                    await Future.delayed(const Duration(milliseconds: 500), () {
+                      Navigator.pop(context);
+                      massege(context, "change_lang".tr(context), Colors.green);
+                    });
+                  },
+                  verticalHieght: 1.h,
+                  horizontalWidth: 2.w,
+                  color: AppColors.buttonCategoryColor),
               !AppSharedPreferences.hasToken
                   ? Column(
                       children: [
@@ -136,28 +158,6 @@ class DrawerWidget extends StatelessWidget {
                       verticalHieght: 1.h,
                       horizontalWidth: 2.w,
                       color: AppColors.buttonCategoryColor),
-              MyButtonWidget(
-                  text: "language".tr(context),
-                  onPressed: () async {
-                    String langCode =
-                        await SaveService.retrieve("LOCALE") ?? "en";
-                    lang = langCode == "en" ? "ar" : "en";
-                    context.read<LocaleCubit>().changeLanguage(lang);
-                    context.read<GetCatigoriesCubit>().getCatigories();
-                    context.read<GetOffersCubit>().getOffers();
-                    context.read<GetProductsCubit>().getProducts();
-                    context.read<FavoriteCubit>().getProductsFavorite();
-                    context.read<GetMyOrdersCubit>().getMyOrders();
-                    context.read<CartCubit>().refreshCartOnLanguageChange();
-                    context.read<GetPrintSizesCubit>().getPrintSizes();
-                    await Future.delayed(const Duration(milliseconds: 500), () {
-                      Navigator.pop(context);
-                      massege(context, "change_lang".tr(context), Colors.green);
-                    });
-                  },
-                  verticalHieght: 1.h,
-                  horizontalWidth: 2.w,
-                  color: AppColors.buttonCategoryColor),
             ],
           ),
         ),
