@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_comm/Apis/Urls.dart';
-import 'package:e_comm/Future/Home/Pages/navbar_screen.dart';
 import 'package:e_comm/Future/Home/models/product_model.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';

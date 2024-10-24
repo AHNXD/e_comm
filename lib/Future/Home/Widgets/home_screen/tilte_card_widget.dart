@@ -36,8 +36,7 @@ class TitleCardWidget extends StatelessWidget {
                   // context
                   //     .read<GetPorductByIdCubit>()
                   //     .getProductsByCategory(cData.id!);
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (builder) {
+                  Navigator.push(context, MaterialPageRoute(builder: (builder) {
                     return ProductScreen(
                       isNotHome: false,
                       cData: cData,

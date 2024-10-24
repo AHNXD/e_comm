@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:e_comm/Apis/ExceptionsHandle.dart';
 import 'package:e_comm/Apis/Network.dart';
 import 'package:e_comm/Apis/Urls.dart';
-import 'package:e_comm/Future/Home/models/offers_catigories_model.dart';
 import 'package:meta/meta.dart';
 
 part 'get_offers_state.dart';
@@ -17,7 +16,7 @@ class GetOffersCubit extends Cubit<GetOffersState> {
     emit(GetOffersLoadingState());
     try {
       await Network.getData(
-              url: Urls.getOffersProducts + "?per_page=100&page=1")
+              url: "${Urls.getOffersProducts}?per_page=100&page=1")
           .then((response) {
         if (response.statusCode == 200 || response.statusCode == 201) {
           response.data['data'].forEach(

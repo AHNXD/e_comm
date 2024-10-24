@@ -88,20 +88,20 @@ class _TopOvalWidgetState extends State<TopOvalWidget> {
               children: [
                 ElevatedButton(
                   onPressed: () => setState(() => currentStep = 0),
-                  child: const Text('Search'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
                         currentStep == 0 ? AppColors.navBarColor : Colors.white,
                   ),
+                  child: const Text('Search'),
                 ),
                 const SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: () => setState(() => currentStep = 1),
-                  child: const Text('Filter'),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: currentStep == 1
                           ? AppColors.navBarColor
                           : Colors.white),
+                  child: const Text('Filter'),
                 ),
               ],
             ),
