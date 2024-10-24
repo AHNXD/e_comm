@@ -47,14 +47,14 @@ class OrderTileWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 5),
-              Text(
-                product.category!.name!,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey.shade400,
-                ),
-              ),
+              // Text(
+              //   product.category!.name!,
+              //   style: TextStyle(
+              //     fontSize: 14,
+              //     fontWeight: FontWeight.bold,
+              //     color: Colors.grey.shade400,
+              //   ),
+              // ),
               const SizedBox(height: 10),
               if (size != null && size != "NULL" && size!.isNotEmpty)
                 Text(
@@ -67,7 +67,7 @@ class OrderTileWidget extends StatelessWidget {
                 ),
               const SizedBox(height: 10),
               Text(
-                "${product.newSellingPrice ?? product.sellingPrice} Sp",
+                "${product.sellingPrice} Sp",
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,

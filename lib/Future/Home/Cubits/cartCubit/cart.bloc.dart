@@ -35,19 +35,12 @@ class CartCubit extends Cubit<CartState> {
       MainProduct newProduct = MainProduct(
         id: p.id,
         name: p.name,
-        category: p.category,
         categoryId: p.categoryId,
         descrption: p.descrption,
         files: p.files,
-        newSellingPrice: p.newSellingPrice,
-        quantity: p.quantity,
-        ratings: p.ratings,
         sellingPrice: p.sellingPrice,
         sizes: p.sizes,
         selectedSize: size,
-        weightMeasurement: p.weightMeasurement,
-        weightMeasurementId: p.weightMeasurementId,
-        wight: p.wight,
       );
 
       pcw.add(newProduct);

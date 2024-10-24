@@ -23,13 +23,13 @@ class PrudoctDaitlesCart extends StatelessWidget {
           ),
         ),
         SizedBox(height: 1.h),
-        Text(
-          product.category!.name!,
-          style: TextStyle(
-            fontSize: 11.sp,
-            color: Colors.grey.shade600,
-          ),
-        ),
+        // Text(
+        //   product.category!.name!,
+        //   style: TextStyle(
+        //     fontSize: 11.sp,
+        //     color: Colors.grey.shade600,
+        //   ),
+        // ),
         if (product.selectedSize != null &&
             product.selectedSize != "NULL" &&
             product.selectedSize!.isNotEmpty)

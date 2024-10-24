@@ -94,16 +94,59 @@ class _DetailPageState extends State<DetailPage> {
                                 ),
                               ),
                               // For price
-                              Center(
-                                child: Text(
-                                  '${widget.product.newSellingPrice}',
-                                  //'${widget.product.newSellingPrice ?? widget.product.sellingPrice} ${"sp".tr(context)}',
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 24,
-                                      color: AppColors.primaryColors),
+
+                              if (widget.product.isOffer! == false)
+                                Center(
+                                  child: Text(
+                                    '${widget.product.sellingPrice} ${"sp".tr(context)}',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 24,
+                                        color: AppColors.primaryColors),
+                                  ),
                                 ),
-                              ),
+                              if (widget.product.isOffer!)
+                                Column(
+                                  children: [
+                                    Center(
+                                      child: Text(
+                                        '${widget.product.sellingPrice} ${"sp".tr(context)}',
+                                        style: const TextStyle(
+                                            decoration:
+                                                TextDecoration.lineThrough,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            color: AppColors.primaryColors),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text(
+                                          "${widget.product.offers!.priceAfterOffer} ${"sp".tr(context)}",
+                                          style: const TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        CircleAvatar(
+                                          backgroundColor: Colors.red,
+                                          child: Text(
+                                            "${(1 - (double.tryParse(widget.product.offers!.priceAfterOffer!)! / double.tryParse(widget.product.offers!.priceAfterOffer!)!)) * 100}%",
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
                             ],
                           ),
                         ),
@@ -170,62 +213,62 @@ class _DetailPageState extends State<DetailPage> {
                     const SizedBox(
                       height: 27,
                     ),
-                    Row(
-                      children: [
-                        // For rating
-                        if (widget.product.ratings == null ||
-                            widget.product.ratings == [])
-                          const SizedBox()
-                        else
-                          const Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                          ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        if (widget.product.ratings == null ||
-                            widget.product.ratings == [] ||
-                            widget.product.ratings!.isEmpty)
-                          const SizedBox()
-                        else
-                          Text(
-                            "${widget.product.ratings![0].rating}",
-                            style: const TextStyle(
-                                color: Colors.black38, fontSize: 18),
-                          ),
-                        const Spacer(),
-                        // For kcla
-                        // const Icon(
-                        //   Icons.fiber_manual_record,
-                        //   color: Colors.red,
-                        // ),
-                        // const SizedBox(
-                        //   width: 4,
-                        // ),
-                        // if (widget.product.wight != null)
-                        //   Text(
-                        //     '${widget.product.wight} ${widget.product.weightMeasurement!.name}',
-                        //     style: const TextStyle(
-                        //         fontWeight: FontWeight.bold, fontSize: 16),
-                        //   ),
-                        // const Spacer(),
-                        // For time
-                        // const Icon(
-                        //   Icons.access_time_filled,
-                        //   color: Colors.amber,
-                        // ),
-                        // const SizedBox(
-                        //   width: 4,
-                        // ),
-                        // Text(
-                        //   widget.product.cookingTime,
-                        //   maxLines: 1,
-                        //   style: const TextStyle(
-                        //       fontWeight: FontWeight.bold, fontSize: 16),
-                        // ),
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     // For rating
+                    //     if (widget.product.ratings == null ||
+                    //         widget.product.ratings == [])
+                    //       const SizedBox()
+                    //     else
+                    //       const Icon(
+                    //         Icons.star,
+                    //         color: Colors.amber,
+                    //       ),
+                    //     const SizedBox(
+                    //       width: 4,
+                    //     ),
+                    //     if (widget.product.ratings == null ||
+                    //         widget.product.ratings == [] ||
+                    //         widget.product.ratings!.isEmpty)
+                    //       const SizedBox()
+                    //     else
+                    //       Text(
+                    //         "${widget.product.ratings![0].rating}",
+                    //         style: const TextStyle(
+                    //             color: Colors.black38, fontSize: 18),
+                    //       ),
+                    //     const Spacer(),
+                    //     // For kcla
+                    //     // const Icon(
+                    //     //   Icons.fiber_manual_record,
+                    //     //   color: Colors.red,
+                    //     // ),
+                    //     // const SizedBox(
+                    //     //   width: 4,
+                    //     // ),
+                    //     // if (widget.product.wight != null)
+                    //     //   Text(
+                    //     //     '${widget.product.wight} ${widget.product.weightMeasurement!.name}',
+                    //     //     style: const TextStyle(
+                    //     //         fontWeight: FontWeight.bold, fontSize: 16),
+                    //     //   ),
+                    //     // const Spacer(),
+                    //     // For time
+                    //     // const Icon(
+                    //     //   Icons.access_time_filled,
+                    //     //   color: Colors.amber,
+                    //     // ),
+                    //     // const SizedBox(
+                    //     //   width: 4,
+                    //     // ),
+                    //     // Text(
+                    //     //   widget.product.cookingTime,
+                    //     //   maxLines: 1,
+                    //     //   style: const TextStyle(
+                    //     //       fontWeight: FontWeight.bold, fontSize: 16),
+                    //     // ),
+                    //   ],
+                    // ),
                     // For description
                     // const SizedBox(
                     //   height: 10,

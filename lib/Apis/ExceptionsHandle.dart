@@ -67,13 +67,13 @@ String exceptionsHandle({required DioException error}) {
         message = lang == "en" ? "Internal server error" : "خطأ في الخادم ";
       } else {
         message = lang == "en"
-            ? "Opps there is was an error"
+            ? "Opps there was an error"
             : "هنالك خطأ ماالرجاء المحاولة لاحقا ";
       }
-      return message!;
+      return message ?? "Unknown Error";
     default:
       message = lang == "en"
-          ? "Opps there is was an error"
+          ? "Opps there was an error"
           : "هنالك خطأ ماالرجاء المحاولة لاحقا ";
       return message;
   }

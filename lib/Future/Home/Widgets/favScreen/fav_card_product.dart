@@ -76,51 +76,16 @@ class _ProductCardWidgetState extends State<FavCardProduct> {
                   color: AppColors.textButtonColors,
                   fontSize: 15.sp,
                 )),
-            if (widget.product.weightMeasurement != null)
-              Text(
-                  "${widget.product.wight} ${widget.product.weightMeasurement!.name}",
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: 10.sp,
-                  )),
             SizedBox(
               height: 1.h,
             ),
-            if (widget.product.newSellingPrice != null)
-              Stack(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(right: 17.w, top: 2.h, left: 4.w),
-                    child: Text(
-                      "${widget.product.newSellingPrice} ${"sp".tr(context)}",
-                      style: TextStyle(
-                          color: AppColors.textButtonColors,
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.w900),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 2.h,
-                    left: 18.w,
-                    child: Text(
-                      "${widget.product.sellingPrice} ${"sp".tr(context)}",
-                      style: TextStyle(
-                          decoration: TextDecoration.lineThrough,
-                          color: AppColors.textButtonColors,
-                          fontSize: 6.sp,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ],
-              )
-            else
-              Text(
-                "${widget.product.sellingPrice} ${"sp".tr(context)}",
-                style: TextStyle(
-                    color: AppColors.textButtonColors,
-                    fontSize: 10.sp,
-                    fontWeight: FontWeight.w900),
-              ),
+            Text(
+              "${widget.product.sellingPrice} ${"sp".tr(context)}",
+              style: TextStyle(
+                  color: AppColors.textButtonColors,
+                  fontSize: 10.sp,
+                  fontWeight: FontWeight.w900),
+            ),
             const SizedBox(
               height: 10,
             ),

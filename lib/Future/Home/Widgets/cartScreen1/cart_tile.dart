@@ -73,7 +73,7 @@ class CartTile extends StatelessWidget {
             ),
             SizedBox(height: 1.5.h),
             Text(
-              "${product.newSellingPrice != null ? double.tryParse(product.newSellingPrice!)! * product.userQuantity : product.sellingPrice! * product.userQuantity} Sp",
+              "${double.tryParse(product.sellingPrice!)! * product.userQuantity} Sp",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
