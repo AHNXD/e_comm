@@ -37,16 +37,11 @@ class BackWidget extends StatelessWidget {
                     )
                   : null,
               onPressed: () {
-                if (canPop) {
-                  Navigator.of(context).pop();
-                }
-                if (!canPop) {
-                  Navigator.pushReplacement(context, MaterialPageRoute(
-                    builder: (builder) {
-                      return const NavBarPage();
-                    },
-                  ));
-                }
+                Navigator.pop(context, MaterialPageRoute(
+                  builder: (builder) {
+                    return const NavBarPage();
+                  },
+                ));
               },
               icon: SvgPicture.asset(
                 AppImagesAssets.back,

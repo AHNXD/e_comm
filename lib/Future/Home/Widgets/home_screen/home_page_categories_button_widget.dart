@@ -58,7 +58,7 @@ class _CategoriesButtonWidgetState
                     //     .read<GetPorductByIdCubit>()
                     //     .getProductsByCategory(model[index - 1].id!);
                     setState(() {
-                      Navigator.pushReplacement(context,
+                      Navigator.push(context,
                           MaterialPageRoute(builder: (builder) {
                         return ProductScreen(
                           isNotHome: false,

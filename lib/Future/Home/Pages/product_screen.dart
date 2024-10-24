@@ -59,63 +59,52 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) {
-        if (!widget.isNotHome) {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (builder) {
-            return const NavBarPage();
-          }));
-        }
-      },
-      child: BlocProvider(
-        create: (context) => SearchProductByCategoryIdCubit(),
-        child: BlocListener<CartCubit, CartState>(
-          listener: (context, state) {
-            if (state is AddToCartState) {
-              showMessage('add_product_done'.tr(context), Colors.green);
-            } else if (state is AlreadyInCartState) {
-              showMessage('product_in_cart'.tr(context), Colors.grey);
-            }
-          },
-          child: Scaffold(
-            backgroundColor: AppColors.backgroundColor,
-            body: Column(
-              children: [
-                TopOvalWidget(
-                  isNotHome: widget.isNotHome,
-                  firstText: widget.cData.name!,
-                  parentId: widget.cData.id!,
-                ),
-                BlocBuilder<SearchProductByCategoryIdCubit,
-                    SearchProductByCategoryIdState>(
-                  builder: (context, state) {
-                    if (state is SearchProductByCategoryIdError) {
-                      return MyErrorWidget(
-                          msg: state.message, onPressed: () {});
-                    } else if (state is SearchProductByCategoryIdLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (state is SearchProductByCategoryIdNotFound) {
-                      return Center(
-                        child: Text(
-                          "there_are_no_results_found".tr(context),
-                        ),
-                      );
-                    } else if (state is SearchProductByCategoryIdSuccess) {
-                      return Expanded(
-                        // height: 58.h,
-                        child: CustomGridVeiw(products: state.products),
-                      );
-                    } else {
-                      return CategoriesGrid(categoryId: widget.cData.id!);
-                    }
-                  },
-                )
-              ],
-            ),
+    return BlocProvider(
+      create: (context) => SearchProductByCategoryIdCubit(),
+      child: BlocListener<CartCubit, CartState>(
+        listener: (context, state) {
+          if (state is AddToCartState) {
+            showMessage('add_product_done'.tr(context), Colors.green);
+          } else if (state is AlreadyInCartState) {
+            showMessage('product_in_cart'.tr(context), Colors.grey);
+          }
+        },
+        child: Scaffold(
+          backgroundColor: AppColors.backgroundColor,
+          body: Column(
+            children: [
+              TopOvalWidget(
+                isNotHome: widget.isNotHome,
+                firstText: widget.cData.name!,
+                parentId: widget.cData.id!,
+              ),
+              BlocBuilder<SearchProductByCategoryIdCubit,
+                  SearchProductByCategoryIdState>(
+                builder: (context, state) {
+                  if (state is SearchProductByCategoryIdError) {
+                    return MyErrorWidget(
+                        msg: state.message, onPressed: () {});
+                  } else if (state is SearchProductByCategoryIdLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is SearchProductByCategoryIdNotFound) {
+                    return Center(
+                      child: Text(
+                        "there_are_no_results_found".tr(context),
+                      ),
+                    );
+                  } else if (state is SearchProductByCategoryIdSuccess) {
+                    return Expanded(
+                      // height: 58.h,
+                      child: CustomGridVeiw(products: state.products),
+                    );
+                  } else {
+                    return CategoriesGrid(categoryId: widget.cData.id!);
+                  }
+                },
+              )
+            ],
           ),
         ),
       ),
