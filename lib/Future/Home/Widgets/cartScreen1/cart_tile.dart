@@ -29,7 +29,7 @@ class CartTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushReplacement(context,
+        Navigator.push(context,
             MaterialPageRoute(builder: (builder) {
           return DetailPage(product: product);
         }));
