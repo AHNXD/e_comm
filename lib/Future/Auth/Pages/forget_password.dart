@@ -3,6 +3,7 @@ import 'package:e_comm/Future/Auth/Widgets/my_button_widget.dart';
 import 'package:e_comm/Future/Auth/Widgets/text_field_widget.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/back_widget.dart';
+import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
 import 'package:e_comm/Utils/enums.dart';
 import 'package:e_comm/Utils/images.dart';
@@ -26,13 +27,13 @@ class ForgetPassword extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 7.h),
-        child: const BackWidget(
+        child: BackWidget(
           canPop: true,
           hasBackButton: false,
           hasStyle: false,
           iconColor: Colors.black,
           textColor: Colors.black,
-          text: "Forget Password",
+          text: "forgot_password".tr(context),
         ),
       ),
       body: BlocProvider(
@@ -94,7 +95,7 @@ class ForgetPassword extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 3.h),
                     child: Text(
-                      "Forget Password",
+                      "forgot_password".tr(context),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
@@ -106,7 +107,7 @@ class ForgetPassword extends StatelessWidget {
                   TextFieldWidget(
                     validatorFun: (p0) =>
                         validation(p0, ValidationState.normal),
-                    text: "Enter your Email or Phone Number",
+                    text: "emailOrPhone".tr(context),
                     controller: emailOrPhoneNumberController,
                     isPassword: false,
                   ),
@@ -125,7 +126,7 @@ class ForgetPassword extends StatelessWidget {
                           color: AppColors.buttonCategoryColor,
                           verticalHieght: 0,
                           horizontalWidth: 0,
-                          text: "Next",
+                          text: "next".tr(context),
                           onPressed: () {
                             if (_key.currentState!.validate()) {
                               cubit.emailForgetPassword(

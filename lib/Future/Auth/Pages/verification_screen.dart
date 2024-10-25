@@ -6,6 +6,7 @@ import 'package:e_comm/Future/Auth/Widgets/my_button_widget.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Pages/navbar_screen.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/back_widget.dart';
+import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
 import 'package:e_comm/Utils/lottie.dart';
 import 'package:flutter/material.dart';
@@ -30,13 +31,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 7.h),
-        child: const BackWidget(
+        child: BackWidget(
           canPop: true,
           hasBackButton: false,
           hasStyle: false,
           iconColor: Colors.black,
           textColor: Colors.black,
-          text: "SignUp",
+          text: "signUp".tr(context),
         ),
       ),
       body: BlocConsumer<AuthCubit, AuthState>(
@@ -88,7 +89,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     FadeInLeft(
                         duration: const Duration(milliseconds: 1500),
                         child: Text(
-                          "Verification Code",
+                          "verification_code".tr(context),
                           style: TextStyle(
                             color: const Color.fromRGBO(49, 39, 79, 1),
                             fontWeight: FontWeight.bold,
@@ -102,7 +103,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     FadeInLeft(
                         duration: const Duration(milliseconds: 1500),
                         child: Text(
-                          "A Verification Code Has Been Sent To Your Account",
+                          "verification_code_msg".tr(context),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: const Color.fromRGBO(49, 39, 79, 1),
@@ -146,7 +147,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             color: AppColors.buttonCategoryColor,
                             verticalHieght: 0,
                             horizontalWidth: 4.w,
-                            text: "Next",
+                            text: "next".tr(context),
                             onPressed: () {
                               if (value.isNotEmpty && value.length > 4) {
                                 // context

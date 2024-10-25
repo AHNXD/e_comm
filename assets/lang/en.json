@@ -130,7 +130,9 @@
     "email_and_phone" : "Email and Phone",
     "please_Enter_your" : "please Enter your",
     "confirm_password" : "Confirm Password",
-    "confirm_password_msg" : "The Password or Confirm Password is not True"
+    "confirm_password_msg" : "The Password or Confirm Password is not True",
+    "verification_code_msg" : "A Verification Code Has Been Sent To Your Account",
+    "verification_Code" : "Verification Code"
 
 
 }

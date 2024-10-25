@@ -134,5 +134,7 @@
     "email_and_phone" : "الايمل ورقم الهاتف",
     "please_Enter_your" : "الرجاء ادخال",
     "confirm_password" : "تاكيد كلمة المرور",
-    "confirm_password_msg" : "كلمة المرور غير متطابقة"
+    "confirm_password_msg" : "كلمة المرور غير متطابقة",
+    "verification_code_msg" : "لقد تم ارسال كود التحقق الى حسابك",
+    "verification_Code" : "كود التحقق"
 }
