@@ -2,6 +2,7 @@ import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:sizer/sizer.dart';
 import '../../../Utils/colors.dart';
+import '../Widgets/scroll_top_button.dart';
 import '/Future/Home/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -126,33 +127,6 @@ class CartListViewItem extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class ScrollToTopButton extends StatelessWidget {
-  final ScrollController scrollController;
-
-  const ScrollToTopButton({super.key, required this.scrollController});
-
-  void _scrollToTop() {
-    scrollController.animateTo(
-      0.0,
-      duration: const Duration(seconds: 1),
-      curve: Curves.easeInOut,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      backgroundColor: AppColors.navBarColor,
-      onPressed: _scrollToTop,
-      tooltip: 'Scroll to Top',
-      child: const Icon(
-        Icons.arrow_upward,
-        color: Colors.black,
       ),
     );
   }

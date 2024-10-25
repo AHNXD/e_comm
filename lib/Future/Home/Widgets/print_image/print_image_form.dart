@@ -81,21 +81,24 @@ class PrintImageForm extends StatelessWidget {
             SizedBox(height: 2.h),
             BlocBuilder<GetPrintSizesCubit, GetPrintSizesState>(
               builder: (context, state) {
-                List<String> printSizes = [];
+                Map<int, String> printSizesMap = {};
 
                 if (state is GetPrintSizesSuccess) {
-                  state.printSizes
-                      .map((e) => printSizes
-                          .add("width: ${e.width!} * height: ${e.height!}"))
-                      .toList();
+                  printSizesMap = {
+                    for (var size in state.printSizes)
+                      size.id!:
+                          "${"width".tr(context)}: ${size.width} * ${"height".tr(context)}: ${size.height}"
+                  };
 
                   return CustomDropDownWidget(
-                      printSizeIdController: printSizeIdController,
-                      printSizes: printSizes);
+                    printSizeIdController: printSizeIdController,
+                    printSizesMap: printSizesMap,
+                  );
                 }
                 return CustomDropDownWidget(
-                    printSizeIdController: printSizeIdController,
-                    printSizes: printSizes);
+                  printSizeIdController: printSizeIdController,
+                  printSizesMap: printSizesMap,
+                );
               },
             ),
           ],
@@ -109,11 +112,12 @@ class CustomDropDownWidget extends StatelessWidget {
   const CustomDropDownWidget({
     super.key,
     required this.printSizeIdController,
-    required this.printSizes,
+    required this.printSizesMap,
   });
 
   final TextEditingController printSizeIdController;
-  final List<String> printSizes;
+  final Map<int, String> printSizesMap;
+
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
@@ -124,17 +128,20 @@ class CustomDropDownWidget extends StatelessWidget {
         ),
       ),
       value: printSizeIdController.text.isNotEmpty
-          ? printSizeIdController.text
+          ? printSizesMap[int.parse(printSizeIdController.text)]
           : null,
-      items: printSizes.map((String size) {
+      items: printSizesMap.entries.map((entry) {
         return DropdownMenuItem<String>(
-          value: size,
-          child: Text(size),
+          value: entry.value,
+          child: Text(entry.value),
         );
       }).toList(),
       onChanged: (String? newValue) {
         if (newValue != null) {
-          printSizeIdController.text = newValue;
+          int? selectedId = printSizesMap.entries
+              .firstWhere((entry) => entry.value == newValue)
+              .key;
+          printSizeIdController.text = selectedId.toString();
         }
       },
       validator: (value) {

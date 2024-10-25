@@ -109,9 +109,8 @@ class HomeScreen extends StatelessWidget {
                               ],
                             ),
                             CarouselSliderWidget(
-                              list: offersList(
-                                  model.productOffers!),
-                              height: 30.h,
+                              list: offersList(model.productOffers!),
+                              height: 35.h,
                             ),
                           ],
                         )
@@ -226,7 +225,7 @@ class LastestProductAndTitle extends StatelessWidget {
                       TitleCardWidget(title: name, id: id, cData: cData),
                       CarouselSliderWidget(
                         list: productCardList(true, state.allProducts[index]),
-                        height: 42.h,
+                        height: 48.5.h,
                       ),
                     ],
                   );

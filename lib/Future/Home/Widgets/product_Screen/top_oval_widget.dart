@@ -56,7 +56,7 @@ class _TopOvalWidgetState extends State<TopOvalWidget> {
 
     double selectHeight(screenHeight) {
       if (screenWidth > 280 && screenWidth < 450) {
-        return screenHeight * 0.46;
+        return screenHeight * 0.48;
       } else if (screenWidth >= 450 && screenWidth < 600) {
         return screenHeight * 0.6;
       } else if (screenWidth >= 600 && screenWidth < 900) {
@@ -92,7 +92,7 @@ class _TopOvalWidgetState extends State<TopOvalWidget> {
                     backgroundColor:
                         currentStep == 0 ? AppColors.navBarColor : Colors.white,
                   ),
-                  child: const Text('Search'),
+                  child: Text('search'.tr(context)),
                 ),
                 const SizedBox(width: 10),
                 ElevatedButton(
@@ -101,7 +101,7 @@ class _TopOvalWidgetState extends State<TopOvalWidget> {
                       backgroundColor: currentStep == 1
                           ? AppColors.navBarColor
                           : Colors.white),
-                  child: const Text('Filter'),
+                  child: Text('filter'.tr(context)),
                 ),
               ],
             ),

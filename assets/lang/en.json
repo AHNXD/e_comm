@@ -118,5 +118,9 @@
     "invalid_price_range" : "Invalid price range",
     "max_price" : "Max Price",
     "min_price" : "Min Price",
-    "apply" : "apply"
+    "apply" : "apply",
+    "search" : "Search",
+    "filter" : "Filter",
+    "height" : "height",
+    "width" : "width"
 }

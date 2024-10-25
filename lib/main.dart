@@ -138,9 +138,9 @@ class MyApp extends StatelessWidget {
                       ColorScheme.fromSeed(seedColor: AppColors.primaryColors),
                   // useMaterial3: true,
                 ),
-                home: AppSharedPreferences.hasToken
-                    ? const NavBarPage()
-                    : LoginScreen());
+                // home: AppSharedPreferences.hasToken
+                //     ? const NavBarPage()
+                home: LoginScreen());
           },
         ),
       ),

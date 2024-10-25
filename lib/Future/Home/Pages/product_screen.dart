@@ -6,6 +6,7 @@ import 'package:e_comm/Utils/app_localizations.dart';
 import '../Cubits/cartCubit/cart.bloc.dart';
 import '../Cubits/getProductById/get_porduct_by_id_cubit.dart';
 import '../Cubits/searchProductByCatId/search_product_by_category_id_cubit.dart';
+import '../Widgets/scroll_top_button.dart';
 import '../models/catigories_model.dart';
 import '../models/product_model.dart';
 import '/Future/Home/Widgets/product_Screen/top_oval_widget.dart';
@@ -27,8 +28,10 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
+  late ScrollController scrollController;
   @override
   void initState() {
+    scrollController = ScrollController();
     context.read<GetPorductByIdCubit>().getProductsByCategory(widget.cData.id!);
     context.read<GetMinMaxCubit>().getMinMax(widget.cData.id);
 
@@ -57,6 +60,12 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SearchProductByCategoryIdCubit(),
@@ -70,40 +79,48 @@ class _ProductScreenState extends State<ProductScreen> {
         },
         child: Scaffold(
           backgroundColor: AppColors.backgroundColor,
-          body: Column(
-            children: [
-              TopOvalWidget(
-                isNotHome: widget.isNotHome,
-                firstText: widget.cData.name!,
-                parentId: widget.cData.id!,
-              ),
-              BlocBuilder<SearchProductByCategoryIdCubit,
-                  SearchProductByCategoryIdState>(
-                builder: (context, state) {
-                  if (state is SearchProductByCategoryIdError) {
-                    return MyErrorWidget(
-                        msg: state.message, onPressed: () {});
-                  } else if (state is SearchProductByCategoryIdLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is SearchProductByCategoryIdNotFound) {
-                    return Center(
-                      child: Text(
-                        "there_are_no_results_found".tr(context),
-                      ),
-                    );
-                  } else if (state is SearchProductByCategoryIdSuccess) {
-                    return Expanded(
-                      // height: 58.h,
-                      child: CustomGridVeiw(products: state.products),
-                    );
-                  } else {
-                    return CategoriesGrid(categoryId: widget.cData.id!);
-                  }
-                },
-              )
-            ],
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+          floatingActionButton:
+              ScrollToTopButton(scrollController: scrollController),
+          body: SingleChildScrollView(
+            controller: scrollController,
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                TopOvalWidget(
+                  isNotHome: widget.isNotHome,
+                  firstText: widget.cData.name!,
+                  parentId: widget.cData.id!,
+                ),
+                BlocBuilder<SearchProductByCategoryIdCubit,
+                    SearchProductByCategoryIdState>(
+                  builder: (context, state) {
+                    if (state is SearchProductByCategoryIdError) {
+                      return MyErrorWidget(
+                          msg: state.message, onPressed: () {});
+                    } else if (state is SearchProductByCategoryIdLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is SearchProductByCategoryIdNotFound) {
+                      return Center(
+                        child: Text(
+                          "there_are_no_results_found".tr(context),
+                        ),
+                      );
+                    } else if (state is SearchProductByCategoryIdSuccess) {
+                      return CustomGridVeiw(
+                        products: state.products,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                      );
+                    } else {
+                      return CategoriesGrid(categoryId: widget.cData.id!);
+                    }
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -136,9 +153,10 @@ class CategoriesGrid extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         } else if (state is GetPorductByIdSuccess) {
-          return Expanded(
-            // height: 58.h,
-            child: CustomGridVeiw(products: state.products),
+          return CustomGridVeiw(
+            products: state.products,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
           );
         }
         return const SizedBox();
@@ -148,8 +166,11 @@ class CategoriesGrid extends StatelessWidget {
 }
 
 class CustomGridVeiw extends StatelessWidget {
-  const CustomGridVeiw({super.key, required this.products});
+  const CustomGridVeiw(
+      {super.key, required this.products, this.physics, this.shrinkWrap});
   final List<MainProduct> products;
+  final ScrollPhysics? physics;
+  final bool? shrinkWrap;
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +188,7 @@ class CustomGridVeiw extends StatelessWidget {
       if (screenWidth <= 280) {
         return screenWidth / (screenHeight) * 2.3;
       } else if (screenWidth > 280 && screenWidth < 450) {
-        return screenWidth / (screenHeight) * 1.15;
+        return screenWidth / (screenHeight);
       } else if (screenWidth >= 450 && screenWidth < 600) {
         return screenWidth / (screenHeight) * 0.82;
       } else if (screenWidth >= 600 && screenWidth < 900) {
@@ -178,7 +199,8 @@ class CustomGridVeiw extends StatelessWidget {
 
     return GridView.builder(
       padding: EdgeInsets.zero,
-      physics: const BouncingScrollPhysics(),
+      physics: physics ?? const BouncingScrollPhysics(),
+      shrinkWrap: shrinkWrap ?? false,
       itemCount: products.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           childAspectRatio: selectAspectRatio(screenWidth, screenHeight),

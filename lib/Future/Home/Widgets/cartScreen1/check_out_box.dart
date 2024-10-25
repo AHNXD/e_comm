@@ -16,7 +16,7 @@ class CheckOutBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 26.h,
+      height: 32.5.h,
       width: double.infinity,
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -84,7 +84,7 @@ class CheckOutBox extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          const Spacer(),
           CustomNoteLabel(
             noteText: "cart_note".tr(context),
           ),
