@@ -126,5 +126,13 @@
     "search" : "ابحث",
     "filter" : "فلترة",
     "height" : "الطول",
-    "width" : "العرض"
+    "width" : "العرض",
+    "create_your_account" : "أنشاء حسابك",
+    "fmale" : "أنثى",
+    "male" : "ذكر",
+    "next" : "التالي",
+    "email_and_phone" : "الايمل ورقم الهاتف",
+    "please_Enter_your" : "الرجاء ادخال",
+    "confirm_password" : "تاكيد كلمة المرور",
+    "confirm_password_msg" : "كلمة المرور غير متطابقة"
 }

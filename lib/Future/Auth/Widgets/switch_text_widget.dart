@@ -1,4 +1,5 @@
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
+import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,56 +45,62 @@ class SwitchTextWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              MaterialButton(
-                height: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.3.h),
-                color: sState == SwitchStateWael.email
-                    ? const Color(0xff4bb050)
-                    : null,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.w)),
-                onPressed: () {
-                  context.read<AuthCubit>().setSwitchState =
-                      SwitchStateWael.email;
-                },
-                child: Center(
-                  child: Text(
-                    "Email",
+              Expanded(
+                child: MaterialButton(
+                  height: double.infinity,
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.3.h),
+                  color: sState == SwitchStateWael.email
+                      ? const Color(0xff4bb050)
+                      : null,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4.w)),
+                  onPressed: () {
+                    context.read<AuthCubit>().setSwitchState =
+                        SwitchStateWael.email;
+                  },
+                  child: Center(
+                    child: Text(
+                      "email".tr(context),
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          color: sState == SwitchStateWael.email
+                              ? Colors.white
+                              : Colors.black),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: MaterialButton(
+                  height: double.infinity,
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.3.h),
+                  color: sState == SwitchStateWael.phone
+                      ? AppColors.buttonCategoryColor
+                      : null,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4.w)),
+                  onPressed: () {
+                    context.read<AuthCubit>().setSwitchState =
+                        SwitchStateWael.phone;
+                  },
+                  child: Center(
+                      child: Text(
+                    "phone_number".tr(context),
                     style: TextStyle(
                         fontSize: 14.sp,
-                        color: sState == SwitchStateWael.email
+                        color: sState == SwitchStateWael.phone
                             ? Colors.white
                             : Colors.black),
-                  ),
+                  )),
                 ),
               ),
               MaterialButton(
                 height: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.3.h),
-                color: sState == SwitchStateWael.phone
-                    ? AppColors.buttonCategoryColor
-                    : null,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.w)),
-                onPressed: () {
-                  context.read<AuthCubit>().setSwitchState =
-                      SwitchStateWael.phone;
-                },
-                child: Center(
-                    child: Text(
-                  "Phone",
-                  style: TextStyle(
-                      fontSize: 14.sp,
-                      color: sState == SwitchStateWael.phone
-                          ? Colors.white
-                          : Colors.black),
-                )),
-              ),
-              MaterialButton(
-                height: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.3.h),
                 color: sState == SwitchStateWael.emailAndPhone
-                    ? AppColors.buttonCategoryColor
+                    ? Colors.redAccent
                     : null,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4.w)),
@@ -103,7 +110,7 @@ class SwitchTextWidget extends StatelessWidget {
                 },
                 child: Center(
                     child: Text(
-                  "Email and Phone",
+                  "email_and_phone".tr(context),
                   style: TextStyle(
                       fontSize: 14.sp,
                       color: sState == SwitchStateWael.emailAndPhone

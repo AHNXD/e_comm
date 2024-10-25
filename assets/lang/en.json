@@ -122,5 +122,15 @@
     "search" : "Search",
     "filter" : "Filter",
     "height" : "height",
-    "width" : "width"
+    "width" : "width",
+    "create_your_account" : "Create your Account",
+    "fmale" : "Fmale",
+    "male" : "Male",
+    "next" : "Next",
+    "email_and_phone" : "Email and Phone",
+    "please_Enter_your" : "please Enter your",
+    "confirm_password" : "Confirm Password",
+    "confirm_password_msg" : "The Password or Confirm Password is not True"
+
+
 }

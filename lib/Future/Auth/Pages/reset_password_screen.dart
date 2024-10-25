@@ -3,6 +3,7 @@ import 'package:e_comm/Future/Auth/Widgets/my_button_widget.dart';
 import 'package:e_comm/Future/Auth/Widgets/text_field_widget.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/back_widget.dart';
+import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
 import 'package:e_comm/Utils/enums.dart';
 import 'package:e_comm/Utils/images.dart';
@@ -28,13 +29,13 @@ class ResetPasswordScreen extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 7.h),
-        child: const BackWidget(
+        child: BackWidget(
           canPop: true,
           hasBackButton: false,
           hasStyle: false,
           iconColor: Colors.black,
           textColor: Colors.black,
-          text: "Reset Password",
+          text: "reset_password".tr(context),
         ),
       ),
       body: BlocConsumer<AuthCubit, AuthState>(
@@ -92,7 +93,7 @@ class ResetPasswordScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 3.h),
                   child: Text(
-                    "Reset Your Password",
+                    "reset_password".tr(context),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.black,
@@ -102,14 +103,14 @@ class ResetPasswordScreen extends StatelessWidget {
                 ),
                 TextFieldWidget(
                   validatorFun: (p0) => validation(p0, ValidationState.normal),
-                  text: "Enter your Email or Phone Number",
+                  text: "emailOrPhone".tr(context),
                   controller: emailOrPhoneNumberController,
                   isPassword: false,
                 ),
 
                 TextFieldWidget(
                   controller: passwordController,
-                  text: "Password",
+                  text: "password".tr(context),
                   isPassword: true,
                 ),
                 SizedBox(
@@ -117,7 +118,7 @@ class ResetPasswordScreen extends StatelessWidget {
                 ),
                 TextFieldWidget(
                   controller: confirmPasswordController,
-                  text: "Confirm Password",
+                  text: "confirm_password".tr(context),
                   isPassword: true,
                 ),
                 SizedBox(
@@ -134,7 +135,7 @@ class ResetPasswordScreen extends StatelessWidget {
                         color: AppColors.buttonCategoryColor,
                         verticalHieght: 0,
                         horizontalWidth: 0,
-                        text: "Next",
+                        text: "next".tr(context),
                         onPressed: () {
                           if (_key.currentState!.validate() &&
                               confirmPasswordController.text ==
@@ -151,10 +152,9 @@ class ResetPasswordScreen extends StatelessWidget {
                             //   (route) => false,
                             // );
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text(
-                                        "The Password or Confirm Password is not True")));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content:
+                                    Text("confirm_password_msg".tr(context))));
                           }
                         },
                       )

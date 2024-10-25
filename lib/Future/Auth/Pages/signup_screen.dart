@@ -7,6 +7,7 @@ import 'package:e_comm/Future/Auth/Widgets/switch_text_widget.dart';
 import 'package:e_comm/Future/Auth/Widgets/text_field_widget.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/back_widget.dart';
+import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
 import 'package:e_comm/Utils/enums.dart';
 import 'package:e_comm/Utils/images.dart';
@@ -30,13 +31,13 @@ class _SignupScreenState extends State<SignupScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 7.h),
-        child: const BackWidget(
+        child: BackWidget(
           canPop: true,
           hasBackButton: false,
           hasStyle: false,
           iconColor: Colors.black,
           textColor: Colors.black,
-          text: "SignUp",
+          text: "signUp".tr(context),
         ),
       ),
       body: BlocBuilder<AuthCubit, AuthState>(
@@ -59,7 +60,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 3.h),
                   child: Text(
-                    "Create your Account",
+                    "create_your_account".tr(context),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.black,
@@ -69,13 +70,13 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 TextFieldWidget(
                   validatorFun: (p0) => validation(p0, ValidationState.normal),
-                  text: "First Name",
+                  text: "FN_info".tr(context),
                   isPassword: false,
                   controller: context.read<AuthCubit>().firstNameController,
                 ),
                 TextFieldWidget(
                   validatorFun: (p0) => validation(p0, ValidationState.normal),
-                  text: "Last Name",
+                  text: "LN_info".tr(context),
                   isPassword: false,
                   controller: context.read<AuthCubit>().lastNameController,
                 ),
@@ -92,7 +93,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 TextFieldWidget(
                   validatorFun: (p0) => validation(p0, ValidationState.normal),
                   controller: context.read<AuthCubit>().addressController,
-                  text: "Address",
+                  text: "address".tr(context),
                   isPassword: false,
                 ),
                 BlocBuilder<AuthCubit, AuthState>(
@@ -107,7 +108,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             context.read<AuthCubit>().setSignUpStatusIsMail =
                                 s!;
                           },
-                          child: const Text("male"),
+                          child: Text("male".tr(context)),
                         ),
                         // mail = 1;
                         // fmail = 0;
@@ -118,7 +119,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             context.read<AuthCubit>().setSignUpStatusIsMail =
                                 s!;
                           },
-                          child: const Text("fmale"),
+                          child: Text("fmale".tr(context)),
                         ),
                       ],
                     );
@@ -140,7 +141,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         }));
                       },
                       child: Text(
-                        "Login",
+                        "login".tr(context),
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             decorationThickness: 0.6,
@@ -157,7 +158,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         }));
                       },
                       child: Text(
-                        "Forgot password?",
+                        "forgot_password".tr(context),
                         style: TextStyle(
                             decorationThickness: 0.6,
                             decoration: TextDecoration.underline,
@@ -172,7 +173,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   color: AppColors.buttonCategoryColor,
                   verticalHieght: 0,
                   horizontalWidth: 0,
-                  text: "Next",
+                  text: "next".tr(context),
                   onPressed: () {
                     if (_key.currentState!.validate()) {
                       Navigator.of(context)
@@ -199,9 +200,9 @@ class ChooseSignUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final swichState = context.read<AuthCubit>().swichState;
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
+        final swichState = context.read<AuthCubit>().swichState;
         return Column(
           children: [
             swichState == SwitchStateWael.email ||
@@ -209,7 +210,7 @@ class ChooseSignUp extends StatelessWidget {
                 ? TextFieldWidget(
                     validatorFun: (p0) => validation(p0, ValidationState.email),
                     text:
-                        "Please Enter Your ${swichState == SwitchStateWael.email || swichState == SwitchStateWael.emailAndPhone ? "Email" : "Phone Number"} ",
+                        "${"please_Enter_your".tr(context)} ${swichState == SwitchStateWael.email || swichState == SwitchStateWael.emailAndPhone ? "email".tr(context) : "phone_number".tr(context)} ",
                     isPassword: false,
                     controller: context.read<AuthCubit>().emailController,
                   )

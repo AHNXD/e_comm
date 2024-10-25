@@ -116,7 +116,6 @@ String exceptionsHandle({required DioException error}) {
 
 String _handleValidationErrors(
     Map<String, dynamic> data, Map<String, String> messages) {
-  String? generalMessage = data['message'];
   Map<String, dynamic>? errors = data['errors'];
 
   if (errors != null && errors.isNotEmpty) {
@@ -129,7 +128,7 @@ String _handleValidationErrors(
     });
 
     String combinedErrors = errorMessages.join(", ");
-    return "$generalMessage: $combinedErrors";
+    return combinedErrors;
   }
 
   return messages["validationError"]!;

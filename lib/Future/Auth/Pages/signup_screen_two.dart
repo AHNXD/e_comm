@@ -3,6 +3,7 @@ import 'package:e_comm/Future/Auth/Widgets/my_button_widget.dart';
 import 'package:e_comm/Future/Auth/Widgets/text_field_widget.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/back_widget.dart';
+import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
 import 'package:e_comm/Utils/images.dart';
 import 'package:e_comm/Utils/lottie.dart';
@@ -24,13 +25,13 @@ class SignupScreenTow extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 7.h),
-        child: const BackWidget(
+        child: BackWidget(
           canPop: true,
           hasBackButton: false,
           hasStyle: false,
           iconColor: Colors.black,
           textColor: Colors.black,
-          text: "SignUp",
+          text: "signUp".tr(context),
         ),
       ),
       body: BlocConsumer<AuthCubit, AuthState>(
@@ -56,7 +57,7 @@ class SignupScreenTow extends StatelessWidget {
             Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (builder) {
                 return VerificationScreen(
-                  prevScreen: "signup",
+                  prevScreen: "signUp".tr(context),
                   prvEmail:
                       context.read<AuthCubit>().emailController.text.trim(),
                 );
@@ -92,7 +93,7 @@ class SignupScreenTow extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 3.h),
                   child: Text(
-                    "Create  your Account",
+                    "create_your_account".tr(context),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.black,
@@ -102,7 +103,7 @@ class SignupScreenTow extends StatelessWidget {
                 ),
                 TextFieldWidget(
                   controller: context.read<AuthCubit>().passwordController,
-                  text: "Password",
+                  text: "password".tr(context),
                   isPassword: true,
                 ),
                 SizedBox(
@@ -110,7 +111,7 @@ class SignupScreenTow extends StatelessWidget {
                 ),
                 TextFieldWidget(
                   controller: confirmPasswordController,
-                  text: "Confirm Password",
+                  text: "confirm_password".tr(context),
                   isPassword: true,
                 ),
                 SizedBox(
@@ -128,7 +129,7 @@ class SignupScreenTow extends StatelessWidget {
                         color: AppColors.buttonCategoryColor,
                         verticalHieght: 0,
                         horizontalWidth: 0,
-                        text: "Next",
+                        text: "next".tr(context),
                         onPressed: () {
                           if (_key.currentState!.validate() &&
                               confirmPasswordController.text ==
@@ -143,10 +144,9 @@ class SignupScreenTow extends StatelessWidget {
                                   .read<AuthCubit>()
                                   .passwordController
                                   .text) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text(
-                                        "The Password or Confirm Password is not True")));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content:
+                                    Text("confirm_password_msg".tr(context))));
                           }
                         })
               ],
