@@ -81,15 +81,27 @@ class _SignupScreenState extends State<SignupScreen> {
                   controller: context.read<AuthCubit>().lastNameController,
                 ),
                 // const SwitchWidget(),
-                SizedBox(
-                  height: 2.h,
+                // SizedBox(
+                //   height: 2.h,
+                // ),
+                // const SwitchTextWidget(),
+                // SizedBox(
+                //   height: 2.h,
+                // ),
+                TextFieldWidget(
+                  validatorFun: (p0) => validation(p0, ValidationState.email),
+                  text:
+                      "${"please_Enter_your".tr(context)} ${"email".tr(context)}",
+                  isPassword: false,
+                  controller: context.read<AuthCubit>().emailController,
                 ),
-                const SwitchTextWidget(),
-                SizedBox(
-                  height: 2.h,
+                Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: PhoneFieldWidget(
+                    controller:
+                        context.read<AuthCubit>().phoneNumberController!,
+                  ),
                 ),
-                const ChooseSignUp(),
-
                 TextFieldWidget(
                   validatorFun: (p0) => validation(p0, ValidationState.normal),
                   controller: context.read<AuthCubit>().addressController,
@@ -191,40 +203,6 @@ class _SignupScreenState extends State<SignupScreen> {
           );
         },
       ),
-    );
-  }
-}
-
-class ChooseSignUp extends StatelessWidget {
-  const ChooseSignUp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<AuthCubit, AuthState>(
-      builder: (context, state) {
-        final swichState = context.read<AuthCubit>().swichState;
-        return Column(
-          children: [
-            swichState == SwitchStateWael.email ||
-                    swichState == SwitchStateWael.emailAndPhone
-                ? TextFieldWidget(
-                    validatorFun: (p0) => validation(p0, ValidationState.email),
-                    text:
-                        "${"please_Enter_your".tr(context)} ${swichState == SwitchStateWael.email || swichState == SwitchStateWael.emailAndPhone ? "email".tr(context) : "phone_number".tr(context)} ",
-                    isPassword: false,
-                    controller: context.read<AuthCubit>().emailController,
-                  )
-                : PhoneFieldWidget(
-                    controller:
-                        context.read<AuthCubit>().phoneNumberController!,
-                  ),
-            if (swichState == SwitchStateWael.emailAndPhone)
-              PhoneFieldWidget(
-                controller: context.read<AuthCubit>().phoneNumberController!,
-              ),
-          ],
-        );
-      },
     );
   }
 }

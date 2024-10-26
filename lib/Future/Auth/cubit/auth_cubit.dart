@@ -21,16 +21,18 @@ class AuthCubit extends Cubit<AuthState> {
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final PhoneController? phoneNumberController = PhoneController();
-
+  final PhoneController? phoneNumberController = PhoneController(
+      initialValue: const PhoneNumber(isoCode: IsoCode.SY, nsn: ""));
   final TextEditingController addressController = TextEditingController();
+
   bool _signUpState = false;
   int genderState = 1; //male=1;fmale=0;
-  SwitchStateWael swichState = SwitchStateWael.email;
-  set setSwitchState(SwitchStateWael s) {
-    swichState = s;
-    emit(SwitchState());
-  }
+  // SwitchStateWael swichState = SwitchStateWael.email;
+
+  // set setSwitchState(SwitchStateWael s) {
+  //   swichState = s;
+  //   emit(SwitchState());
+  // }
 
   set setSignUpStatusIsEmail(bool isEmail) {
     _signUpState = isEmail;
@@ -93,7 +95,7 @@ class AuthCubit extends Cubit<AuthState> {
           ),
         );
       } else {
-        AuthErrorState(error.toString());
+        emit(AuthErrorState(error.toString()));
       }
     }
   }
@@ -107,10 +109,8 @@ class AuthCubit extends Cubit<AuthState> {
         "first_name": firstNameController.text.trim(),
         "last_name": lastNameController.text.trim(),
         "email": emailController.text.trim(),
-        if (phoneNumberController!.value.nsn != "")
-          "phone": phoneNumberController!.value.nsn.trim(),
-        if (phoneNumberController!.value.nsn != "")
-          "code": phoneNumberController!.value.countryCode,
+        "phone":
+            "+${phoneNumberController!.value.countryCode.trim()}${phoneNumberController!.value.nsn.trim()}",
         "address": addressController.text.trim(),
         "gender": gender,
         "password": passwordController.text.trim(),
