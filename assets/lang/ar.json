@@ -122,5 +122,22 @@
     "invalid_price_range" : "القيم المدخلة غير صحيحة",
     "max_price" : "اعلى سعر",
     "min_price" : "ادنى سعر",
-    "apply" : "طبق"
+    "apply" : "طبق",
+    "search" : "ابحث",
+    "filter" : "فلترة",
+    "height" : "الطول",
+    "width" : "العرض",
+    "create_your_account" : "أنشاء حسابك",
+    "fmale" : "أنثى",
+    "male" : "ذكر",
+    "next" : "التالي",
+    "email_and_phone" : "الايمل ورقم الهاتف",
+    "please_Enter_your" : "الرجاء ادخال",
+    "confirm_password" : "تاكيد كلمة المرور",
+    "confirm_password_msg" : "كلمة المرور غير متطابقة",
+    "verification_code_msg" : "لقد تم ارسال كود التحقق الى حسابك",
+    "verification_Code" : "كود التحقق",
+    "Checkout" : "قيد الإنتظار",
+    "Accept" : "تم القبول",
+    "Reject" : "تم الرفض"
 }
