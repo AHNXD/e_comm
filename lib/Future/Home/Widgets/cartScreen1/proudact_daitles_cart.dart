@@ -36,11 +36,14 @@ class PrudoctDaitlesCart extends StatelessWidget {
         SizedBox(height: 1.h),
         if (product.isOffer != null && product.isOffer == true)
           CircleAvatar(
+            radius: 16.sp,
             backgroundColor: Colors.red,
             child: Text(
               "${(1 - (double.tryParse(product.offers!.priceAfterOffer!)! / double.tryParse(product.offers!.priceAfterOffer!)!)) * 100}%",
-              style: const TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 10.sp,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
             ),
           ),
       ],

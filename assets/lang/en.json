@@ -118,21 +118,5 @@
     "invalid_price_range" : "Invalid price range",
     "max_price" : "Max Price",
     "min_price" : "Min Price",
-    "apply" : "apply",
-    "search" : "Search",
-    "filter" : "Filter",
-    "height" : "height",
-    "width" : "width",
-    "create_your_account" : "Create your Account",
-    "fmale" : "Fmale",
-    "male" : "Male",
-    "next" : "Next",
-    "email_and_phone" : "Email and Phone",
-    "please_Enter_your" : "please Enter your",
-    "confirm_password" : "Confirm Password",
-    "confirm_password_msg" : "The Password or Confirm Password is not True",
-    "verification_code_msg" : "A Verification Code Has Been Sent To Your Account",
-    "verification_Code" : "Verification Code"
-
-
+    "apply" : "apply"
 }

@@ -103,10 +103,12 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                   ),
                   widget.product.isOffer!
                       ? CircleAvatar(
+                          radius: 15.sp,
                           backgroundColor: Colors.red,
                           child: Text(
                             "${(1 - (double.tryParse(widget.product.offers!.priceAfterOffer!)! / double.tryParse(widget.product.offers!.priceAfterOffer!)!)) * 100}%",
-                            style: const TextStyle(
+                            style: TextStyle(
+                                fontSize: 9.sp,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                           ),

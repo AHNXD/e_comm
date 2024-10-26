@@ -1,3 +1,4 @@
+import 'package:e_comm/Future/Auth/Widgets/text_field_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/back_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/categories_button_widget.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
@@ -219,99 +220,87 @@ class FilterProductWdiget extends StatelessWidget {
       minPriceController.text = minP;
       maxPriceController.text = maxP;
       return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 3,
-              child: TextFormField(
-                controller: minPriceController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'min_price'.tr(context),
-                  fillColor: Colors.white,
-                  filled: true,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 1.h, horizontal: 3.w),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(6.w),
-                  ),
+        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
+        child: Container(
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(32)),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: TextFieldWidget(
+                  text: 'min_price'.tr(context),
+                  isPassword: false,
+                  controller: minPriceController,
+                  keyboardType: TextInputType.number,
                 ),
-                style: TextStyle(fontSize: 10.sp),
               ),
-            ),
-            SizedBox(width: 2.w),
-            Expanded(
-              flex: 3,
-              child: TextFormField(
-                controller: maxPriceController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'max_price'.tr(context),
-                  fillColor: Colors.white,
-                  filled: true,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 1.h, horizontal: 3.w),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(6.w),
-                  ),
+              SizedBox(width: 2.w),
+              Expanded(
+                flex: 3,
+                child: TextFieldWidget(
+                  text: 'max_price'.tr(context),
+                  isPassword: false,
+                  controller: maxPriceController,
+                  keyboardType: TextInputType.number,
                 ),
-                style: TextStyle(fontSize: 10.sp),
               ),
-            ),
-            SizedBox(width: 2.w),
-            Expanded(
-              flex: 2,
-              child: ElevatedButton(
-                onPressed: () {
-                  double? minPrice = double.tryParse(minPriceController.text);
-                  double? maxPrice = double.tryParse(maxPriceController.text);
-                  if (minPrice != null && maxPrice != null) {
-                    if (minPrice <= maxPrice) {
+              SizedBox(width: 2.w),
+              Expanded(
+                flex: 2,
+                child: ElevatedButton(
+                  onPressed: () {
+                    double? minPrice = double.tryParse(minPriceController.text);
+                    double? maxPrice = double.tryParse(maxPriceController.text);
+                    if (minPrice != null && maxPrice != null) {
+                      if (minPrice <= maxPrice) {
+                        context
+                            .read<SearchProductByCategoryIdCubit>()
+                            .filterProductByPrice(
+                                minPrice, maxPrice, cateogryId);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(
+                                "invalid_price_range".tr(context),
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: Colors.red),
+                        );
+                      }
+                    } else if (minPrice != null && maxPrice == null) {
                       context
                           .read<SearchProductByCategoryIdCubit>()
-                          .filterProductByPrice(minPrice, maxPrice, cateogryId);
+                          .filterProductByPrice(
+                              minPrice, double.parse(maxP), cateogryId);
+                    } else if (minPrice == null && maxPrice != null) {
+                      context
+                          .read<SearchProductByCategoryIdCubit>()
+                          .filterProductByPrice(
+                              double.tryParse(minP), maxPrice, cateogryId);
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content: Text(
-                              "invalid_price_range".tr(context),
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                            backgroundColor: Colors.red),
-                      );
+                      context
+                          .read<SearchProductByCategoryIdCubit>()
+                          .filterProductByPrice(double.tryParse(minP),
+                              double.parse(maxP), cateogryId);
                     }
-                  } else if (minPrice != null && maxPrice == null) {
-                    context
-                        .read<SearchProductByCategoryIdCubit>()
-                        .filterProductByPrice(
-                            minPrice, double.parse(maxP), cateogryId);
-                  } else if (minPrice == null && maxPrice != null) {
-                    context
-                        .read<SearchProductByCategoryIdCubit>()
-                        .filterProductByPrice(
-                            double.tryParse(minP), maxPrice, cateogryId);
-                  } else {
-                    context
-                        .read<SearchProductByCategoryIdCubit>()
-                        .filterProductByPrice(double.tryParse(minP),
-                            double.parse(maxP), cateogryId);
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 1.5.h),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6.w),
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6.w),
+                    ),
+                  ),
+                  child: Text(
+                    "apply".tr(context),
+                    style: TextStyle(fontSize: 10.sp),
                   ),
                 ),
-                child: Text(
-                  "apply".tr(context),
-                  style: TextStyle(fontSize: 10.sp),
-                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     });

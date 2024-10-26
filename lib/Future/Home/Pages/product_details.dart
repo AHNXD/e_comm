@@ -186,6 +186,7 @@ class _DetailPageState extends State<DetailPage> {
                                         width: 8,
                                       ),
                                       CircleAvatar(
+                                        radius: 20.sp,
                                         backgroundColor: Colors.red,
                                         child: Text(
                                           "${(1 - (double.tryParse(widget.product.offers!.priceAfterOffer!)! / double.tryParse(widget.product.offers!.priceAfterOffer!)!)) * 100}%",

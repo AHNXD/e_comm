@@ -32,7 +32,14 @@ class HistoryCardItem extends StatelessWidget {
                       : order.status == "Checkout"
                           ? Colors.yellow
                           : Colors.red,
-                  child: const Text("")),
+                  child: Icon(
+                    order.status == "Accept"
+                        ? Icons.check
+                        : order.status == "Checkout"
+                            ? Icons.timer
+                            : Icons.do_not_disturb_alt_rounded,
+                    color: const Color.fromARGB(218, 0, 0, 0),
+                  )),
             ),
             title: Text(
                 style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
@@ -50,7 +57,7 @@ class HistoryCardItem extends StatelessWidget {
                 ),
                 OrderInfoTextCardWidget(
                   title: "order_status".tr(context),
-                  body: order.status?.toString() ?? "",
+                  body: order.status?.toString().tr(context) ?? "",
                 ),
                 OrderInfoTextCardWidget(
                   title: "order_total_price".tr(context),

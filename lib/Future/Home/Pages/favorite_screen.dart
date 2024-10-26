@@ -1,6 +1,7 @@
 import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
 import 'package:e_comm/Future/Home/Pages/product_screen.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
+import 'package:e_comm/Future/Home/Widgets/home_screen/appbar_widget.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -45,29 +46,25 @@ class FavoriteScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 10.h),
-          child: AppBar(
-            scrolledUnderElevation: 0,
-            backgroundColor: Colors.white,
-            centerTitle: true,
-            title: Padding(
-              // title: BackWidget(
-              // canPop: true,
-              // hasBackButton: false,
-              // hasStyle: true,
-              // text: "fav_screen_title".tr(context),
-              // iconColor: Colors.white,
-              // textColor: AppColors.primaryColors,
-
-              padding: const EdgeInsets.only(top: 15.0),
-              child: Text(
-                "fav_screen_title".tr(context),
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primaryColors),
-              ),
-            ),
+          preferredSize: Size(double.infinity, 8.h),
+          child: AppBarWidget(
+            isHome: false,
+            title: "fav_screen_title".tr(context),
           ),
+          // child: AppBar(
+          //   scrolledUnderElevation: 0,
+          //   backgroundColor: Colors.white,
+          //   centerTitle: true,
+          //   title: Padding(
+          //     padding: const EdgeInsets.only(top: 15.0),
+          //     child: Text(
+          //       "fav_screen_title".tr(context),
+          //       style: const TextStyle(
+          //           fontWeight: FontWeight.bold,
+          //           color: AppColors.primaryColors),
+          //     ),
+          //   ),
+          // ),
         ),
         body: BlocConsumer<FavoriteCubit, FavoriteState>(
           listener: (context, state) {},

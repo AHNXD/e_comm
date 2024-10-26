@@ -1,14 +1,13 @@
 import 'package:e_comm/Future/Home/Cubits/getMyOrders/get_my_orders_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/historyScreen/historyOrderCard.dart';
+import 'package:e_comm/Future/Home/Widgets/home_screen/appbar_widget.dart';
 import 'package:e_comm/Future/Home/models/my_orders_information.dart';
 
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../../Utils/colors.dart';
 
 class MyOrdersScreen extends StatelessWidget {
   const MyOrdersScreen({super.key});
@@ -18,21 +17,25 @@ class MyOrdersScreen extends StatelessWidget {
     context.read<GetMyOrdersCubit>().getMyOrders();
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 10.h),
-          child: AppBar(
-            scrolledUnderElevation: 0,
-            backgroundColor: Colors.white,
-            centerTitle: true,
-            title: Padding(
-              padding: const EdgeInsets.only(top: 15.0),
-              child: Text(
-                "myOrders_screen_title".tr(context),
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primaryColors),
-              ),
-            ),
+          preferredSize: Size(double.infinity, 8.h),
+          child: AppBarWidget(
+            isHome: false,
+            title: "myOrders_screen_title".tr(context),
           ),
+          // child: AppBar(
+          //   scrolledUnderElevation: 0,
+          //   backgroundColor: Colors.white,
+          //   centerTitle: true,
+          //   title: Padding(
+          //     padding: const EdgeInsets.only(top: 15.0),
+          //     child: Text(
+          //       "myOrders_screen_title".tr(context),
+          //       style: const TextStyle(
+          //           fontWeight: FontWeight.bold,
+          //           color: AppColors.primaryColors),
+          //     ),
+          //   ),
+          // ),
         ),
         body: BlocBuilder<GetMyOrdersCubit, GetMyOrdersState>(
           builder: (context, state) {

@@ -57,8 +57,8 @@ class HomeScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 11.h),
-          child: const AppBarWidget(),
+          preferredSize: Size(double.infinity, 8.h),
+          child: AppBarWidget(),
         ),
         backgroundColor: AppColors.backgroundColor,
         body: BlocListener<CartCubit, CartState>(
@@ -73,6 +73,21 @@ class HomeScreen extends StatelessWidget {
             shrinkWrap: true,
             controller: controller,
             children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "categoris".tr(context),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: AppColors.textTitleAppBarColor),
+                ),
+              ),
+              SizedBox(
+                height: 8.h,
+                child: const HomePageCategoriesButtonWidget(),
+              ),
+              SizedBox(height: 1.h),
               BlocBuilder<GetOffersCubit, GetOffersState>(
                 builder: (context, state) {
                   final model = context.read<GetOffersCubit>();
@@ -110,27 +125,12 @@ class HomeScreen extends StatelessWidget {
                             ),
                             CarouselSliderWidget(
                               list: offersList(model.productOffers!),
-                              height: 35.h,
+                              height: 30.h,
                             ),
                           ],
                         )
                       : const SizedBox();
                 },
-              ),
-              SizedBox(height: 1.h),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "categoris".tr(context),
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                      color: AppColors.textTitleAppBarColor),
-                ),
-              ),
-              SizedBox(
-                height: 8.h,
-                child: const HomePageCategoriesButtonWidget(),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
