@@ -28,3 +28,7 @@ final class LogoutSuccessState extends AuthState {
 
   LogoutSuccessState({required this.message});
 }
+
+final class IsVaildToken extends AuthState {}
+
+final class IsNotVaildToken extends AuthState {}

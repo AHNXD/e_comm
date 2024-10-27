@@ -125,7 +125,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                             CarouselSliderWidget(
                               list: offersList(model.productOffers!),
-                              height: 30.h,
+                              height: 38.h,
                             ),
                           ],
                         )

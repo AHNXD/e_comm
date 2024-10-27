@@ -10,9 +10,9 @@ import '../../Pages/search_product_screen.dart';
 import '/Utils/colors.dart';
 
 class AppBarWidget extends StatelessWidget {
-  bool isHome;
-  String title;
-  AppBarWidget({super.key, this.isHome = true, this.title = companyName});
+  final bool isHome;
+  final String title;
+  const AppBarWidget({super.key, this.isHome = true, this.title = companyName});
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +49,14 @@ class AppBarWidget extends StatelessWidget {
                       "hello_msg".tr(context),
                       style: TextStyle(color: Colors.black, fontSize: 9.sp),
                     ),
-                    Text(
-                      companyName,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.sp),
+                    Expanded(
+                      child: Text(
+                        companyName,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15.sp),
+                      ),
                     )
                   ],
                 )

@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:e_comm/Apis/ExceptionsHandle.dart';
 import 'package:e_comm/Apis/Network.dart';
 import 'package:e_comm/Apis/Urls.dart';
-import 'package:e_comm/Future/Auth/Widgets/switch_text_widget.dart';
 import 'package:e_comm/Utils/SharedPreferences/SharedPreferencesHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
@@ -223,9 +222,39 @@ class AuthCubit extends Cubit<AuthState> {
       await Network.postData(
           url: Urls.verificationCode,
           data: {"email": email, "otp": otp}).then((value) {
-        if (value.statusCode == 200 || value.statusCode == 201) {
+        if ((value.statusCode == 200 || value.statusCode == 201)) {
           AppSharedPreferences.saveToken(value.data['data']);
           emit(AuthSuccessfulState("the Account Created successfully"));
+        }
+      });
+    } catch (error) {
+      if (error is DioException) {
+        emit(
+          AuthErrorState(
+            exceptionsHandle(error: error),
+          ),
+        );
+      } else {
+        AuthErrorState(error.toString());
+      }
+    }
+  }
+
+  void checkToken() async {
+    emit(AuthLoadingState());
+    final String fullToken = AppSharedPreferences.getToken;
+
+    final String token = fullToken.split('|').last;
+    print(token);
+    try {
+      await Network.postData(url: Urls.checkToken, data: {"token": token})
+          .then((value) {
+        if (value.statusCode == 200 || value.statusCode == 201) {
+          if (value.data["IsValid"]) {
+            emit(IsVaildToken());
+          } else {
+            emit(IsNotVaildToken());
+          }
         }
       });
     } catch (error) {

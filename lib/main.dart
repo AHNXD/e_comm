@@ -1,5 +1,4 @@
 import 'package:e_comm/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
-import 'package:e_comm/Future/Home/Pages/navbar_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -32,6 +31,8 @@ import 'Future/Home/Cubits/pages_cubit/pages_cubit.dart';
 import 'Future/Home/Cubits/postOrders/post_orders_cubit.dart';
 import 'Future/Home/Cubits/rangeSliderCubit/range_slider_cubit.dart';
 import 'Future/Home/Cubits/searchProductsCubit/search_products_cubit.dart';
+import 'Future/Home/Pages/navbar_screen.dart';
+import 'Future/Home/Widgets/error_widget.dart';
 import 'Utils/enums.dart';
 
 void main() async {
@@ -76,8 +77,8 @@ class MyApp extends StatelessWidget {
       builder: (context, orientation, deviceType) => MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => LocaleCubit()..getSaveLanguage()),
+          BlocProvider(create: (_) => AuthCubit()..checkToken()),
           BlocProvider(create: (_) => GetOffersCubit()..getOffers()),
-          BlocProvider(create: (_) => AuthCubit()),
           BlocProvider(create: (_) => GetCatigoriesCubit()..getCatigories()),
           BlocProvider(create: (_) => GetProductsCubit()..getProducts()),
           BlocProvider(create: (_) => FavoriteCubit()..getProductsFavorite()),
@@ -108,7 +109,6 @@ class MyApp extends StatelessWidget {
         ],
         child: BlocBuilder<LocaleCubit, ChangeLocaleState>(
           builder: (context, state) {
-            if (state is LogoutSuccessState) {}
             return MaterialApp(
                 locale: state.locale,
                 supportedLocales: const [
@@ -138,9 +138,27 @@ class MyApp extends StatelessWidget {
                       ColorScheme.fromSeed(seedColor: AppColors.primaryColors),
                   // useMaterial3: true,
                 ),
-                // home: AppSharedPreferences.hasToken
-                //     ? const NavBarPage()
-                home: LoginScreen());
+                home: BlocBuilder<AuthCubit, AuthState>(
+                  builder: (context, state) {
+                    if (state is IsVaildToken) {
+                      return const NavBarPage();
+                    } else if (state is IsNotVaildToken) {
+                      return LoginScreen();
+                    } else if (state is AuthErrorState) {
+                      return Scaffold(
+                        body: MyErrorWidget(
+                          msg: state.message,
+                          onPressed: context.read<AuthCubit>().checkToken,
+                        ),
+                      );
+                    }
+                    return const Scaffold(
+                      body: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  },
+                ));
           },
         ),
       ),
