@@ -42,75 +42,74 @@ class OrderDetailsScreen extends StatelessWidget {
               const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              OrderInfoTextWidget(
-                title: "phone_number".tr(context),
-                body: order.phone?.toString() ?? "",
-                icon: Icons.phone,
-              ),
-              OrderInfoTextWidget(
-                title: "province".tr(context),
-                body: order.province?.toString() ?? "",
-                icon: Icons.public,
-              ),
-              OrderInfoTextWidget(
-                title: "region".tr(context),
-                body: order.region?.toString() ?? "",
-                icon: Icons.pin_drop,
-              ),
-              OrderInfoTextWidget(
-                title: "address".tr(context),
-                body: order.address?.toString() ?? "",
-                icon: Icons.maps_home_work,
-              ),
-              OrderInfoTextWidget(
-                title: "order_status".tr(context),
-                body: order.status?.toString().tr(context) ?? "",
-                icon: Icons.info,
-              ),
-              OrderInfoTextWidget(
-                title: "order_total_price".tr(context),
-                body: order.total?.toString() ?? "",
-                icon: Icons.monetization_on_rounded,
-              ),
-              OrderInfoTextWidget(
-                title: "order_notes".tr(context),
-                body: order.notes?.toString() ?? "",
-                icon: Icons.note_alt_sharp,
-              ),
-              const Divider(
-                color: AppColors.borderColor,
-              ),
-              ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: order.details?.length ?? 0,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return DetailPage(
-                            product: order.details![index].product!,
-                          );
-                        }));
-                      },
-                      child: OrderTileWidget(
-                        size: order.details![index].size,
-                        product: order.details![index].product!,
-                        price: order.details![index].price,
-                      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            OrderInfoTextWidget(
+              title: "phone_number".tr(context),
+              body: order.phone?.toString() ?? "",
+              icon: Icons.phone,
+            ),
+            OrderInfoTextWidget(
+              title: "province".tr(context),
+              body: order.province?.toString() ?? "",
+              icon: Icons.public,
+            ),
+            OrderInfoTextWidget(
+              title: "region".tr(context),
+              body: order.region?.toString() ?? "",
+              icon: Icons.pin_drop,
+            ),
+            OrderInfoTextWidget(
+              title: "address".tr(context),
+              body: order.address?.toString() ?? "",
+              icon: Icons.maps_home_work,
+            ),
+            OrderInfoTextWidget(
+              title: "order_status".tr(context),
+              body: order.status?.toString().tr(context) ?? "",
+              icon: Icons.info,
+            ),
+            OrderInfoTextWidget(
+              title: "order_total_price".tr(context),
+              body: order.total?.toString() ?? "",
+              icon: Icons.monetization_on_rounded,
+            ),
+            OrderInfoTextWidget(
+              title: "order_notes".tr(context),
+              body: order.notes?.toString() ?? "",
+              icon: Icons.note_alt_sharp,
+            ),
+            const Divider(
+              color: AppColors.borderColor,
+            ),
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: order.details?.length ?? 0,
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 12.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return DetailPage(
+                          product: order.details![index].product!,
+                        );
+                      }));
+                    },
+                    child: OrderTileWidget(
+                      size: order.details![index].size,
+                      product: order.details![index].product!,
+                      price: order.details![index].price,
+                      qty: order.details![index].quantity
                     ),
-                  );
-                },
-              ),
-            ],
-          ),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

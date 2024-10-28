@@ -76,20 +76,15 @@ class FavoriteScreen extends StatelessWidget {
                   ),
                 );
               } else {
-                return CustomGridVeiw(products: state.fvModel!);
-                // return GridView.builder(
-                //   physics: const AlwaysScrollableScrollPhysics(),
-                //   itemCount: state.fvModel!.length,
-                //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                //       childAspectRatio: 0.06.h,
-                //       crossAxisCount: 2,
-                //       crossAxisSpacing: 3.w,
-                //       mainAxisSpacing: 1.h),
-                //   itemBuilder: (context, index) {
-                //     return FavCardProduct(
-                //         isHomeScreen: false, product: state.fvModel![index]);
-                //   },
-                // );
+                return ListView(
+                  children: [
+                    CustomGridVeiw(
+                      products: state.fvModel!,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                    ),
+                  ],
+                );
               }
             } else if (state is FavoriteProductsErrorState) {
               return MyErrorWidget(

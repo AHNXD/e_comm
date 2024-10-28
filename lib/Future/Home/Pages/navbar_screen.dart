@@ -21,7 +21,7 @@ class _NavBarPageState extends State<NavBarPage> {
       key: scaffoldKey,
       drawer: const DrawerWidget(),
 
-      // backgroundColor: Colors.white,
+      // backgroundColor: AppColors.buttonCategoryColor,
       resizeToAvoidBottomInset: false,
       extendBody: true,
       body: BlocBuilder<PagesScreenCubit, PageScreenState>(
@@ -44,11 +44,14 @@ class _NavBarPageState extends State<NavBarPage> {
             child: NavigationBar(
               indicatorColor: Colors.transparent,
               labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-              backgroundColor: AppColors.navBarColor,
+              backgroundColor: AppColors.buttonCategoryColor,
               destinations: [
                 NavigationDestination(
                   icon: const Center(
-                    child: Icon(Icons.home_outlined),
+                    child: Icon(
+                      Icons.home_outlined,
+                      color: Colors.white,
+                    ),
                   ),
                   label: "Home",
                   selectedIcon: Container(
@@ -57,15 +60,18 @@ class _NavBarPageState extends State<NavBarPage> {
                       height: 6.h,
                       width: 12.w,
                       decoration: const BoxDecoration(
-                        color: AppColors.buttonCategoryColor,
+                        color: Colors.white,
                         shape: BoxShape.circle,
                         // gradient: LinearGradient(colors: grediant),
                       ),
-                      child:
-                          const Icon(Icons.home_filled, color: Colors.white)),
+                      child: const Icon(Icons.home_filled,
+                          color: AppColors.buttonCategoryColor)),
                 ),
                 NavigationDestination(
-                  icon: const Icon(Icons.shopping_bag_outlined),
+                  icon: const Icon(
+                    Icons.shopping_bag_outlined,
+                    color: Colors.white,
+                  ),
                   label: "Cart",
                   selectedIcon: Container(
                     padding:
@@ -73,15 +79,19 @@ class _NavBarPageState extends State<NavBarPage> {
                     height: 6.h,
                     width: 12.w,
                     decoration: const BoxDecoration(
-                      color: AppColors.buttonCategoryColor,
+                      color: Colors.white,
                       shape: BoxShape.circle,
                       // gradient: LinearGradient(colors: grediant),
                     ),
-                    child: const Icon(Icons.shopping_bag, color: Colors.white),
+                    child: const Icon(Icons.shopping_bag,
+                        color: AppColors.buttonCategoryColor),
                   ),
                 ),
                 NavigationDestination(
-                  icon: const Icon(Icons.history_outlined),
+                  icon: const Icon(
+                    Icons.history_outlined,
+                    color: Colors.white,
+                  ),
                   label: "History",
                   selectedIcon: Container(
                     padding:
@@ -89,16 +99,20 @@ class _NavBarPageState extends State<NavBarPage> {
                     height: 6.h,
                     width: 12.w,
                     decoration: const BoxDecoration(
-                      color: AppColors.buttonCategoryColor,
+                      color: Colors.white,
                       shape: BoxShape.circle,
                       // gradient: LinearGradient(colors: grediant),
                     ),
-                    child: const Icon(Icons.history, color: Colors.white),
+                    child: const Icon(Icons.history,
+                        color: AppColors.buttonCategoryColor),
                   ),
                 ),
                 NavigationDestination(
                     icon: const Center(
-                      child: Icon(Icons.favorite_outline),
+                      child: Icon(
+                        Icons.favorite_outline,
+                        color: Colors.white,
+                      ),
                     ),
                     label: "Fav",
                     selectedIcon: Container(
@@ -107,13 +121,13 @@ class _NavBarPageState extends State<NavBarPage> {
                       height: 6.h,
                       width: 12.w,
                       decoration: const BoxDecoration(
-                        color: AppColors.buttonCategoryColor,
+                        color: Colors.white,
                         shape: BoxShape.circle,
                         // gradient: LinearGradient(colors: grediant),
                       ),
                       child: const Icon(
                         Icons.favorite,
-                        color: Colors.white,
+                        color: AppColors.buttonCategoryColor,
                       ),
                     )),
               ],

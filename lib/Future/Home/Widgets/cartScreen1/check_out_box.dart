@@ -19,7 +19,7 @@ class CheckOutBox extends StatelessWidget {
       width: double.infinity,
       decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(30)),
+        borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
       padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
       child: Column(

@@ -10,18 +10,15 @@ class CarouselSliderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 1.h),
-      child: CarouselSlider(
-          options: CarouselOptions(
-              // autoPlayInterval: Duration(seconds: 10),
-              height: height,
-              // enlargeStrategy: CenterPageEnlargeStrategy.zoom,
-              enableInfiniteScroll: false,
-              autoPlay: true,
-              autoPlayAnimationDuration: const Duration(seconds: 15),
-              autoPlayCurve: Curves.fastOutSlowIn),
-          items: list),
-    );
+    return CarouselSlider(
+        options: CarouselOptions(
+            // autoPlayInterval: Duration(seconds: 10),
+            height: height,
+            // enlargeStrategy: CenterPageEnlargeStrategy.zoom,
+            enableInfiniteScroll: false,
+            autoPlay: true,
+            autoPlayAnimationDuration: const Duration(seconds: 15),
+            autoPlayCurve: Curves.fastOutSlowIn),
+        items: list);
   }
 }

@@ -11,8 +11,10 @@ class OrderTileWidget extends StatelessWidget {
   final MainProduct product;
   final String? size;
   final String? price;
+  final int? qty;
   const OrderTileWidget(
       {super.key,
+      required this.qty,
       required this.product,
       required this.size,
       required this.price});
@@ -81,7 +83,7 @@ class OrderTileWidget extends StatelessWidget {
           CircleAvatar(
             backgroundColor: AppColors.primaryColors,
             child: Text(
-              product.userQuantity.toString(),
+              qty.toString(),
               style: const TextStyle(color: Colors.white),
             ),
           ),
