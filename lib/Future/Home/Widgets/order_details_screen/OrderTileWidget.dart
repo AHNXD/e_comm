@@ -1,4 +1,5 @@
 import 'package:e_comm/Future/Home/models/product_model.dart';
+import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -9,11 +10,12 @@ import '../cached_network_image.dart';
 class OrderTileWidget extends StatelessWidget {
   final MainProduct product;
   final String? size;
-  const OrderTileWidget({
-    super.key,
-    required this.product,
-    required this.size,
-  });
+  final String? price;
+  const OrderTileWidget(
+      {super.key,
+      required this.product,
+      required this.size,
+      required this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +69,7 @@ class OrderTileWidget extends StatelessWidget {
                 ),
               const SizedBox(height: 10),
               Text(
-                "${product.sellingPrice} Sp",
+                "$price ${"sp".tr(context)}",
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,

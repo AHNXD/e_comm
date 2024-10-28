@@ -103,6 +103,7 @@ class OrderDetailsScreen extends StatelessWidget {
                       child: OrderTileWidget(
                         size: order.details![index].size,
                         product: order.details![index].product!,
+                        price: order.details![index].price,
                       ),
                     ),
                   );

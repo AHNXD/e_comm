@@ -16,7 +16,6 @@ class CheckOutBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 32.5.h,
       width: double.infinity,
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -26,7 +25,7 @@ class CheckOutBox extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -84,7 +83,6 @@ class CheckOutBox extends StatelessWidget {
               ),
             ),
           ),
-          const Spacer(),
           CustomNoteLabel(
             noteText: "cart_note".tr(context),
           ),

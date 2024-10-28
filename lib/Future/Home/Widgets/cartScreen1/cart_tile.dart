@@ -29,13 +29,12 @@ class CartTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (builder) {
+        Navigator.push(context, MaterialPageRoute(builder: (builder) {
           return DetailPage(product: product);
         }));
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 2.w),
+        margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
         padding: EdgeInsets.all(1.h),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -52,16 +51,13 @@ class CartTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 2.h,
-            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 MyCachedNetworkImage(
-                  height: 15.h,
-                  width: 30.w,
+                  height: 10.h,
+                  width: 35.w,
                   imageUrl: product.files![0].path != null
                       ? Urls.storageProducts + product.files![0].name!
                       : product.files![0].name!,

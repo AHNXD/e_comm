@@ -35,7 +35,7 @@ class OffersWidget extends StatelessWidget {
           children: [
             MyCachedNetworkImage(
               width: 45.w,
-              height: 20.h,
+              height: 10.h,
               imageUrl: data.files!.first.path == null
                   ? data.files!.first.name!
                   : Urls.storageCategories + data.files!.first.name!,

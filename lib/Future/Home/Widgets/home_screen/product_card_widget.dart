@@ -119,7 +119,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
             ),
             if (widget.product.files != null)
               MyCachedNetworkImage(
-                height: 25.h,
+                height: 12.h,
                 width: 40.w,
                 imageUrl: widget.product.files![0].path != null
                     ? Urls.storageProducts + widget.product.files![0].name!

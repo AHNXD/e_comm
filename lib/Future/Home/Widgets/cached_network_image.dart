@@ -25,7 +25,7 @@ class MyCachedNetworkImage extends StatelessWidget {
                 highlightColor: Colors.grey[100]!,
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 4.w),
-                  height: 10.h,
+                  height: height,
                   width: width,
                   decoration: BoxDecoration(
                       border:
@@ -43,7 +43,7 @@ class MyCachedNetworkImage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5.w),
                   image:
                       DecorationImage(image: imageProvider, fit: BoxFit.fill)),
-              height: 10.h,
+              height: height,
               width: width,
             ),
         fadeInDuration: const Duration(milliseconds: 4),
@@ -51,7 +51,7 @@ class MyCachedNetworkImage extends StatelessWidget {
         imageUrl: imageUrl,
         errorWidget: (context, url, error) => Container(
             margin: EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.h),
-            height: 10.h,
+            height: height,
             width: width,
             decoration: BoxDecoration(
               // border: Border.all(width: 1, color: AppColors.borderColor),
