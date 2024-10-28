@@ -58,7 +58,7 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: Size(double.infinity, 8.h),
-          child: AppBarWidget(),
+          child: const AppBarWidget(),
         ),
         backgroundColor: AppColors.backgroundColor,
         body: BlocListener<CartCubit, CartState>(

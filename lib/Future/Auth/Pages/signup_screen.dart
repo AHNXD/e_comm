@@ -3,7 +3,6 @@ import 'package:e_comm/Future/Auth/Pages/login_screen.dart';
 import 'package:e_comm/Future/Auth/Pages/signup_screen_two.dart';
 import 'package:e_comm/Future/Auth/Widgets/my_button_widget.dart';
 import 'package:e_comm/Future/Auth/Widgets/phone_field_widget.dart';
-import 'package:e_comm/Future/Auth/Widgets/switch_text_widget.dart';
 import 'package:e_comm/Future/Auth/Widgets/text_field_widget.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/back_widget.dart';

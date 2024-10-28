@@ -250,8 +250,12 @@ class AuthCubit extends Cubit<AuthState> {
       await Network.postData(url: Urls.checkToken, data: {"token": token})
           .then((value) {
         if (value.statusCode == 200 || value.statusCode == 201) {
-          if (value.data["IsValid"]) {
-            emit(IsVaildToken());
+          if (value.data["status"]) {
+            if (value.data["IsValid"]) {
+              emit(IsVaildToken());
+            } else {
+              emit(IsNotVaildToken());
+            }
           } else {
             emit(IsNotVaildToken());
           }

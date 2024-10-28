@@ -46,26 +46,6 @@ class OrderInformationData {
   String? updatedAt;
   List<Details>? details;
 
-  OrderInformationData(
-      {this.id,
-      this.phone,
-      this.firstName,
-      this.lastName,
-      this.address,
-      this.province,
-      this.region,
-      this.notes,
-      this.status,
-      this.total,
-      this.totalAfterDiscount,
-      this.userId,
-      this.couponId,
-      this.couponValue,
-      this.orderDate,
-      this.createdAt,
-      this.updatedAt,
-      this.details});
-
   OrderInformationData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     phone = json['phone'];
@@ -74,22 +54,13 @@ class OrderInformationData {
     address = json['address'];
     province = json['province'];
     region = json['region'];
-    if (notes != null) {
-      notes = json['notes'];
-    }
+    notes = json['notes'];
     status = json['status'];
     total = json['total'];
-
     totalAfterDiscount = json['total_after_discount'];
     userId = json['user_id'];
-
-    if (couponId != null) {
-      couponId = json['coupon_id'];
-    }
-    if (couponValue != null) {
-      couponValue = json['coupon_value'];
-    }
-
+    couponId = json['coupon_id'];
+    couponValue = json['coupon_value'];
     orderDate = json['order_date'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
@@ -128,53 +99,26 @@ class OrderInformationData {
 }
 
 class Details {
-  int? id;
-  int? orderId;
-  int? productId;
-  String? productName;
   String? price;
   int? quantity;
-  String? createdAt;
-  String? updatedAt;
-  MainProduct? product;
   String? size;
-  Details(
-      {this.id,
-      this.orderId,
-      this.productId,
-      this.productName,
-      this.price,
-      this.quantity,
-      this.createdAt,
-      this.updatedAt,
-      this.product,
-      this.size});
+  MainProduct? product;
+
+  Details({this.price, this.quantity, this.size, this.product});
 
   Details.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    orderId = json['order_id'];
-    size = json['size'];
-    productId = json['product_id'];
-    productName = json['product_name'];
-    price =
-        (json['price'] is String) ? int.tryParse(json['price']) : json['price'];
+    price = json['price'];
     quantity = json['quantity'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    size = json['size'];
     product =
         json['product'] != null ? MainProduct.fromJson(json['product']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['order_id'] = orderId;
-    data['product_id'] = productId;
-    data['product_name'] = productName;
     data['price'] = price;
     data['quantity'] = quantity;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
+    data['size'] = size;
     if (product != null) {
       data['product'] = product!.toJson();
     }

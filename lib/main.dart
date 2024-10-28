@@ -1,10 +1,10 @@
 import 'package:e_comm/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
+import 'package:e_comm/splashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sizer/sizer.dart';
 
-import 'package:e_comm/Future/Auth/Pages/login_screen.dart';
 import 'package:e_comm/Future/Home/Cubits/Maintenance/maintenance_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/aboutUs/about_us_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/all_proudcts_by_all_cat/all_products_by_all_category_cubit.dart';
@@ -31,8 +31,6 @@ import 'Future/Home/Cubits/pages_cubit/pages_cubit.dart';
 import 'Future/Home/Cubits/postOrders/post_orders_cubit.dart';
 import 'Future/Home/Cubits/rangeSliderCubit/range_slider_cubit.dart';
 import 'Future/Home/Cubits/searchProductsCubit/search_products_cubit.dart';
-import 'Future/Home/Pages/navbar_screen.dart';
-import 'Future/Home/Widgets/error_widget.dart';
 import 'Utils/enums.dart';
 
 void main() async {
@@ -138,27 +136,7 @@ class MyApp extends StatelessWidget {
                       ColorScheme.fromSeed(seedColor: AppColors.primaryColors),
                   // useMaterial3: true,
                 ),
-                home: BlocBuilder<AuthCubit, AuthState>(
-                  builder: (context, state) {
-                    if (state is IsVaildToken) {
-                      return const NavBarPage();
-                    } else if (state is IsNotVaildToken) {
-                      return LoginScreen();
-                    } else if (state is AuthErrorState) {
-                      return Scaffold(
-                        body: MyErrorWidget(
-                          msg: state.message,
-                          onPressed: context.read<AuthCubit>().checkToken,
-                        ),
-                      );
-                    }
-                    return const Scaffold(
-                      body: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  },
-                ));
+                home: const SplashScreen());
           },
         ),
       ),
