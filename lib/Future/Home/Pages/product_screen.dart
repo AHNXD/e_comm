@@ -188,7 +188,7 @@ class CustomGridVeiw extends StatelessWidget {
       if (screenWidth <= 280) {
         return screenWidth / (screenHeight) * 2.3;
       } else if (screenWidth > 280 && screenWidth < 450) {
-        return screenWidth / (screenHeight);
+        return screenWidth / (screenHeight) * 0.92;
       } else if (screenWidth >= 450 && screenWidth < 600) {
         return screenWidth / (screenHeight) * 0.82;
       } else if (screenWidth >= 600 && screenWidth < 900) {

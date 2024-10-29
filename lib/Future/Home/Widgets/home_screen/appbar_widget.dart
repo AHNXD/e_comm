@@ -49,12 +49,14 @@ class AppBarWidget extends StatelessWidget {
                       "hello_msg".tr(context),
                       style: TextStyle(color: Colors.black, fontSize: 9.sp),
                     ),
-                    Text(
-                      companyName,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.sp),
+                    Expanded(
+                      child: Text(
+                        companyName,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15.sp),
+                      ),
                     )
                   ],
                 )
