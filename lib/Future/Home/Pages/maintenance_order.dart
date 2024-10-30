@@ -173,7 +173,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
             MyButtonWidget(
               color: AppColors.buttonCategoryColor,
               verticalHieght: 2.h,
-              text: 'send_info'.tr(context),
+              text: 'submit'.tr(context),
               onPressed: submit,
               horizontalWidth: 8.w,
             ),

@@ -136,6 +136,7 @@
     "Checkout" : "Pending",
     "Accept" : "Accepted",
     "Reject" : "Rejected",
-    "problem_desc" : "Description of the problem"
+    "problem_desc" : "Description of the problem",
+    "optional" : "(optional)"
 
 }

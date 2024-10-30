@@ -140,5 +140,6 @@
     "Checkout" : "قيد الإنتظار",
     "Accept" : "تم القبول",
     "Reject" : "تم الرفض",
-    "problem_desc" : "وصف المشكلة"
+    "problem_desc" : "وصف المشكلة",
+    "optional" : "(اختياري)"
 }
