@@ -139,5 +139,6 @@
     "verification_Code" : "كود التحقق",
     "Checkout" : "قيد الإنتظار",
     "Accept" : "تم القبول",
-    "Reject" : "تم الرفض"
+    "Reject" : "تم الرفض",
+    "problem_desc" : "وصف المشكلة"
 }

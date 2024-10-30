@@ -135,5 +135,7 @@
     "verification_Code" : "Verification Code",
     "Checkout" : "Pending",
     "Accept" : "Accepted",
-    "Reject" : "Rejected"
+    "Reject" : "Rejected",
+    "problem_desc" : "Description of the problem"
+
 }

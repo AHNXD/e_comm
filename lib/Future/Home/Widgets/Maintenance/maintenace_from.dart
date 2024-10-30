@@ -75,7 +75,7 @@ class MaintenaceForm extends StatelessWidget {
             ),
             TextFieldWidget(
               validatorFun: (p0) => validation(p0, ValidationState.normal),
-              text: "description_info".tr(context),
+              text: "problem_desc".tr(context),
               isPassword: false,
               controller: descriptionController,
               maxLine: 3,
