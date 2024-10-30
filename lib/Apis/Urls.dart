@@ -2,9 +2,9 @@
 
 class Urls {
   // static const String ip = "192.168.43.3:8000";
-  // static const String ip = "192.168.1.12:8000";
+  static const String ip = "192.168.1.12:8000";
   // static const String ip = "192.168.1.4:8000";
-  static const String ip = "192.168.28.120:8000";
+  //static const String ip = "192.168.28.120:8000";
 
   static const String baseUrl = "http://$ip/api/";
   static const String storageProducts = "http://$ip/uploads/products/";
