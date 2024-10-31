@@ -10,7 +10,7 @@ part 'get_offers_state.dart';
 
 class GetOffersCubit extends Cubit<GetOffersState> {
   GetOffersCubit() : super(GetOffersInitial());
-  List<MainProduct>? productOffers = [];
+  //List<MainProduct>? productOffers = [];
 
   void getOffers() async {
     emit(GetOffersLoadingState());
@@ -19,10 +19,10 @@ class GetOffersCubit extends Cubit<GetOffersState> {
               url: "${Urls.getOffersProducts}?per_page=100&page=1")
           .then((response) {
         if (response.statusCode == 200 || response.statusCode == 201) {
-          response.data['data'].forEach(
-              (offer) => productOffers?.add(MainProduct.fromJson(offer)));
-
-          emit(GetOffersSuccessfulState());
+          // response.data['data'].forEach(
+          //     (offer) => productOffers?.add(MainProduct.fromJson(offer)));
+          ProductsModel products = ProductsModel.fromJson(response.data);
+          emit(GetOffersSuccessfulState(products: products.data!));
         }
       });
     } catch (error) {

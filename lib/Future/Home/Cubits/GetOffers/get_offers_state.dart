@@ -5,8 +5,11 @@ sealed class GetOffersState {}
 
 final class GetOffersInitial extends GetOffersState {}
 
-final class GetOffersSuccessfulState
-    extends GetOffersState {}
+final class GetOffersSuccessfulState extends GetOffersState {
+  final List<MainProduct> products;
+
+  GetOffersSuccessfulState({required this.products});
+}
 
 final class GetOffersLoadingState extends GetOffersState {}
 

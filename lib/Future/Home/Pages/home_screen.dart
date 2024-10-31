@@ -105,31 +105,55 @@ class HomeScreen extends StatelessWidget {
                         model.getOffers();
                       },
                     );
-                  }
-                  return model.productOffers!.isNotEmpty
-                      ? Column(
+                  } else if (state is GetOffersSuccessfulState) {
+                    return Column(
+                      children: [
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "offers".tr(context),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 30,
-                                        color: AppColors.textTitleAppBarColor),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            CarouselSliderWidget(
-                              list: offersList(model.productOffers!),
-                              height: 38.h,
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "offers".tr(context),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30,
+                                    color: AppColors.textTitleAppBarColor),
+                              ),
                             ),
                           ],
-                        )
-                      : const SizedBox();
+                        ),
+                        CarouselSliderWidget(
+                          list: offersList(state.products),
+                          height: 38.h,
+                        ),
+                      ],
+                    );
+                  }
+                  return const SizedBox();
+                  // return model.productOffers!.isNotEmpty
+                  //     ? Column(
+                  //         children: [
+                  //           Row(
+                  //             children: [
+                  //               Padding(
+                  //                 padding: const EdgeInsets.all(8.0),
+                  //                 child: Text(
+                  //                   "offers".tr(context),
+                  //                   style: const TextStyle(
+                  //                       fontWeight: FontWeight.bold,
+                  //                       fontSize: 30,
+                  //                       color: AppColors.textTitleAppBarColor),
+                  //                 ),
+                  //               ),
+                  //             ],
+                  //           ),
+                  //           CarouselSliderWidget(
+                  //             list: offersList(model.productOffers!),
+                  //             height: 38.h,
+                  //           ),
+                  //         ],
+                  //       )
+                  //     : const SizedBox();
                 },
               ),
               Padding(
