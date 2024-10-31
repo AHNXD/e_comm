@@ -26,7 +26,7 @@ String? validation(String? text, ValidationState v) {
       }
 
     case ValidationState.normal:
-      if (text!.isEmpty) {
+      if (text == null || text.trim().isEmpty) {
         return lang == 'en' ? "This field is required" : "هذا الحقل مطلوب";
       } else {
         return null;
