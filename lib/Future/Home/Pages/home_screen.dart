@@ -84,7 +84,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 8.h,
+                height: 12.h,
                 child: const HomePageCategoriesButtonWidget(),
               ),
               SizedBox(height: 1.h),
