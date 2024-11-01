@@ -51,7 +51,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     try {
       await Network.postData(url: Urls.logInApi, data: {
-        "email_or_phone": email,
+        "email": email,
         "password": password,
       }).then((value) {
         if (value.data['status'] == true) {

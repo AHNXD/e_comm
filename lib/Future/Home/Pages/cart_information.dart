@@ -31,7 +31,6 @@ class _CartInformationState extends State<CartInformation> {
 
   late final TextEditingController lastNameController;
 
-  late final TextEditingController emailController;
 
   late final PhoneController phoneController;
 
@@ -53,8 +52,6 @@ class _CartInformationState extends State<CartInformation> {
     firstNameController = TextEditingController();
 
     lastNameController = TextEditingController();
-
-    emailController = TextEditingController();
 
     phoneController = PhoneController(
         initialValue: const PhoneNumber(isoCode: IsoCode.SY, nsn: ""));
@@ -79,8 +76,6 @@ class _CartInformationState extends State<CartInformation> {
     firstNameController.dispose();
 
     lastNameController.dispose();
-
-    emailController.dispose();
 
     phoneController.dispose();
 
@@ -187,12 +182,6 @@ class _CartInformationState extends State<CartInformation> {
                             text: "LN_info".tr(context),
                             isPassword: false,
                             controller: lastNameController),
-                        TextFieldWidget(
-                            validatorFun: (p0) =>
-                                validation(p0, ValidationState.email),
-                            text: "email".tr(context),
-                            isPassword: false,
-                            controller: emailController),
                         PhoneFieldWidget(controller: phoneController),
                         TextFieldWidget(
                             validatorFun: (p0) =>
@@ -227,7 +216,6 @@ class _CartInformationState extends State<CartInformation> {
                                         address: address1Controller.text.trim(),
                                         city: cityController.text,
                                         country: countryController.text,
-                                        email: emailController.text.trim(),
                                         firstName:
                                             firstNameController.text.trim(),
                                         lastName:

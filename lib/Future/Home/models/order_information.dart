@@ -5,7 +5,6 @@ class OrderInformation {
   String? firstName;
   String? lastName;
   String? phone;
-  String? email;
   String? address;
   String? country;
   String? city;
@@ -16,7 +15,6 @@ class OrderInformation {
       this.code,
       this.city,
       this.country,
-      this.email,
       this.firstName,
       this.lastName,
       this.note,
@@ -30,7 +28,6 @@ class OrderInformation {
       "first_name": firstName,
       "last_name": lastName,
       "phone": phone,
-      "email": email,
       "province": country,
       "region": city,
       "address": address,
