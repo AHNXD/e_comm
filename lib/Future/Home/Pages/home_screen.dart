@@ -2,12 +2,11 @@ import 'package:e_comm/Future/Auth/Pages/login_screen.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/GetOffers/get_offers_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
+import 'package:e_comm/Future/Home/Cubits/get_latest_products/get_latest_products_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/models/catigories_model.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 
-import '../Cubits/all_proudcts_by_all_cat/all_products_by_all_category_cubit.dart';
-import '../Cubits/getCatigories/get_catigories_cubit.dart';
 import '/Future/Home/Widgets/home_screen/appbar_widget.dart';
 import '/Future/Home/Widgets/home_screen/carousel_slider_widget.dart';
 import '../Widgets/home_screen/home_page_categories_button_widget.dart';
@@ -186,92 +185,47 @@ class LastestProductAndTitle extends StatelessWidget {
   final ScrollController controller;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetCatigoriesCubit, GetCatigoriesState>(
-      builder: (context, catigoryState) {
-        if (catigoryState is GetCatigoriesLoadingState) {
+    return BlocBuilder<GetLatestProductsCubit, GetLatestProductsState>(
+      builder: (context, state) {
+        if (state is GetLatestProductsInitial ||
+            state is GetLatestProductsLoadingState) {
           return const Center(
             child: Padding(
               padding: EdgeInsets.all(8.0),
               child: CircularProgressIndicator(),
             ),
           );
-        } else if (catigoryState is GetCatigoriesErrorState) {
-          return MyErrorWidget(
-            msg: catigoryState.msg,
-            onPressed: () {
-              context.read<GetCatigoriesCubit>().getCatigories();
+        } else if (state is GetLatestProductsSuccessfulState) {
+          return ListView.builder(
+            shrinkWrap: true,
+            controller: controller,
+            itemCount: state.latestProducts.length,
+            itemBuilder: (BuildContext context, int index) {
+              String name = state.latestProducts[index].category!.name!;
+              int id = state.latestProducts[index].category!.id!;
+              CatigoriesData cData = state.latestProducts[index].category!;
+              return Column(
+                children: [
+                  TitleCardWidget(title: name, id: id, cData: cData),
+                  CarouselSliderWidget(
+                    list: productCardList(
+                        true, state.latestProducts[index].products!),
+                    height: 51.5.h,
+                  ),
+                ],
+              );
             },
           );
+        } else if (state is GetLatestProductsErrorState) {
+          return MyErrorWidget(
+            msg: state.msg,
+            onPressed: () {
+              context.read<GetLatestProductsCubit>().getLatestProducts();
+            },
+          );
+        } else {
+          return const Text('Unexpected state');
         }
-        return BlocBuilder<AllProductsByAllCategoryCubit,
-            AllProductsByAllCategoryState>(
-          builder: (context, state) {
-            if (state is AllProductsByAllCategoryInitial ||
-                state is AllProductsByAllCategoryLoading) {
-              context
-                  .read<AllProductsByAllCategoryCubit>()
-                  .getAllProductsByAllCategory(context
-                      .read<GetCatigoriesCubit>()
-                      .catigoriesModel!
-                      .data!);
-              return const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            } else if (state is AllProductsByAllCategorySuccess) {
-              return ListView.builder(
-                shrinkWrap: true,
-                controller: controller,
-                itemCount: context
-                    .read<GetCatigoriesCubit>()
-                    .catigoriesModel!
-                    .data!
-                    .length,
-                itemBuilder: (BuildContext context, int index) {
-                  String name = context
-                      .read<GetCatigoriesCubit>()
-                      .catigoriesModel!
-                      .data![index]
-                      .name!;
-                  int id = context
-                      .read<GetCatigoriesCubit>()
-                      .catigoriesModel!
-                      .data![index]
-                      .id!;
-                  CatigoriesData cData = context
-                      .read<GetCatigoriesCubit>()
-                      .catigoriesModel!
-                      .data![index];
-                  return Column(
-                    children: [
-                      TitleCardWidget(title: name, id: id, cData: cData),
-                      CarouselSliderWidget(
-                        list: productCardList(true, state.allProducts[index]),
-                        height: 51.5.h,
-                      ),
-                    ],
-                  );
-                },
-              );
-            } else if (state is AllProductsByAllCategoryError) {
-              return MyErrorWidget(
-                msg: state.msg,
-                onPressed: () {
-                  context
-                      .read<AllProductsByAllCategoryCubit>()
-                      .getAllProductsByAllCategory(context
-                          .read<GetCatigoriesCubit>()
-                          .catigoriesModel!
-                          .data!);
-                },
-              );
-            } else {
-              return const Text('Unexpected state');
-            }
-          },
-        );
       },
     );
   }

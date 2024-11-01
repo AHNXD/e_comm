@@ -1,3 +1,4 @@
+import 'package:e_comm/Future/Home/Cubits/get_latest_products/get_latest_products_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
 import 'package:e_comm/splashScreen.dart';
 import 'package:flutter/material.dart';
@@ -89,6 +90,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => AboutUsCubit()),
           BlocProvider(create: (_) => MaintenanceCubit()),
           BlocProvider(create: (_) => ContactUsCubit()),
+          BlocProvider(
+              create: (_) => GetLatestProductsCubit()..getLatestProducts()),
           BlocProvider(
               create: (_) =>
                   PagesScreenCubit()..changedScreen(AppScreen.home, context)),
