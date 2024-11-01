@@ -1,8 +1,10 @@
 // ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables
 
+import 'package:e_comm/Future/Home/Cubits/getProductById/get_porduct_by_id_cubit.dart';
 import 'package:e_comm/Future/Home/Pages/product_screen.dart';
 import 'package:e_comm/Utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../Utils/functions.dart';
@@ -34,15 +36,19 @@ class _CategoriesButtonWidgetState extends State<CategoriesButtonWidget> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(9.w)),
             color: index == 0 ? const Color.fromARGB(255, 251, 254, 255) : null,
-            onPressed: () {
+            onPressed: () async {
               if (index != 0) {
                 //context.read<GetProductsCubit>().getProductsByCategory();
-                Navigator.push(context, MaterialPageRoute(builder: (builder) {
+                await Navigator.push(context,
+                    MaterialPageRoute(builder: (builder) {
                   return ProductScreen(
                     cData: l[index - 1],
                     isNotHome: true,
                   );
                 }));
+                context
+                    .read<GetPorductByIdCubit>()
+                    .getProductsByCategory(widget.parentId);
               }
             },
             child: Text(
