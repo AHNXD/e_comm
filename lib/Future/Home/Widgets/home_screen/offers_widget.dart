@@ -24,11 +24,14 @@ class OffersWidget extends StatelessWidget {
       },
       child: Container(
         width: double.infinity,
-        margin: EdgeInsets.symmetric(horizontal: 1.w),
-        padding: EdgeInsets.symmetric(horizontal: 2.w),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6.w),
-            color: AppColors.navBarColor),
+        margin: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.5.h),
+        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+              color: AppColors.primaryColors[400]!,
+              blurRadius: 15,
+              offset: const Offset(0, 4))
+        ], borderRadius: BorderRadius.circular(6.w), color: Colors.white),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,

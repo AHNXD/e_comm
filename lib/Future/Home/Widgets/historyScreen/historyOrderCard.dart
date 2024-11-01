@@ -14,9 +14,15 @@ class HistoryCardItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Container(
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-            color: AppColors.orderInfoCardColor),
+        decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                  color: AppColors.primaryColors[400]!,
+                  blurRadius: 15,
+                  offset: const Offset(0, 4))
+            ],
+            borderRadius: const BorderRadius.all(Radius.circular(16)),
+            color: Colors.white),
         child: GestureDetector(
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (builder) {
