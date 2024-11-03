@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class TitleCardWidget extends StatelessWidget {
-  const TitleCardWidget(
-      {super.key, required this.title, required this.id, required this.cData});
-  final String title;
-  final int id;
+  const TitleCardWidget({super.key, required this.cData});
   final CatigoriesData cData;
   @override
   Widget build(BuildContext context) {
@@ -19,7 +16,7 @@ class TitleCardWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            title,
+            cData.name!,
             style: TextStyle(
                 color: Colors.black87,
                 fontWeight: FontWeight.bold,
@@ -32,7 +29,7 @@ class TitleCardWidget extends StatelessWidget {
                     color: AppColors.seeAllTextButtonColor, fontSize: 12.sp),
               ),
               onPressed: () {
-                if (id != 0) {
+                if (cData.id != 0) {
                   // context
                   //     .read<GetPorductByIdCubit>()
                   //     .getProductsByCategory(cData.id!);

@@ -1,3 +1,4 @@
+import 'package:e_comm/Future/Home/Blocs/bloc/get_latest_products_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/get_latest_products/get_latest_products_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
 import 'package:e_comm/splashScreen.dart';
@@ -91,7 +92,10 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => MaintenanceCubit()),
           BlocProvider(create: (_) => ContactUsCubit()),
           BlocProvider(
-              create: (_) => GetLatestProductsCubit()..getLatestProducts()),
+              create: (_) =>
+                  GetLatestProductsBloc()..add(GetAllLatestProductsEvent())),
+          // BlocProvider(
+          //     create: (_) => GetLatestProductsCubit()..getLatestProducts()),
           BlocProvider(
               create: (_) =>
                   PagesScreenCubit()..changedScreen(AppScreen.home, context)),

@@ -1,8 +1,9 @@
 import 'package:e_comm/Future/Auth/Pages/login_screen.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
+import 'package:e_comm/Future/Home/Blocs/bloc/get_latest_products_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/GetOffers/get_offers_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
-import 'package:e_comm/Future/Home/Cubits/get_latest_products/get_latest_products_cubit.dart';
+//import 'package:e_comm/Future/Home/Cubits/get_latest_products/get_latest_products_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/models/catigories_model.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
@@ -17,9 +18,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
-  final ScrollController controller = ScrollController();
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final _scrollController = ScrollController();
+  final sc = ScrollController();
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    final currentScroll = _scrollController.offset;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+
+    if (currentScroll >= (maxScroll * 0.9)) {
+      context.read<GetLatestProductsBloc>().add(GetAllLatestProductsEvent());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +100,7 @@ class HomeScreen extends StatelessWidget {
           },
           child: ListView(
             shrinkWrap: true,
-            controller: controller,
+            controller: _scrollController,
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -137,7 +167,7 @@ class HomeScreen extends StatelessWidget {
                       color: AppColors.textTitleAppBarColor),
                 ),
               ),
-              LastestProductAndTitle(controller: controller),
+              LastestProductAndTitle(controller: _scrollController),
               SizedBox(
                 height: 2.h,
               )
@@ -149,54 +179,70 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class LastestProductAndTitle extends StatelessWidget {
+class LastestProductAndTitle extends StatefulWidget {
+  final ScrollController controller;
   const LastestProductAndTitle({
     super.key,
     required this.controller,
   });
-  final ScrollController controller;
+
   @override
+  State<LastestProductAndTitle> createState() => _LastestProductAndTitleState();
+}
+
+class _LastestProductAndTitleState extends State<LastestProductAndTitle> {
   Widget build(BuildContext context) {
-    return BlocBuilder<GetLatestProductsCubit, GetLatestProductsState>(
+    return BlocBuilder<GetLatestProductsBloc, GetLatestProductsState>(
       builder: (context, state) {
-        if (state is GetLatestProductsInitial ||
-            state is GetLatestProductsLoadingState) {
-          return const Center(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: CircularProgressIndicator(),
-            ),
-          );
-        } else if (state is GetLatestProductsSuccessfulState) {
-          return ListView.builder(
-            shrinkWrap: true,
-            controller: controller,
-            itemCount: state.latestProducts.length,
-            itemBuilder: (BuildContext context, int index) {
-              String name = state.latestProducts[index].category!.name!;
-              int id = state.latestProducts[index].category!.id!;
-              CatigoriesData cData = state.latestProducts[index].category!;
-              return Column(
-                children: [
-                  TitleCardWidget(title: name, id: id, cData: cData),
-                  CarouselSliderWidget(
-                    list: productCardList(
-                        true, state.latestProducts[index].products!),
-                    height: 48.h,
-                  ),
-                ],
-              );
-            },
-          );
-        } else if (state is GetLatestProductsErrorState) {
-          return MyErrorWidget(
-            msg: state.msg,
-            onPressed: () {
-              context.read<GetLatestProductsCubit>().getLatestProducts();
-            },
-          );
-        } else {
-          return const Text('Unexpected state');
+        switch (state.status) {
+          case LatestProductsStatus.loading:
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: CircularProgressIndicator(),
+              ),
+            );
+          case LatestProductsStatus.success:
+            // if (state.latestProducts.isEmpty) {
+            //   return const Center(
+            //     child: Text("No Posts."),
+            //   );
+            // }
+            return ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: state.hasReachedMax
+                  ? state.latestProducts.length
+                  : state.latestProducts.length + 1,
+              itemBuilder: (BuildContext context, int index) {
+                return index >= state.latestProducts.length
+                    ? const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(4),
+                          child: SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: CircularProgressIndicator(
+                              color: AppColors.buttonCategoryColor,
+                            ),
+                          ),
+                        ),
+                      )
+                    : Column(
+                        children: [
+                          TitleCardWidget(
+                              cData: state.latestProducts[index].category!),
+                          CarouselSliderWidget(
+                            list: productCardList(
+                                true, state.latestProducts[index].products!),
+                            height: 48.h,
+                          ),
+                        ],
+                      );
+              },
+            );
+          case LatestProductsStatus.error:
+            return Center(child: Text(state.errorMsg));
         }
       },
     );
