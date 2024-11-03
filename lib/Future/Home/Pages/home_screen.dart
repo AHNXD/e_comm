@@ -82,11 +82,7 @@ class HomeScreen extends StatelessWidget {
                       color: AppColors.textTitleAppBarColor),
                 ),
               ),
-              SizedBox(
-                height: 12.h,
-                child: const HomePageCategoriesButtonWidget(),
-              ),
-              SizedBox(height: 1.h),
+              const HomePageCategoriesButtonWidget(),
               BlocBuilder<GetOffersCubit, GetOffersState>(
                 builder: (context, state) {
                   final model = context.read<GetOffersCubit>();
@@ -123,36 +119,12 @@ class HomeScreen extends StatelessWidget {
                         ),
                         CarouselSliderWidget(
                           list: offersList(state.products),
-                          height: 38.h,
+                          height: 40.h,
                         ),
                       ],
                     );
                   }
                   return const SizedBox();
-                  // return model.productOffers!.isNotEmpty
-                  //     ? Column(
-                  //         children: [
-                  //           Row(
-                  //             children: [
-                  //               Padding(
-                  //                 padding: const EdgeInsets.all(8.0),
-                  //                 child: Text(
-                  //                   "offers".tr(context),
-                  //                   style: const TextStyle(
-                  //                       fontWeight: FontWeight.bold,
-                  //                       fontSize: 30,
-                  //                       color: AppColors.textTitleAppBarColor),
-                  //                 ),
-                  //               ),
-                  //             ],
-                  //           ),
-                  //           CarouselSliderWidget(
-                  //             list: offersList(model.productOffers!),
-                  //             height: 38.h,
-                  //           ),
-                  //         ],
-                  //       )
-                  //     : const SizedBox();
                 },
               ),
               Padding(
@@ -210,7 +182,7 @@ class LastestProductAndTitle extends StatelessWidget {
                   CarouselSliderWidget(
                     list: productCardList(
                         true, state.latestProducts[index].products!),
-                    height: 51.5.h,
+                    height: 48.h,
                   ),
                 ],
               );

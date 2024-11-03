@@ -43,79 +43,64 @@ class _CategoriesButtonWidgetState
         }
         List<CatigoriesData> model =
             context.read<GetCatigoriesCubit>().homeData;
-        return ListView.builder(
-          itemCount: model.length + 1,
-          itemBuilder: (context, index) {
-            return Expanded(
-              child: Stack(
+        return SizedBox(
+          height: 105,
+          child: ListView.builder(
+            itemCount: model.length,
+            itemBuilder: (context, index) {
+              return Stack(
                 children: [
                   GestureDetector(
                     onTap: () {
-                      if (index != 0) {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (builder) {
-                          return ProductScreen(
-                            isNotHome: false,
-                            cData: model[index - 1],
-                          );
-                        }));
-                      }
-                      // when press the all button its should let the user to see all products
-                      // else {
-                      //   Navigator.push(context,
-                      //       MaterialPageRoute(builder: (builder) {
-                      //     return ProductScreen(
-                      //       isNotHome: false,
-                      //       cData: model[index - 1],
-                      //     );
-                      //   }));
-                      // }
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (builder) {
+                        return ProductScreen(
+                          isNotHome: false,
+                          cData: model[index],
+                        );
+                      }));
                     },
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
-                        margin: const EdgeInsets.only(
-                            top: 30, left: 10, right: 10, bottom: 20),
+                        margin: EdgeInsets.only(
+                            top: 1.h, left: 10, right: 10, bottom: 20),
                         padding: const EdgeInsets.only(
                             top: 30, left: 30, right: 30, bottom: 8),
                         decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
-                                  color: AppColors.primaryColors[400]!,
+                                  color: model[index].isOffer!
+                                      ? Colors.red
+                                      : AppColors.primaryColors[400]!,
                                   blurRadius: 15,
                                   offset: const Offset(0, 4))
                             ],
                             borderRadius: BorderRadius.circular(16),
                             color: Colors.white),
-                        child: index == 0
-                            ? Text(
-                                "all".tr(context),
-                                style: const TextStyle(
-                                    color: Colors.black,
+                        // child: Text(
+                        //   model[index].name!,
+                        //   style: const TextStyle(
+                        //       color: Colors.black, fontWeight: FontWeight.bold),
+                        // ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              model[index].name!,
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            if (model[index].isOffer!)
+                              const Text(
+                                " %",
+                                style: TextStyle(
+                                    color: Colors.red,
                                     fontWeight: FontWeight.bold),
                               )
-                            : Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    model[index - 1].name!,
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  if (index != 0 && model[index - 1].isOffer!)
-                                    const CircleAvatar(
-                                      backgroundColor: Colors.red,
-                                      child: Text(
-                                        "%",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    )
-                                ],
-                              ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -124,22 +109,20 @@ class _CategoriesButtonWidgetState
                       right: 0,
                       child: CircleAvatar(
                           radius: 6.w,
-                          backgroundImage: index != 0
-                              ? model[index - 1].files!.isNotEmpty
-                                  ? NetworkImage(
-                                      model[index - 1].files?[0].path != null
-                                          ? Urls.storageProducts +
-                                              model[index - 1].files![0].name!
-                                          : model[index - 1].files![0].name!,
-                                    )
-                                  : const AssetImage(AppImagesAssets.test1)
-                              : const AssetImage(AppImagesAssets.fruit))),
+                          backgroundImage: model[index].files!.isNotEmpty
+                              ? NetworkImage(
+                                  model[index].files?[0].path != null
+                                      ? Urls.storageProducts +
+                                          model[index].files![0].name!
+                                      : model[index].files![0].name!,
+                                )
+                              : const AssetImage(AppImagesAssets.test1))),
                 ],
-              ),
-            );
-            // }
-          },
-          scrollDirection: Axis.horizontal,
+              );
+              // }
+            },
+            scrollDirection: Axis.horizontal,
+          ),
         );
       },
     );

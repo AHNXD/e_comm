@@ -28,7 +28,8 @@ class OffersWidget extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
-              color: AppColors.primaryColors[400]!,
+              // color: AppColors.primaryColors[400]!,
+              color: Colors.red,
               blurRadius: 15,
               offset: const Offset(0, 4))
         ], borderRadius: BorderRadius.circular(6.w), color: Colors.white),

@@ -65,7 +65,9 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
         margin: EdgeInsets.symmetric(horizontal: 0.4.w, vertical: 2.h),
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
-              color: AppColors.primaryColors[400]!,
+              color: widget.product.isOffer!
+                  ? Colors.red
+                  : AppColors.primaryColors[400]!,
               blurRadius: 15,
               offset: const Offset(0, 4))
         ], borderRadius: BorderRadius.circular(5.w), color: Colors.white),

@@ -197,23 +197,26 @@ class CustomGridVeiw extends StatelessWidget {
       return screenWidth / (screenHeight) * 0.3;
     }
 
-    return GridView.builder(
-      padding: EdgeInsets.zero,
-      physics: physics ?? const BouncingScrollPhysics(),
-      shrinkWrap: shrinkWrap ?? false,
-      itemCount: products.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          childAspectRatio: selectAspectRatio(screenWidth, screenHeight),
-          crossAxisCount: selectScreenWidth(screenWidth),
-          crossAxisSpacing: 3.w,
-          mainAxisSpacing: 1.h),
-      itemBuilder: (context, index) {
-        return ProductCardWidget(
-          isHomeScreen: false,
-          product: products[index],
-          addToCartPaddingButton: 3.w,
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GridView.builder(
+        padding: EdgeInsets.zero,
+        physics: physics ?? const BouncingScrollPhysics(),
+        shrinkWrap: shrinkWrap ?? false,
+        itemCount: products.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            childAspectRatio: selectAspectRatio(screenWidth, screenHeight),
+            crossAxisCount: selectScreenWidth(screenWidth),
+            crossAxisSpacing: 3.w,
+            mainAxisSpacing: 1.h),
+        itemBuilder: (context, index) {
+          return ProductCardWidget(
+            isHomeScreen: false,
+            product: products[index],
+            addToCartPaddingButton: 3.w,
+          );
+        },
+      ),
     );
   }
 }

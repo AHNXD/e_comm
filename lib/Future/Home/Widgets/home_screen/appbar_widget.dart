@@ -23,77 +23,77 @@ class AppBarWidget extends StatelessWidget {
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(32),
               bottomRight: Radius.circular(32))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          isHome
-              ? Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 3.w),
-                  child: IconButton(
-                      onPressed: () {
-                        scaffoldKey.currentState!.openDrawer();
-                      },
-                      icon: const Icon(
-                        Icons.menu,
-                        color: Colors.white,
-                      )),
-                )
-              : const SizedBox(
-                  // height: 32,
-                  ),
-          isHome
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "hello_msg".tr(context),
-                      style: TextStyle(color: Colors.black, fontSize: 9.sp),
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            isHome
+                ? Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 3.w),
+                    child: IconButton(
+                        onPressed: () {
+                          scaffoldKey.currentState!.openDrawer();
+                        },
+                        icon: const Icon(
+                          Icons.menu,
+                          color: Colors.white,
+                        )),
+                  )
+                : const SizedBox(
+                    // height: 32,
                     ),
-                    Expanded(
-                      child: Text(
+            isHome
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "hello_msg".tr(context),
+                        style: TextStyle(color: Colors.black, fontSize: 9.sp),
+                      ),
+                      Text(
                         companyName,
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 15.sp),
+                      )
+                    ],
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(),
+                      Text(
+                        title,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.sp),
                       ),
-                    )
-                  ],
-                )
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(),
-                    Text(
-                      title,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.sp),
-                    ),
-                    const SizedBox()
-                  ],
-                ),
-          isHome
-              ? Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 3.w),
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.search,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (builder) {
-                        return const SearchProductScreen();
-                      }));
-                    },
+                      const SizedBox()
+                    ],
                   ),
-                )
-              : const SizedBox(
-                  // height: 32,
-                  ),
-        ],
+            isHome
+                ? Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 3.w),
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.search,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (builder) {
+                          return const SearchProductScreen();
+                        }));
+                      },
+                    ),
+                  )
+                : const SizedBox(
+                    // height: 32,
+                    ),
+          ],
+        ),
       ),
     );
   }
