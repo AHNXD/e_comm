@@ -132,6 +132,11 @@ class SearchContentWidget extends StatelessWidget {
               },
             );
           case SearchProductsStatus.success:
+            if (state.products.isEmpty) {
+              return Center(
+                child: Text("there_are_no_results_found".tr(context)),
+              );
+            }
             return CustomGridVeiwLazyLoad(
               products: state.products,
               hasReachedMax: state.hasReachedMax,
