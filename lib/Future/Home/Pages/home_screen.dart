@@ -1,11 +1,10 @@
 import 'package:e_comm/Future/Auth/Pages/login_screen.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
-import 'package:e_comm/Future/Home/Blocs/bloc/get_latest_products_bloc.dart';
+import 'package:e_comm/Future/Home/Blocs/get_latest_products/get_latest_products_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/GetOffers/get_offers_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
 //import 'package:e_comm/Future/Home/Cubits/get_latest_products/get_latest_products_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
-import 'package:e_comm/Future/Home/models/catigories_model.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 
 import '/Future/Home/Widgets/home_screen/appbar_widget.dart';

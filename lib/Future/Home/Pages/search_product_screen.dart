@@ -1,4 +1,3 @@
-import 'package:e_comm/Future/Home/Pages/product_screen.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/enums.dart';
@@ -10,6 +9,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 import '../../../Utils/colors.dart';
 import '../Cubits/searchProductsCubit/search_products_cubit.dart';
+import '../Widgets/product_Screen/custom_gridView.dart';
 
 class SearchProductScreen extends StatefulWidget {
   const SearchProductScreen({super.key});

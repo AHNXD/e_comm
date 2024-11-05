@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables
 
-import 'package:e_comm/Future/Home/Cubits/getProductById/get_porduct_by_id_cubit.dart';
 import 'package:e_comm/Future/Home/Pages/product_screen.dart';
 import 'package:e_comm/Utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../Utils/functions.dart';
+import '../../Blocs/get_products_by_cat_id/get_products_by_cat_id_bloc.dart';
 
 class CategoriesButtonWidget extends StatefulWidget {
   const CategoriesButtonWidget({
@@ -46,9 +46,12 @@ class _CategoriesButtonWidgetState extends State<CategoriesButtonWidget> {
                     isNotHome: true,
                   );
                 }));
-                context
-                    .read<GetPorductByIdCubit>()
-                    .getProductsByCategory(widget.parentId);
+                // context
+                //     .read<GetPorductByIdCubit>()
+                //     .getProductsByCategory(widget.parentId);
+                context.read<GetProductsByCatIdBloc>().add(ResetPagination());
+                context.read<GetProductsByCatIdBloc>().add(
+                    GetPoductsAllByCatIdEvent(categoryID: widget.parentId));
               }
             },
             child: Text(

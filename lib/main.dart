@@ -1,5 +1,5 @@
-import 'package:e_comm/Future/Home/Blocs/bloc/get_latest_products_bloc.dart';
-import 'package:e_comm/Future/Home/Cubits/get_latest_products/get_latest_products_cubit.dart';
+import 'package:e_comm/Future/Home/Blocs/get_latest_products/get_latest_products_bloc.dart';
+import 'package:e_comm/Future/Home/Blocs/get_products_by_cat_id/get_products_by_cat_id_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
 import 'package:e_comm/splashScreen.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,6 @@ import 'package:e_comm/Future/Home/Cubits/contactUsCubit/contact_us_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/favoriteCubit/favorite_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/getCatigories/get_catigories_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/getMyOrders/get_my_orders_cubit.dart';
-import 'package:e_comm/Future/Home/Cubits/getProductById/get_porduct_by_id_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/getProducts/get_products_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/get_print_sizes_cubit/get_print_sizes_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/locale/locale_cubit.dart';
@@ -87,7 +86,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => CartCubit()),
           BlocProvider(create: (_) => CompairProductsCubit()),
           BlocProvider(create: (_) => PostOrdersCubit()),
-          BlocProvider(create: (_) => GetPorductByIdCubit()),
+          //BlocProvider(create: (_) => GetPorductByIdCubit()),
+          BlocProvider(create: (_) => GetProductsByCatIdBloc()),
           BlocProvider(create: (_) => AboutUsCubit()),
           BlocProvider(create: (_) => MaintenanceCubit()),
           BlocProvider(create: (_) => ContactUsCubit()),

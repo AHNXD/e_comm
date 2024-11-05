@@ -1,14 +1,15 @@
+import 'package:e_comm/Future/Home/Blocs/get_products_by_cat_id/get_products_by_cat_id_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/product_card_widget.dart';
+import 'package:e_comm/Future/Home/models/product_model.dart';
 
 import 'package:e_comm/Utils/app_localizations.dart';
 import '../Cubits/cartCubit/cart.bloc.dart';
-import '../Cubits/getProductById/get_porduct_by_id_cubit.dart';
 import '../Cubits/searchProductByCatId/search_product_by_category_id_cubit.dart';
+import '../Widgets/product_Screen/custom_gridView.dart';
 import '../Widgets/scroll_top_button.dart';
 import '../models/catigories_model.dart';
-import '../models/product_model.dart';
 import '/Future/Home/Widgets/product_Screen/top_oval_widget.dart';
 import '/Utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -32,10 +33,25 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   void initState() {
     scrollController = ScrollController();
-    context.read<GetPorductByIdCubit>().getProductsByCategory(widget.cData.id!);
+    //context.read<GetPorductByIdCubit>().getProductsByCategory(widget.cData.id!);
+    context.read<GetProductsByCatIdBloc>().add(ResetPagination());
+    context
+        .read<GetProductsByCatIdBloc>()
+        .add(GetPoductsAllByCatIdEvent(categoryID: widget.cData.id!));
     context.read<GetMinMaxCubit>().getMinMax(widget.cData.id);
-
+    scrollController.addListener(_onScroll);
     super.initState();
+  }
+
+  void _onScroll() {
+    final currentScroll = scrollController.offset;
+    final maxScroll = scrollController.position.maxScrollExtent;
+
+    if (currentScroll >= (maxScroll * 0.9)) {
+      context
+          .read<GetProductsByCatIdBloc>()
+          .add(GetPoductsAllByCatIdEvent(categoryID: widget.cData.id!));
+    }
   }
 
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showMessage(
@@ -100,7 +116,9 @@ class _ProductScreenState extends State<ProductScreen> {
                           msg: state.message, onPressed: () {});
                     } else if (state is SearchProductByCategoryIdLoading) {
                       return const Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(
+                          color: AppColors.buttonCategoryColor,
+                        ),
                       );
                     } else if (state is SearchProductByCategoryIdNotFound) {
                       return Center(
@@ -138,45 +156,77 @@ class CategoriesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetPorductByIdCubit, GetPorductByIdState>(
+    return BlocBuilder<GetProductsByCatIdBloc, GetProductsByCatIdState>(
       builder: (context, state) {
-        if (state is GetPorductByIdError) {
-          return MyErrorWidget(
-              msg: state.msg,
-              onPressed: () {
-                context
-                    .read<GetPorductByIdCubit>()
-                    .getProductsByCategory(categoryId);
-              });
-        } else if (state is GetPorductByIdLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (state is GetPorductByIdSuccess) {
-          return CustomGridVeiw(
-            products: state.products,
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-          );
+        switch (state.status) {
+          case GetProductsByCatIdStatus.loading:
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: CircularProgressIndicator(
+                  color: AppColors.buttonCategoryColor,
+                ),
+              ),
+            );
+          case GetProductsByCatIdStatus.success:
+            return CustomGridVeiwLazyLoad(
+              hasReachedMax: state.hasReachedMax,
+              products: state.products,
+            );
+          case GetProductsByCatIdStatus.error:
+            return MyErrorWidget(
+                msg: state.errorMsg,
+                onPressed: () {
+                  context.read<GetProductsByCatIdBloc>().add(ResetPagination());
+                  context
+                      .read<GetProductsByCatIdBloc>()
+                      .add(GetPoductsAllByCatIdEvent(categoryID: categoryId));
+                });
         }
-        return const SizedBox();
       },
     );
+    // return BlocBuilder<GetPorductByIdCubit, GetPorductByIdState>(
+    //   builder: (context, state) {
+    //     if (state is GetPorductByIdError) {
+    //       return MyErrorWidget(
+    //           msg: state.msg,
+    //           onPressed: () {
+    //             context
+    //                 .read<G>()
+    //                 .getProductsByCategory(categoryId);
+    //           });
+    //     } else if (state is GetPorductByIdLoading) {
+    //       return const Center(
+    //         child: CircularProgressIndicator(),
+    //       );
+    //     } else if (state is GetPorductByIdSuccess) {
+    //       return CustomGridVeiw(
+    //         products: state.products,
+    //         physics: const NeverScrollableScrollPhysics(),
+    //         shrinkWrap: true,
+    //       );
+    //     }
+    //     return const SizedBox();
+    //   },
+    // );
   }
 }
 
-class CustomGridVeiw extends StatelessWidget {
-  const CustomGridVeiw(
-      {super.key, required this.products, this.physics, this.shrinkWrap});
+class CustomGridVeiwLazyLoad extends StatelessWidget {
+  const CustomGridVeiwLazyLoad({
+    super.key,
+    required this.products,
+    required this.hasReachedMax,
+  });
   final List<MainProduct> products;
-  final ScrollPhysics? physics;
-  final bool? shrinkWrap;
+  final bool hasReachedMax;
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final screenWidth = screenSize.width;
     final screenHeight = screenSize.height;
+
     int selectScreenWidth(screenWidth) {
       if (screenWidth <= 280) {
         return 1;
@@ -199,23 +249,37 @@ class CustomGridVeiw extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: GridView.builder(
-        padding: EdgeInsets.zero,
-        physics: physics ?? const BouncingScrollPhysics(),
-        shrinkWrap: shrinkWrap ?? false,
-        itemCount: products.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: selectAspectRatio(screenWidth, screenHeight),
-            crossAxisCount: selectScreenWidth(screenWidth),
-            crossAxisSpacing: 3.w,
-            mainAxisSpacing: 1.h),
-        itemBuilder: (context, index) {
-          return ProductCardWidget(
-            isHomeScreen: false,
-            product: products[index],
-            addToCartPaddingButton: 3.w,
-          );
-        },
+      child: Column(
+        children: [
+          GridView.builder(
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: hasReachedMax ? products.length : products.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio: selectAspectRatio(screenWidth, screenHeight),
+              crossAxisCount: selectScreenWidth(screenWidth),
+              crossAxisSpacing: 3.w,
+              mainAxisSpacing: 1.h,
+            ),
+            itemBuilder: (context, index) {
+              return ProductCardWidget(
+                isHomeScreen: false,
+                product: products[index],
+                addToCartPaddingButton: 3.w,
+              );
+            },
+          ),
+          if (!hasReachedMax)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.buttonCategoryColor,
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
