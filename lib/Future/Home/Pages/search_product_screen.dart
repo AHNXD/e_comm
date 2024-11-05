@@ -1,3 +1,4 @@
+import 'package:e_comm/Future/Home/Pages/product_screen.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/enums.dart';
@@ -8,8 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 import '../../../Utils/colors.dart';
-import '../Cubits/searchProductsCubit/search_products_cubit.dart';
-import '../Widgets/product_Screen/custom_gridView.dart';
+import '../Blocs/search_products/search_products_bloc.dart';
 
 class SearchProductScreen extends StatefulWidget {
   const SearchProductScreen({super.key});
@@ -20,9 +20,14 @@ class SearchProductScreen extends StatefulWidget {
 
 class _SearchProductScreenState extends State<SearchProductScreen> {
   late TextEditingController controller;
+  late ScrollController scrollController;
   @override
   void initState() {
     controller = TextEditingController();
+    scrollController = ScrollController();
+    scrollController.addListener(onScroll);
+    context.read<SearchProductsBloc>().add(ResetSearchingToInit());
+
     super.initState();
   }
 
@@ -30,6 +35,17 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
   void dispose() {
     controller.dispose();
     super.dispose();
+  }
+
+  void onScroll() {
+    final currentScroll = scrollController.offset;
+    final maxScroll = scrollController.position.maxScrollExtent;
+
+    if (currentScroll >= (maxScroll * 0.9)) {
+      context
+          .read<SearchProductsBloc>()
+          .add(SearchForProducsEvent(search: controller.text));
+    }
   }
 
   @override
@@ -45,7 +61,6 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
           ),
           onPressed: () {
             Navigator.of(context).pop();
-            context.read<SearchProductsCubit>().reset();
           },
           icon: SvgPicture.asset(
             AppImagesAssets.back,
@@ -66,104 +81,122 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
         ),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
-            child: TextFormField(
+      body: SingleChildScrollView(
+        controller: scrollController,
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            ShearchBarWidget(controller: controller),
+            SearchContentWidget(
               controller: controller,
-              validator: (s) => validation(s, ValidationState.normal),
-              style: const TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                  hintText: "search_product_hint".tr(context),
-                  hintStyle: const TextStyle(
-                    color: Colors.black54,
-                  ),
-                  filled: true,
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      controller.clear();
-                      context.read<SearchProductsCubit>().reset();
-                    },
-                    icon: const Icon(
-                      textDirection: TextDirection.ltr,
-                      Icons.close,
-                      color: AppColors.buttonCategoryColor,
-                    ),
-                  ),
-                  prefixIcon: IconButton(
-                    icon: BlocBuilder<SearchProductsCubit, SearchProductsState>(
-                      builder: (context, state) {
-                        return const Icon(
-                          Icons.search,
-                          color: AppColors.buttonCategoryColor,
-                        );
-                      },
-                    ),
-                    onPressed: () {
-                      context
-                          .read<SearchProductsCubit>()
-                          .searchProducts(controller.text);
-                    },
-                  ),
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(4.w))),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SearchContentWidget extends StatelessWidget {
+  const SearchContentWidget({
+    super.key,
+    required this.controller,
+  });
+
+  final TextEditingController controller;
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SearchProductsBloc, SearchProductsState>(
+      builder: (context, state) {
+        switch (state.status) {
+          case SearchProductsStatus.init:
+            return Center(
+              child: Text("search_product_screen_body".tr(context)),
+            );
+          case SearchProductsStatus.loading:
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          case SearchProductsStatus.error:
+            return MyErrorWidget(
+              msg: state.errorMsg,
+              onPressed: () {
+                context
+                    .read<SearchProductsBloc>()
+                    .add(SearchForProducsEvent(search: controller.text.trim()));
+              },
+            );
+          case SearchProductsStatus.success:
+            return CustomGridVeiwLazyLoad(
+              products: state.products,
+              hasReachedMax: state.hasReachedMax,
+            );
+        }
+      },
+    );
+  }
+}
+
+class ShearchBarWidget extends StatelessWidget {
+  const ShearchBarWidget({
+    super.key,
+    required this.controller,
+  });
+
+  final TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
+      child: TextFormField(
+        controller: controller,
+        onFieldSubmitted: (value) {
+          if (value.isNotEmpty && value.trim() != "") {
+            context.read<SearchProductsBloc>().add(ResetSearchText());
+            context
+                .read<SearchProductsBloc>()
+                .add(SearchForProducsEvent(search: value));
+          }
+        },
+        validator: (s) => validation(s, ValidationState.normal),
+        style: const TextStyle(color: Colors.black),
+        decoration: InputDecoration(
+            hintText: "search_product_hint".tr(context),
+            hintStyle: const TextStyle(
+              color: Colors.black54,
             ),
-          ),
-          Expanded(
-            child: BlocBuilder<SearchProductsCubit, SearchProductsState>(
-                builder: (context, state) {
-              if (state is SearchProductsInitial) {
-                return Center(
-                  child: Text("search_product_screen_body".tr(context)),
-                );
-              }
-              if (state is SearchProductsLoadingState) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (state is SearchProductsErrorState) {
-                return MyErrorWidget(
-                  msg: state.message,
-                  onPressed: () {
-                    context
-                        .read<SearchProductsCubit>()
-                        .searchProducts(controller.text.trim());
-                  },
-                );
-              }
-              if (state is SearchProductsSuccessfulState) {
-                return CustomGridVeiw(products: state.products);
-                // return GridView.builder(
-                //   physics: const AlwaysScrollableScrollPhysics(),
-                //   itemCount:
-                //       productCardList(false, getSearchProduct(context)).length,
-                //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                //       childAspectRatio: 0.083.h,
-                //       crossAxisCount: 2,
-                //       crossAxisSpacing: 3.w,
-                //       mainAxisSpacing: 1.h),
-                //   itemBuilder: (context, index) {
-                //     return ProductCardWidget(
-                //       isHomeScreen: false,
-                //       product: state.products[index],
-                //       addToCartPaddingButton: 3.w,
-                //     );
-                //     // return productCardList(
-                //     //     false, getSearchProduct(context))[index];
-                //   },
-                // );
-              } else if (state is SearchProductsNotFoundfulState) {
-                return Center(
-                    child: Text("there_are_no_results_found".tr(context)));
-              }
-              return const SizedBox();
-            }),
-          )
-        ],
+            filled: true,
+            suffixIcon: IconButton(
+              onPressed: () {
+                controller.clear();
+                context.read<SearchProductsBloc>().add(ResetSearchingToInit());
+              },
+              icon: const Icon(
+                textDirection: TextDirection.ltr,
+                Icons.close,
+                color: AppColors.buttonCategoryColor,
+              ),
+            ),
+            prefixIcon: IconButton(
+              icon: const Icon(
+                Icons.search,
+                color: AppColors.buttonCategoryColor,
+              ),
+              onPressed: () {
+                if (controller.text.isNotEmpty &&
+                    controller.text.trim() != "") {
+                  context.read<SearchProductsBloc>().add(ResetSearchText());
+                  context
+                      .read<SearchProductsBloc>()
+                      .add(SearchForProducsEvent(search: controller.text));
+                }
+              },
+            ),
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(4.w))),
       ),
     );
   }

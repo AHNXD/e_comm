@@ -7,10 +7,10 @@ sealed class GetProductsByCatIdEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetPoductsAllByCatIdEvent extends GetProductsByCatIdEvent {
+class GetAllPoductsByCatIdEvent extends GetProductsByCatIdEvent {
   final int categoryID;
 
-  const GetPoductsAllByCatIdEvent({required this.categoryID});
+  const GetAllPoductsByCatIdEvent({required this.categoryID});
 }
 
 class ResetPagination extends GetProductsByCatIdEvent {}

@@ -27,7 +27,7 @@ class GetProductsByCatIdBloc
       },
     );
     on<GetProductsByCatIdEvent>((event, emit) async {
-      if (event is GetPoductsAllByCatIdEvent) {
+      if (event is GetAllPoductsByCatIdEvent) {
         if (state.hasReachedMax) return;
         try {
           if (state.status == GetProductsByCatIdStatus.loading) {

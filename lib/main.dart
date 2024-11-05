@@ -25,6 +25,7 @@ import 'package:e_comm/Utils/colors.dart';
 import '/Apis/Network.dart';
 import '/Future/Auth/cubit/auth_cubit.dart';
 import '/Utils/SharedPreferences/SharedPreferencesHelper.dart';
+import 'Future/Home/Blocs/search_products/search_products_bloc.dart';
 import 'Future/Home/Cubits/CompairPruductsCubit/compair_products_cubit.dart';
 import 'Future/Home/Cubits/GetOffers/get_offers_cubit.dart';
 import 'Future/Home/Cubits/cartCubit/cart.bloc.dart';
@@ -99,9 +100,10 @@ class MyApp extends StatelessWidget {
           BlocProvider(
               create: (_) =>
                   PagesScreenCubit()..changedScreen(AppScreen.home, context)),
-          BlocProvider(
-            create: (_) => SearchProductsCubit(),
-          ),
+          // BlocProvider(
+          //   create: (_) => SearchProductsCubit(),
+          // ),
+          BlocProvider(create: (_) => SearchProductsBloc()),
           BlocProvider(create: (_) => SellProductCubit()),
           BlocProvider(create: (_) => PrintImageCubit()),
           BlocProvider(create: (_) => AllProductsByAllCategoryCubit()),

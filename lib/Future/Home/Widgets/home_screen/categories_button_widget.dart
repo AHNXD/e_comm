@@ -51,7 +51,7 @@ class _CategoriesButtonWidgetState extends State<CategoriesButtonWidget> {
                 //     .getProductsByCategory(widget.parentId);
                 context.read<GetProductsByCatIdBloc>().add(ResetPagination());
                 context.read<GetProductsByCatIdBloc>().add(
-                    GetPoductsAllByCatIdEvent(categoryID: widget.parentId));
+                    GetAllPoductsByCatIdEvent(categoryID: widget.parentId));
               }
             },
             child: Text(

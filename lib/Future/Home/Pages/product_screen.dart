@@ -37,7 +37,7 @@ class _ProductScreenState extends State<ProductScreen> {
     context.read<GetProductsByCatIdBloc>().add(ResetPagination());
     context
         .read<GetProductsByCatIdBloc>()
-        .add(GetPoductsAllByCatIdEvent(categoryID: widget.cData.id!));
+        .add(GetAllPoductsByCatIdEvent(categoryID: widget.cData.id!));
     context.read<GetMinMaxCubit>().getMinMax(widget.cData.id);
     scrollController.addListener(_onScroll);
     super.initState();
@@ -50,7 +50,7 @@ class _ProductScreenState extends State<ProductScreen> {
     if (currentScroll >= (maxScroll * 0.9)) {
       context
           .read<GetProductsByCatIdBloc>()
-          .add(GetPoductsAllByCatIdEvent(categoryID: widget.cData.id!));
+          .add(GetAllPoductsByCatIdEvent(categoryID: widget.cData.id!));
     }
   }
 
@@ -180,7 +180,7 @@ class CategoriesGrid extends StatelessWidget {
                   context.read<GetProductsByCatIdBloc>().add(ResetPagination());
                   context
                       .read<GetProductsByCatIdBloc>()
-                      .add(GetPoductsAllByCatIdEvent(categoryID: categoryId));
+                      .add(GetAllPoductsByCatIdEvent(categoryID: categoryId));
                 });
         }
       },
@@ -220,7 +220,6 @@ class CustomGridVeiwLazyLoad extends StatelessWidget {
   });
   final List<MainProduct> products;
   final bool hasReachedMax;
-
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
