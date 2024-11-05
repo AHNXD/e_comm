@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 8.h),
+          preferredSize: Size(double.infinity, 8.5.h),
           child: const AppBarWidget(),
         ),
         backgroundColor: AppColors.backgroundColor,
@@ -148,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         CarouselSliderWidget(
                           list: offersList(state.products),
-                          height: 40.h,
+                          height: 43.h,
                         ),
                       ],
                     );
@@ -234,7 +234,7 @@ class _LastestProductAndTitleState extends State<LastestProductAndTitle> {
                           CarouselSliderWidget(
                             list: productCardList(
                                 true, state.latestProducts[index].products!),
-                            height: 48.h,
+                            height: 51.5.h,
                           ),
                         ],
                       );

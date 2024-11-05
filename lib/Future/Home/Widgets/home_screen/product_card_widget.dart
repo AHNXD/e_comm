@@ -141,6 +141,8 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
             if (widget.product.isOffer! == false)
               Text(
                 "${widget.product.sellingPrice} ${"sp".tr(context)}",
+                maxLines: 1,
+                overflow: TextOverflow.clip,
                 style: TextStyle(
                     color: AppColors.textButtonColors,
                     fontSize: 14.sp,
@@ -151,6 +153,8 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                 children: [
                   Text(
                     "${widget.product.sellingPrice} ${"sp".tr(context)}",
+                    maxLines: 1,
+                    overflow: TextOverflow.clip,
                     style: TextStyle(
                         color: AppColors.textButtonColors,
                         fontSize: 10.sp,

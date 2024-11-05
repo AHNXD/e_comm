@@ -1,5 +1,6 @@
 import 'package:e_comm/Future/Home/Pages/product_screen.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
+import 'package:e_comm/Future/Home/Widgets/scroll_top_button.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/enums.dart';
 import 'package:e_comm/Utils/images.dart';
@@ -52,6 +53,8 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
+      floatingActionButton:
+          ScrollToTopButton(scrollController: scrollController),
       appBar: AppBar(
         scrolledUnderElevation: 0,
         leading: IconButton(
@@ -115,7 +118,9 @@ class SearchContentWidget extends StatelessWidget {
             );
           case SearchProductsStatus.loading:
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: AppColors.primaryColors,
+              ),
             );
           case SearchProductsStatus.error:
             return MyErrorWidget(

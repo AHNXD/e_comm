@@ -18,12 +18,12 @@ class ScrollToTopButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      backgroundColor: AppColors.navBarColor,
+      backgroundColor: AppColors.buttonCategoryColor,
       onPressed: _scrollToTop,
       tooltip: 'Scroll to Top',
       child: const Icon(
         Icons.arrow_upward,
-        color: Colors.black,
+        color: Colors.white,
       ),
     );
   }
