@@ -84,17 +84,22 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        controller: scrollController,
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            ShearchBarWidget(controller: controller),
-            SearchContentWidget(
-              controller: controller,
-            )
-          ],
-        ),
+      body: Column(
+        children: [
+          ShearchBarWidget(controller: controller),
+          Expanded(
+            child: ListView(
+              shrinkWrap: true,
+              controller: scrollController,
+              physics: const BouncingScrollPhysics(),
+              children: [
+                SearchContentWidget(
+                  controller: controller,
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
