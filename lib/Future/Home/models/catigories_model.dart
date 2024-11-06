@@ -1,8 +1,9 @@
 class CatigoriesModel {
   bool? status;
   List<CatigoriesData>? data;
+  Pagination? pagination;
 
-  CatigoriesModel({this.status, this.data});
+  CatigoriesModel({this.status, this.data, this.pagination});
 
   CatigoriesModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -12,6 +13,9 @@ class CatigoriesModel {
         data!.add(CatigoriesData.fromJson(v));
       });
     }
+    pagination = json['pagination'] != null
+        ? Pagination.fromJson(json['pagination'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -19,6 +23,9 @@ class CatigoriesModel {
     data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    if (pagination != null) {
+      data['pagination'] = pagination!.toJson();
     }
     return data;
   }
@@ -121,6 +128,43 @@ class Files {
     data['path'] = path;
     data['fileable_type'] = fileableType;
     data['fileable_id'] = fileableId;
+    return data;
+  }
+}
+
+class Pagination {
+  int? total;
+  int? currentPage;
+  int? lastPage;
+  int? perPage;
+  int? from;
+  int? to;
+
+  Pagination(
+      {this.total,
+      this.currentPage,
+      this.lastPage,
+      this.perPage,
+      this.from,
+      this.to});
+
+  Pagination.fromJson(Map<String, dynamic> json) {
+    total = json['total'];
+    currentPage = json['current_page'];
+    lastPage = json['last_page'];
+    perPage = json['per_page'];
+    from = json['from'];
+    to = json['to'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['total'] = total;
+    data['current_page'] = currentPage;
+    data['last_page'] = lastPage;
+    data['per_page'] = perPage;
+    data['from'] = from;
+    data['to'] = to;
     return data;
   }
 }

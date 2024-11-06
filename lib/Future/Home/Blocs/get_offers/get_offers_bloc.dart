@@ -13,8 +13,6 @@ part 'get_offers_state.dart';
 class GetOffersBloc extends Bloc<GetOffersEvent, GetOffersState> {
   GetOffersBloc() : super(const GetOffersState()) {
     on<GetOffersEvent>((event, emit) async {
-      // await Network.getData(
-      //         url: "${Urls.getOffersProducts}?per_page=100&page=1")
       if (event is GetAllOffersEvent) {
         if (state.hasReachedMax) return;
         try {
@@ -22,8 +20,7 @@ class GetOffersBloc extends Bloc<GetOffersEvent, GetOffersState> {
             final response = await Network.getData(
                 url: "${Urls.getOffersProducts}?per_page=5&page=1");
             if (response.statusCode == 200 || response.statusCode == 201) {
-              ProductsModel offers =
-                  ProductsModel.fromJson(response.data);
+              ProductsModel offers = ProductsModel.fromJson(response.data);
 
               return offers.data!.isEmpty
                   ? emit(state.copyWith(
@@ -38,10 +35,9 @@ class GetOffersBloc extends Bloc<GetOffersEvent, GetOffersState> {
           } else {
             final response = await Network.getData(
                 url:
-                    "${Urls.getLastestProducts}?per_page=5&page=${state.currentPage + 1}");
+                    "${Urls.getOffersProducts}?per_page=5&page=${state.currentPage + 1}");
             if (response.statusCode == 200 || response.statusCode == 201) {
-              ProductsModel offers =
-                  ProductsModel.fromJson(response.data);
+              ProductsModel offers = ProductsModel.fromJson(response.data);
               offers.data!.isEmpty
                   ? emit(state.copyWith(hasReachedMax: true))
                   : emit(state.copyWith(

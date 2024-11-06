@@ -6,3 +6,5 @@ sealed class GetMyOrdersEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class GetAllMyOrdersEvent extends GetMyOrdersEvent {}
