@@ -24,8 +24,8 @@ class OffersWidget extends StatelessWidget {
       },
       child: Container(
         width: double.infinity,
-        margin: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.5.h),
-        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         decoration: BoxDecoration(boxShadow: const [
           BoxShadow(
               // color: AppColors.primaryColors[400]!,
@@ -35,7 +35,7 @@ class OffersWidget extends StatelessWidget {
         ], borderRadius: BorderRadius.circular(6.w), color: Colors.white),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             MyCachedNetworkImage(
               width: 45.w,
@@ -57,45 +57,42 @@ class OffersWidget extends StatelessWidget {
               height: 1.h,
             ),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Column(
-                  children: [
-                    Text(
-                      "${data.sellingPrice} ${"sp".tr(context)}",
-                      style: TextStyle(
-                          color: AppColors.textButtonColors,
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.w900,
-                          decoration: TextDecoration.lineThrough),
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      "${data.offers!.priceAfterOffer} ${"sp".tr(context)}",
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: Colors.red),
-                      child: Text(
-                        "${(1 - (double.tryParse(data.offers!.priceAfterOffer!)! / double.tryParse(data.offers!.priceAfterOffer!)!)) * 100}%",
-                        style: const TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
+                Text(
+                  "${data.sellingPrice} ${"sp".tr(context)}",
+                  style: TextStyle(
+                      color: AppColors.textButtonColors,
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.w900,
+                      decoration: TextDecoration.lineThrough),
                 ),
+                const SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  "${data.offers!.priceAfterOffer} ${"sp".tr(context)}",
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colors.red),
+                  child: Text(
+                    "${(1 - (double.tryParse(data.offers!.priceAfterOffer!)! / double.tryParse(data.offers!.priceAfterOffer!)!)) * 100}%",
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(
+                  height: 1.h,
+                )
               ],
-            )
+            ),
           ],
         ),
       ),

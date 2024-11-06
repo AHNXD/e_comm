@@ -148,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         CarouselSliderWidget(
                           list: offersList(state.products),
-                          height: 43.h,
+                          height: 350,
                         ),
                       ],
                     );
@@ -235,7 +235,7 @@ class _LastestProductAndTitleState extends State<LastestProductAndTitle> {
                           CarouselSliderWidget(
                             list: productCardList(
                                 true, state.latestProducts[index].products!),
-                            height: 51.5.h,
+                            height: 425,
                           ),
                         ],
                       );
