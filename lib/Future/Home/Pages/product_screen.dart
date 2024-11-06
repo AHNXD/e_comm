@@ -302,7 +302,7 @@ class CustomGridVeiwLazyLoad extends StatelessWidget {
             shrinkWrap: true,
             itemCount: hasReachedMax ? products.length : products.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 0.45,
+              childAspectRatio: 0.43,
               crossAxisCount: selectScreenWidth(screenWidth),
               crossAxisSpacing: 4.w,
               mainAxisSpacing: 1.h,
