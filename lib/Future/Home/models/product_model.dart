@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
-
 class ProductsModel {
   bool? status;
   List<MainProduct>? data;
@@ -200,25 +199,25 @@ class Ratings {
 
 class Pagination {
   int? total;
-  int? current_page;
-  int? last_page;
-  int? per_page;
+  int? currentPage;
+  int? lastPage;
+  int? perPage;
   int? from;
   int? to;
 
   Pagination(
       {this.total,
-      this.current_page,
-      this.last_page,
-      this.per_page,
+      this.currentPage,
+      this.lastPage,
+      this.perPage,
       this.from,
       this.to});
 
   Pagination.fromJson(Map<String, dynamic> json) {
     total = json['total'];
-    current_page = json['current_page'];
-    last_page = json['last_page'];
-    per_page = json['per_page'];
+    currentPage = json['current_page'];
+    lastPage = json['last_page'];
+    perPage = json['per_page'];
     from = json['from'];
     to = json['to'];
   }
@@ -226,9 +225,9 @@ class Pagination {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['total'] = total;
-    data['current_page'] = current_page;
-    data['last_page'] = last_page;
-    data['per_page'] = per_page;
+    data['current_page'] = currentPage;
+    data['last_page'] = lastPage;
+    data['per_page'] = perPage;
     data['from'] = from;
     data['to'] = to;
     return data;

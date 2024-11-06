@@ -33,8 +33,8 @@ class SearchProductsBloc
                       products: resault.data,
                       status: SearchProductsStatus.success,
                       hasReachedMax: resault.data!.length <= 1,
-                      totalPages: resault.pagination?.last_page ?? 1,
-                      currentPage: resault.pagination?.current_page ?? 1,
+                      totalPages: resault.pagination?.lastPage ?? 1,
+                      currentPage: resault.pagination?.currentPage ?? 1,
                     ));
             }
           });
@@ -55,8 +55,8 @@ class SearchProductsBloc
                       products: List.of(state.products)..addAll(resault.data!),
                       status: SearchProductsStatus.success,
                       hasReachedMax: false,
-                      totalPages: resault.pagination!.last_page,
-                      currentPage: resault.pagination!.current_page,
+                      totalPages: resault.pagination!.lastPage,
+                      currentPage: resault.pagination!.currentPage,
                     ));
             }
           });

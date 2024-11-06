@@ -45,8 +45,8 @@ class GetProductsByCatIdBloc
                       status: GetProductsByCatIdStatus.success,
                       products: products.data,
                       hasReachedMax: false,
-                      currentPage: products.pagination!.current_page,
-                      totalPages: products.pagination!.last_page,
+                      currentPage: products.pagination!.currentPage,
+                      totalPages: products.pagination!.lastPage,
                     ));
             }
           } else {
@@ -63,7 +63,7 @@ class GetProductsByCatIdBloc
                       status: GetProductsByCatIdStatus.success,
                       products: List.of(state.products)..addAll(products.data!),
                       hasReachedMax: false,
-                      currentPage: products.pagination!.current_page,
+                      currentPage: products.pagination!.currentPage,
                       totalPages: products.pagination!.total));
             }
           }
