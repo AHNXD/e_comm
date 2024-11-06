@@ -1,4 +1,6 @@
 import 'package:e_comm/Future/Auth/Widgets/text_field_widget.dart';
+import 'package:e_comm/Future/Home/Blocs/search_filter_products/search_filter_poducts_bloc.dart';
+import 'package:e_comm/Future/Home/Cubits/mange_search_filter_products/mange_search_filter_products_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/back_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/categories_button_widget.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
@@ -7,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../Blocs/get_products_by_cat_id/get_products_by_cat_id_bloc.dart';
 import '../../Cubits/get_min_max_cubit/get_min_max_cubit.dart';
-import '../../Cubits/searchProductByCatId/search_product_by_category_id_cubit.dart';
 
 class TopOvalWidget extends StatefulWidget {
   const TopOvalWidget({
@@ -88,7 +90,15 @@ class _TopOvalWidgetState extends State<TopOvalWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: () => setState(() => currentStep = 0),
+                  onPressed: () {
+                    setState(() => currentStep = 0);
+                    if (context
+                        .read<MangeSearchFilterProductsCubit>()
+                        .isFilterProducts) {
+                      searchController.clear();
+                      resetSearch(context);
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
                         currentStep == 0 ? AppColors.navBarColor : Colors.white,
@@ -97,7 +107,14 @@ class _TopOvalWidgetState extends State<TopOvalWidget> {
                 ),
                 const SizedBox(width: 10),
                 ElevatedButton(
-                  onPressed: () => setState(() => currentStep = 1),
+                  onPressed: () {
+                    setState(() => currentStep = 1);
+                    if (context
+                        .read<MangeSearchFilterProductsCubit>()
+                        .isSearchProducts) {
+                      resetFilter(context);
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: currentStep == 1
                           ? AppColors.navBarColor
@@ -115,7 +132,7 @@ class _TopOvalWidgetState extends State<TopOvalWidget> {
               FilterProductWdiget(
                 minPriceController: minPriceController,
                 maxPriceController: maxPriceController,
-                cateogryId: widget.parentId,
+                categoryId: widget.parentId,
               ),
 
             // Categories section
@@ -130,6 +147,24 @@ class _TopOvalWidgetState extends State<TopOvalWidget> {
         ),
       ),
     );
+  }
+
+  void resetFilter(BuildContext context) {
+    context.read<SearchFilterPoductsBloc>().add(ResetSearchFilterToInit());
+    context.read<GetProductsByCatIdBloc>().add(ResetPagination());
+    context
+        .read<GetProductsByCatIdBloc>()
+        .add(GetAllPoductsByCatIdEvent(categoryID: widget.parentId));
+    context.read<MangeSearchFilterProductsCubit>().isSearchProducts = false;
+  }
+
+  void resetSearch(BuildContext context) {
+    context.read<SearchFilterPoductsBloc>().add(ResetSearchFilterToInit());
+    context.read<GetProductsByCatIdBloc>().add(ResetPagination());
+    context
+        .read<GetProductsByCatIdBloc>()
+        .add(GetAllPoductsByCatIdEvent(categoryID: widget.parentId));
+    context.read<MangeSearchFilterProductsCubit>().isFilterProducts = false;
   }
 }
 
@@ -153,9 +188,12 @@ class ShearchProductField extends StatelessWidget {
           value = controller.text;
         },
         onFieldSubmitted: (value) {
-          context
-              .read<SearchProductByCategoryIdCubit>()
-              .searchProductsByCategories(value, widget.parentId);
+          if (value.isNotEmpty && value.trim() != "") {
+            startSearch(context, value);
+          }
+          // context
+          //     .read<SearchProductByCategoryIdCubit>()
+          //     .searchProductsByCategories(value, widget.parentId);
         },
         style: const TextStyle(color: Colors.black),
         decoration: InputDecoration(
@@ -166,10 +204,11 @@ class ShearchProductField extends StatelessWidget {
             filled: true,
             suffixIcon: IconButton(
               onPressed: () {
-                controller.clear();
-                context
-                    .read<SearchProductByCategoryIdCubit>()
-                    .searchProductsByCategories('', widget.parentId);
+                if (controller.text.isNotEmpty &&
+                    controller.text.trim() != "") {
+                  controller.clear();
+                  resetSearch(context);
+                }
               },
               icon: const Icon(
                 textDirection: TextDirection.ltr,
@@ -179,10 +218,14 @@ class ShearchProductField extends StatelessWidget {
             ),
             prefixIcon: IconButton(
               onPressed: () {
-                context
-                    .read<SearchProductByCategoryIdCubit>()
-                    .searchProductsByCategories(
-                        controller.text, widget.parentId);
+                if (controller.text.isNotEmpty &&
+                    controller.text.trim() != "") {
+                  startSearch(context, controller.text);
+                }
+                // context
+                //     .read<SearchProductByCategoryIdCubit>()
+                //     .searchProductsByCategories(
+                //         controller.text, widget.parentId);
               },
               icon: const Icon(
                 textDirection: TextDirection.ltr,
@@ -197,6 +240,24 @@ class ShearchProductField extends StatelessWidget {
       ),
     );
   }
+
+  void startSearch(BuildContext context, String value) {
+    context.read<SearchFilterPoductsBloc>().add(ResetSearchFilter());
+    context
+        .read<SearchFilterPoductsBloc>()
+        .add(SearchProductsByCatId(widget.parentId, searchText: value));
+    context.read<MangeSearchFilterProductsCubit>().isSearchProducts = true;
+    context.read<MangeSearchFilterProductsCubit>().searchText = value;
+  }
+
+  void resetSearch(BuildContext context) {
+    context.read<SearchFilterPoductsBloc>().add(ResetSearchFilterToInit());
+    context.read<GetProductsByCatIdBloc>().add(ResetPagination());
+    context
+        .read<GetProductsByCatIdBloc>()
+        .add(GetAllPoductsByCatIdEvent(categoryID: widget.parentId));
+    context.read<MangeSearchFilterProductsCubit>().isSearchProducts = false;
+  }
 }
 
 class FilterProductWdiget extends StatelessWidget {
@@ -204,12 +265,12 @@ class FilterProductWdiget extends StatelessWidget {
     super.key,
     required this.minPriceController,
     required this.maxPriceController,
-    required this.cateogryId,
+    required this.categoryId,
   });
 
   final TextEditingController minPriceController;
   final TextEditingController maxPriceController;
-  final int cateogryId;
+  final int categoryId;
 
   @override
   Widget build(BuildContext context) {
@@ -255,10 +316,11 @@ class FilterProductWdiget extends StatelessWidget {
                     double? maxPrice = double.tryParse(maxPriceController.text);
                     if (minPrice != null && maxPrice != null) {
                       if (minPrice <= maxPrice) {
-                        context
-                            .read<SearchProductByCategoryIdCubit>()
-                            .filterProductByPrice(
-                                minPrice, maxPrice, cateogryId);
+                        startFilter(context, minPrice, maxPrice);
+                        // context
+                        //     .read<SearchProductByCategoryIdCubit>()
+                        //     .filterProductByPrice(
+                        //         minPrice, maxPrice, cateogryId);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -270,20 +332,24 @@ class FilterProductWdiget extends StatelessWidget {
                         );
                       }
                     } else if (minPrice != null && maxPrice == null) {
-                      context
-                          .read<SearchProductByCategoryIdCubit>()
-                          .filterProductByPrice(
-                              minPrice, double.parse(maxP), cateogryId);
+                      startFilter(context, minPrice, double.tryParse(maxP)!);
+                      // context
+                      //     .read<SearchProductByCategoryIdCubit>()
+                      //     .filterProductByPrice(
+                      //         minPrice, double.parse(maxP), cateogryId);
                     } else if (minPrice == null && maxPrice != null) {
-                      context
-                          .read<SearchProductByCategoryIdCubit>()
-                          .filterProductByPrice(
-                              double.tryParse(minP), maxPrice, cateogryId);
+                      startFilter(context, double.tryParse(minP)!, maxPrice);
+                      // context
+                      //     .read<SearchProductByCategoryIdCubit>()
+                      //     .filterProductByPrice(
+                      //         double.tryParse(minP), maxPrice, cateogryId);
                     } else {
-                      context
-                          .read<SearchProductByCategoryIdCubit>()
-                          .filterProductByPrice(double.tryParse(minP),
-                              double.parse(maxP), cateogryId);
+                      startFilter(context, double.tryParse(minP)!,
+                          double.tryParse(maxP)!);
+                      // context
+                      //     .read<SearchProductByCategoryIdCubit>()
+                      //     .filterProductByPrice(double.tryParse(minP),
+                      //         double.parse(maxP), cateogryId);
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -304,6 +370,16 @@ class FilterProductWdiget extends StatelessWidget {
         ),
       );
     });
+  }
+
+  void startFilter(BuildContext context, double minPrice, double maxPrice) {
+    context.read<SearchFilterPoductsBloc>().add(ResetSearchFilter());
+    context
+        .read<SearchFilterPoductsBloc>()
+        .add(FilterProductsByCatId(categoryId, min: minPrice, max: maxPrice));
+    context.read<MangeSearchFilterProductsCubit>().isFilterProducts = true;
+    context.read<MangeSearchFilterProductsCubit>().min = minPrice;
+    context.read<MangeSearchFilterProductsCubit>().max = maxPrice;
   }
 }
 

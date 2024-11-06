@@ -1,13 +1,13 @@
 import 'package:e_comm/Future/Home/Blocs/get_products_by_cat_id/get_products_by_cat_id_bloc.dart';
+import 'package:e_comm/Future/Home/Blocs/search_filter_products/search_filter_poducts_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
+import 'package:e_comm/Future/Home/Cubits/mange_search_filter_products/mange_search_filter_products_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/product_card_widget.dart';
 import 'package:e_comm/Future/Home/models/product_model.dart';
 
 import 'package:e_comm/Utils/app_localizations.dart';
 import '../Cubits/cartCubit/cart.bloc.dart';
-import '../Cubits/searchProductByCatId/search_product_by_category_id_cubit.dart';
-import '../Widgets/product_Screen/custom_gridView.dart';
 import '../Widgets/scroll_top_button.dart';
 import '../models/catigories_model.dart';
 import '/Future/Home/Widgets/product_Screen/top_oval_widget.dart';
@@ -39,6 +39,9 @@ class _ProductScreenState extends State<ProductScreen> {
         .read<GetProductsByCatIdBloc>()
         .add(GetAllPoductsByCatIdEvent(categoryID: widget.cData.id!));
     context.read<GetMinMaxCubit>().getMinMax(widget.cData.id);
+    context.read<SearchFilterPoductsBloc>().add(ResetSearchFilterToInit());
+    context.read<MangeSearchFilterProductsCubit>().isSearchProducts = false;
+    context.read<MangeSearchFilterProductsCubit>().isFilterProducts = false;
     scrollController.addListener(_onScroll);
     super.initState();
   }
@@ -46,11 +49,29 @@ class _ProductScreenState extends State<ProductScreen> {
   void _onScroll() {
     final currentScroll = scrollController.offset;
     final maxScroll = scrollController.position.maxScrollExtent;
+    final bool isSearch =
+        context.read<MangeSearchFilterProductsCubit>().isSearchProducts;
+    final bool isFilter =
+        context.read<MangeSearchFilterProductsCubit>().isFilterProducts;
 
     if (currentScroll >= (maxScroll * 0.9)) {
-      context
-          .read<GetProductsByCatIdBloc>()
-          .add(GetAllPoductsByCatIdEvent(categoryID: widget.cData.id!));
+      if (!isSearch && !isFilter) {
+        context
+            .read<GetProductsByCatIdBloc>()
+            .add(GetAllPoductsByCatIdEvent(categoryID: widget.cData.id!));
+      } else if (isSearch && !isFilter) {
+        final searchText =
+            context.read<MangeSearchFilterProductsCubit>().searchText;
+        context.read<SearchFilterPoductsBloc>().add(
+            SearchProductsByCatId(widget.cData.id!, searchText: searchText!));
+      }
+      if (isFilter && !isSearch) {
+        final min = context.read<MangeSearchFilterProductsCubit>().min;
+        final max = context.read<MangeSearchFilterProductsCubit>().max;
+        context
+            .read<SearchFilterPoductsBloc>()
+            .add(FilterProductsByCatId(widget.cData.id!, min: min!, max: max!));
+      }
     }
   }
 
@@ -83,62 +104,87 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => SearchProductByCategoryIdCubit(),
-      child: BlocListener<CartCubit, CartState>(
-        listener: (context, state) {
-          if (state is AddToCartState) {
-            showMessage('add_product_done'.tr(context), Colors.green);
-          } else if (state is AlreadyInCartState) {
-            showMessage('product_in_cart'.tr(context), Colors.grey);
-          }
-        },
-        child: Scaffold(
-          backgroundColor: AppColors.backgroundColor,
-          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-          floatingActionButton:
-              ScrollToTopButton(scrollController: scrollController),
-          body: SingleChildScrollView(
-            controller: scrollController,
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                TopOvalWidget(
-                  isNotHome: widget.isNotHome,
-                  firstText: widget.cData.name!,
-                  parentId: widget.cData.id!,
-                ),
-                BlocBuilder<SearchProductByCategoryIdCubit,
-                    SearchProductByCategoryIdState>(
-                  builder: (context, state) {
-                    if (state is SearchProductByCategoryIdError) {
-                      return MyErrorWidget(
-                          msg: state.message, onPressed: () {});
-                    } else if (state is SearchProductByCategoryIdLoading) {
+    return BlocListener<CartCubit, CartState>(
+      listener: (context, state) {
+        if (state is AddToCartState) {
+          showMessage('add_product_done'.tr(context), Colors.green);
+        } else if (state is AlreadyInCartState) {
+          showMessage('product_in_cart'.tr(context), Colors.grey);
+        }
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.backgroundColor,
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton:
+            ScrollToTopButton(scrollController: scrollController),
+        body: SingleChildScrollView(
+          controller: scrollController,
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              TopOvalWidget(
+                isNotHome: widget.isNotHome,
+                firstText: widget.cData.name!,
+                parentId: widget.cData.id!,
+              ),
+              BlocBuilder<SearchFilterPoductsBloc, SearchFilterPoductsState>(
+                builder: (context, state) {
+                  switch (state.status) {
+                    case SearchFilterProductsStatus.loading:
                       return const Center(
                         child: CircularProgressIndicator(
                           color: AppColors.buttonCategoryColor,
                         ),
                       );
-                    } else if (state is SearchProductByCategoryIdNotFound) {
-                      return Center(
-                        child: Text(
-                          "there_are_no_results_found".tr(context),
-                        ),
-                      );
-                    } else if (state is SearchProductByCategoryIdSuccess) {
-                      return CustomGridVeiw(
-                        products: state.products,
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                      );
-                    } else {
+                    case SearchFilterProductsStatus.error:
+                      return MyErrorWidget(
+                          msg: state.errorMsg, onPressed: () {});
+                    case SearchFilterProductsStatus.success:
+                      if (state.products.isEmpty) {
+                        return Center(
+                          child: Text(
+                            "there_are_no_results_found".tr(context),
+                          ),
+                        );
+                      }
+                      return CustomGridVeiwLazyLoad(
+                          products: state.products,
+                          hasReachedMax: state.hasReachedMax);
+                    case SearchFilterProductsStatus.init:
                       return CategoriesGrid(categoryId: widget.cData.id!);
-                    }
-                  },
-                )
-              ],
-            ),
+                  }
+                },
+              )
+              // BlocBuilder<SearchProductByCategoryIdCubit,
+              //     SearchProductByCategoryIdState>(
+              //   builder: (context, state) {
+              //     if (state is SearchProductByCategoryIdError) {
+              //       return MyErrorWidget(
+              //           msg: state.message, onPressed: () {});
+              //     } else if (state is SearchProductByCategoryIdLoading) {
+              //       return const Center(
+              //         child: CircularProgressIndicator(
+              //           color: AppColors.buttonCategoryColor,
+              //         ),
+              //       );
+              //     } else if (state is SearchProductByCategoryIdNotFound) {
+              //       return Center(
+              //         child: Text(
+              //           "there_are_no_results_found".tr(context),
+              //         ),
+              //       );
+              //     } else if (state is SearchProductByCategoryIdSuccess) {
+              //       return CustomGridVeiw(
+              //         products: state.products,
+              //         physics: const NeverScrollableScrollPhysics(),
+              //         shrinkWrap: true,
+              //       );
+              //     } else {
+              //       return CategoriesGrid(categoryId: widget.cData.id!);
+              //     }
+              //   },
+              // )
+            ],
           ),
         ),
       ),
