@@ -32,7 +32,6 @@ import 'Future/Home/Cubits/cartCubit/cart.bloc.dart';
 import 'Future/Home/Cubits/pages_cubit/pages_cubit.dart';
 import 'Future/Home/Cubits/postOrders/post_orders_cubit.dart';
 import 'Future/Home/Cubits/rangeSliderCubit/range_slider_cubit.dart';
-import 'Future/Home/Cubits/searchProductsCubit/search_products_cubit.dart';
 import 'Utils/enums.dart';
 
 void main() async {
