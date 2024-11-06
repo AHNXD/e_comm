@@ -18,7 +18,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -190,6 +190,7 @@ class LastestProductAndTitle extends StatefulWidget {
 }
 
 class _LastestProductAndTitleState extends State<LastestProductAndTitle> {
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetLatestProductsBloc, GetLatestProductsState>(
       builder: (context, state) {
@@ -209,7 +210,7 @@ class _LastestProductAndTitleState extends State<LastestProductAndTitle> {
             // }
             return ListView.builder(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: state.hasReachedMax
                   ? state.latestProducts.length
                   : state.latestProducts.length + 1,

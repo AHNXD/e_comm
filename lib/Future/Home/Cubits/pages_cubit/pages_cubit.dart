@@ -15,9 +15,9 @@ part 'pages_state.dart';
 class PagesScreenCubit extends Cubit<PageScreenState> {
   PagesScreenCubit()
       : super((PageScreenInitialState(
-            page: HomeScreen(), pageType: AppScreen.home)));
+            page: const HomeScreen(), pageType: AppScreen.home)));
 
-  Widget currentScreen = HomeScreen();
+  Widget currentScreen = const HomeScreen();
   AppScreen type = AppScreen.home;
   BuildContext? mycontext;
   void changedScreen(AppScreen page, BuildContext context) {
@@ -25,7 +25,7 @@ class PagesScreenCubit extends Cubit<PageScreenState> {
     emit(PageScreenInitialState(page: currentScreen, pageType: type));
     switch (page) {
       case AppScreen.home:
-        currentScreen = HomeScreen();
+        currentScreen = const HomeScreen();
         type = AppScreen.home;
 
         break;

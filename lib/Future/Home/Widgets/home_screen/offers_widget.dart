@@ -26,12 +26,12 @@ class OffersWidget extends StatelessWidget {
         width: double.infinity,
         margin: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.5.h),
         padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
-        decoration: BoxDecoration(boxShadow: [
+        decoration: BoxDecoration(boxShadow: const [
           BoxShadow(
               // color: AppColors.primaryColors[400]!,
               color: Colors.red,
               blurRadius: 15,
-              offset: const Offset(0, 4))
+              offset: Offset(0, 4))
         ], borderRadius: BorderRadius.circular(6.w), color: Colors.white),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

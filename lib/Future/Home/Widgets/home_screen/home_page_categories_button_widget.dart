@@ -2,7 +2,6 @@ import 'package:e_comm/Apis/Urls.dart';
 import 'package:e_comm/Future/Home/Pages/product_screen.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/models/catigories_model.dart';
-import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
 import 'package:e_comm/Utils/images.dart';
 
