@@ -1,4 +1,8 @@
+import 'package:e_comm/Future/Home/Blocs/get_categories/get_categories_bloc.dart';
+import 'package:e_comm/Future/Home/Blocs/get_favorite/gerfavorite_bloc.dart';
 import 'package:e_comm/Future/Home/Blocs/get_latest_products/get_latest_products_bloc.dart';
+import 'package:e_comm/Future/Home/Blocs/get_my_orders/get_my_orders_bloc.dart';
+
 import 'package:e_comm/Future/Home/Blocs/get_products_by_cat_id/get_products_by_cat_id_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/mange_search_filter_products/mange_search_filter_products_cubit.dart';
@@ -85,6 +89,13 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => FavoriteCubit()..getProductsFavorite()),
           BlocProvider(create: (_) => RangeSliderCubit()),
           BlocProvider(create: (_) => GetMyOrdersCubit()..getMyOrders()),
+          // add these lines
+          // BlocProvider(
+          //     create: (_) => GetMyOrdersBloc()..add(GetAllMyOrdersEvent())),
+          // BlocProvider(
+          //     create: (_) => GerfavoriteBloc()..add(GetAllFavoriteEvent())),
+          // BlocProvider(
+          //     create: (_) => GetCategoriesBloc()..add(GetAllCategoriesEvent())),
           BlocProvider(create: (_) => CartCubit()),
           BlocProvider(create: (_) => CompairProductsCubit()),
           BlocProvider(create: (_) => PostOrdersCubit()),
