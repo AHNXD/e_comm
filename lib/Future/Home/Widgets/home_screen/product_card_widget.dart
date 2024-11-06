@@ -62,7 +62,8 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
       },
       child: Container(
         width: 65.w,
-        margin: EdgeInsets.symmetric(horizontal: 0.4.w, vertical: 2.h),
+        margin: const EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
               color: widget.product.isOffer!

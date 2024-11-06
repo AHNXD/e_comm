@@ -23,7 +23,6 @@ class HomePageCategoriesButtonWidget extends StatefulWidget {
 
 class _CategoriesButtonWidgetState
     extends State<HomePageCategoriesButtonWidget> {
-  // int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {

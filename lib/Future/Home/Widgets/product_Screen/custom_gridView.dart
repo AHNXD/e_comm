@@ -44,9 +44,9 @@ class CustomGridVeiw extends StatelessWidget {
         shrinkWrap: shrinkWrap ?? false,
         itemCount: products.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: selectAspectRatio(screenWidth, screenHeight),
+            childAspectRatio: 0.45,
             crossAxisCount: selectScreenWidth(screenWidth),
-            crossAxisSpacing: 3.w,
+            crossAxisSpacing: 4.w,
             mainAxisSpacing: 1.h),
         itemBuilder: (context, index) {
           return ProductCardWidget(
