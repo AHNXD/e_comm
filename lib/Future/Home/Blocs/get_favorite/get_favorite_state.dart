@@ -1,17 +1,17 @@
-part of 'gerfavorite_bloc.dart';
+part of 'get_favorite_bloc.dart';
 
-enum GetfavoriteStatus { loading, success, error }
+enum GetFavoriteStatus { loading, success, error }
 
-class GerfavoriteState extends Equatable {
-  final GetfavoriteStatus status;
+class GetFavoriteState extends Equatable {
+  final GetFavoriteStatus status;
   final List<FavoriteData> favoriteProducts;
   final bool hasReachedMax;
   final String errorMsg;
   final int currentPage;
   final int totalPages;
 
-  const GerfavoriteState({
-    this.status = GetfavoriteStatus.loading,
+  const GetFavoriteState({
+    this.status = GetFavoriteStatus.loading,
     this.hasReachedMax = false,
     this.favoriteProducts = const [],
     this.errorMsg = '',
@@ -19,15 +19,15 @@ class GerfavoriteState extends Equatable {
     this.totalPages = 1,
   });
 
-  GerfavoriteState copyWith({
-    GetfavoriteStatus? status,
+  GetFavoriteState copyWith({
+    GetFavoriteStatus? status,
     List<FavoriteData>? favoriteProducts,
     bool? hasReachedMax,
     String? errorMsg,
     int? currentPage,
     int? totalPages,
   }) {
-    return GerfavoriteState(
+    return GetFavoriteState(
       status: status ?? this.status,
       favoriteProducts: favoriteProducts ?? this.favoriteProducts,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,

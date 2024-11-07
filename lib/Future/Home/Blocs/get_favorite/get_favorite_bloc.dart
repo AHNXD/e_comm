@@ -7,16 +7,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:e_comm/Future/Home/models/favorite_model.dart';
 import 'package:equatable/equatable.dart';
 
-part 'gerfavorite_event.dart';
-part 'gerfavorite_state.dart';
+part 'get_favorite_event.dart';
+part 'get_favorite_state.dart';
 
-class GerfavoriteBloc extends Bloc<GerfavoriteEvent, GerfavoriteState> {
-  GerfavoriteBloc() : super(const GerfavoriteState()) {
-    on<GerfavoriteEvent>((event, emit) async {
+class GetFavoriteBloc extends Bloc<GetFavoriteEvent, GetFavoriteState> {
+  GetFavoriteBloc() : super(const GetFavoriteState()) {
+    on<GetFavoriteEvent>((event, emit) async {
       if (event is GetAllFavoriteEvent) {
         if (state.hasReachedMax) return;
         try {
-          if (state.status == GetfavoriteStatus.loading) {
+          if (state.status == GetFavoriteStatus.loading) {
             final response = await Network.getData(
                 url: "${Urls.getProductsFavorite}?per_page=5&page=1");
             if (response.statusCode == 200 || response.statusCode == 201) {
@@ -25,9 +25,9 @@ class GerfavoriteBloc extends Bloc<GerfavoriteEvent, GerfavoriteState> {
 
               return favoritesProducts.data!.isEmpty
                   ? emit(state.copyWith(
-                      status: GetfavoriteStatus.success, hasReachedMax: true))
+                      status: GetFavoriteStatus.success, hasReachedMax: true))
                   : emit(state.copyWith(
-                      status: GetfavoriteStatus.success,
+                      status: GetFavoriteStatus.success,
                       favoriteProducts: favoritesProducts.data,
                       hasReachedMax: false,
                       currentPage: favoritesProducts.pagination!.currentPage,
@@ -43,7 +43,7 @@ class GerfavoriteBloc extends Bloc<GerfavoriteEvent, GerfavoriteState> {
               favoritesProducts.data!.isEmpty
                   ? emit(state.copyWith(hasReachedMax: true))
                   : emit(state.copyWith(
-                      status: GetfavoriteStatus.success,
+                      status: GetFavoriteStatus.success,
                       favoriteProducts: List.of(state.favoriteProducts)
                         ..addAll(favoritesProducts.data!),
                       hasReachedMax: false,
@@ -54,14 +54,27 @@ class GerfavoriteBloc extends Bloc<GerfavoriteEvent, GerfavoriteState> {
         } catch (error) {
           if (error is DioException) {
             emit(state.copyWith(
-                status: GetfavoriteStatus.error,
+                status: GetFavoriteStatus.error,
                 errorMsg: exceptionsHandle(error: error)));
           } else {
             emit(state.copyWith(
-                status: GetfavoriteStatus.error, errorMsg: error.toString()));
+                status: GetFavoriteStatus.error, errorMsg: error.toString()));
           }
         }
       }
     }, transformer: droppable());
+
+    on<RestPagination>(
+      (event, emit) {
+        emit(state.copyWith(
+          favoriteProducts: [],
+          hasReachedMax: false,
+          status: GetFavoriteStatus.loading,
+          currentPage: 1,
+          totalPages: 1,
+          errorMsg: "",
+        ));
+      },
+    );
   }
 }

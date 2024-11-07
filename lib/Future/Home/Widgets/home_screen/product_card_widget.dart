@@ -140,14 +140,16 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                 )),
             const Spacer(),
             if (widget.product.isOffer! == false)
-              Text(
-                "${widget.product.sellingPrice} ${"sp".tr(context)}",
-                maxLines: 1,
-                overflow: TextOverflow.clip,
-                style: TextStyle(
-                    color: AppColors.textButtonColors,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w900),
+              Center(
+                child: Text(
+                  "${widget.product.sellingPrice} ${"sp".tr(context)}",
+                  maxLines: 1,
+                  overflow: TextOverflow.clip,
+                  style: TextStyle(
+                      color: AppColors.textButtonColors,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w900),
+                ),
               ),
             if (widget.product.isOffer!)
               Column(
@@ -158,19 +160,21 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                     overflow: TextOverflow.clip,
                     style: TextStyle(
                         color: AppColors.textButtonColors,
-                        fontSize: 10.sp,
+                        fontSize: 9.sp,
                         fontWeight: FontWeight.w900,
                         decoration: TextDecoration.lineThrough),
                   ),
                   const SizedBox(
                     height: 4,
                   ),
-                  Text(
-                    "${widget.product.offers!.priceAfterOffer} ${"sp".tr(context)}",
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w900,
+                  Center(
+                    child: Text(
+                      "${widget.product.offers!.priceAfterOffer} ${"sp".tr(context)}",
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
                   ),
                 ],

@@ -1,4 +1,3 @@
-import 'package:e_comm/Future/Home/Pages/product_screen.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/scroll_top_button.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
@@ -11,6 +10,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 import '../../../Utils/colors.dart';
 import '../Blocs/search_products/search_products_bloc.dart';
+import '../Widgets/custom_lazy_load_grid_view.dart';
+import '../Widgets/home_screen/product_card_widget.dart';
 
 class SearchProductScreen extends StatefulWidget {
   const SearchProductScreen({super.key});
@@ -142,10 +143,14 @@ class SearchContentWidget extends StatelessWidget {
                 child: Text("there_are_no_results_found".tr(context)),
               );
             }
-            return CustomGridVeiwLazyLoad(
-              products: state.products,
-              hasReachedMax: state.hasReachedMax,
-            );
+            return CustomLazyLoadGridView(
+                items: state.products,
+                hasReachedMax: state.hasReachedMax,
+                itemBuilder: (context, product) => ProductCardWidget(
+                      isHomeScreen: false,
+                      product: product,
+                      addToCartPaddingButton: 3.w,
+                    ));
         }
       },
     );
@@ -184,8 +189,13 @@ class ShearchBarWidget extends StatelessWidget {
             filled: true,
             suffixIcon: IconButton(
               onPressed: () {
-                controller.clear();
-                context.read<SearchProductsBloc>().add(ResetSearchingToInit());
+                if (controller.text.isNotEmpty &&
+                    controller.text.trim() != "") {
+                  controller.clear();
+                  context
+                      .read<SearchProductsBloc>()
+                      .add(ResetSearchingToInit());
+                }
               },
               icon: const Icon(
                 textDirection: TextDirection.ltr,

@@ -2,9 +2,9 @@ import 'package:e_comm/Future/Home/Blocs/get_products_by_cat_id/get_products_by_
 import 'package:e_comm/Future/Home/Blocs/search_filter_products/search_filter_poducts_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/mange_search_filter_products/mange_search_filter_products_cubit.dart';
+import 'package:e_comm/Future/Home/Widgets/custom_lazy_load_grid_view.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/product_card_widget.dart';
-import 'package:e_comm/Future/Home/models/product_model.dart';
 
 import 'package:e_comm/Utils/app_localizations.dart';
 import '../Cubits/cartCubit/cart.bloc.dart';
@@ -147,9 +147,14 @@ class _ProductScreenState extends State<ProductScreen> {
                           ),
                         );
                       }
-                      return CustomGridVeiwLazyLoad(
-                          products: state.products,
-                          hasReachedMax: state.hasReachedMax);
+                      return CustomLazyLoadGridView(
+                          items: state.products,
+                          hasReachedMax: state.hasReachedMax,
+                          itemBuilder: (context, product) => ProductCardWidget(
+                                isHomeScreen: false,
+                                product: product,
+                                addToCartPaddingButton: 3.w,
+                              ));
                     case SearchFilterProductsStatus.init:
                       return CategoriesGrid(categoryId: widget.cData.id!);
                   }
@@ -215,10 +220,14 @@ class CategoriesGrid extends StatelessWidget {
               ),
             );
           case GetProductsByCatIdStatus.success:
-            return CustomGridVeiwLazyLoad(
-              hasReachedMax: state.hasReachedMax,
-              products: state.products,
-            );
+            return CustomLazyLoadGridView(
+                items: state.products,
+                hasReachedMax: state.hasReachedMax,
+                itemBuilder: (context, product) => ProductCardWidget(
+                      isHomeScreen: false,
+                      product: product,
+                      addToCartPaddingButton: 3.w,
+                    ));
           case GetProductsByCatIdStatus.error:
             return MyErrorWidget(
                 msg: state.errorMsg,
@@ -255,77 +264,5 @@ class CategoriesGrid extends StatelessWidget {
     //     return const SizedBox();
     //   },
     // );
-  }
-}
-
-class CustomGridVeiwLazyLoad extends StatelessWidget {
-  const CustomGridVeiwLazyLoad({
-    super.key,
-    required this.products,
-    required this.hasReachedMax,
-  });
-  final List<MainProduct> products;
-  final bool hasReachedMax;
-  @override
-  Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final screenWidth = screenSize.width;
-    final screenHeight = screenSize.height;
-
-    int selectScreenWidth(screenWidth) {
-      if (screenWidth <= 280) {
-        return 1;
-      }
-      return 2;
-    }
-
-    double selectAspectRatio(screenWidth, screenHeight) {
-      if (screenWidth <= 280) {
-        return screenWidth / (screenHeight) * 2.3;
-      } else if (screenWidth > 280 && screenWidth < 450) {
-        return screenWidth / (screenHeight) * 0.89;
-      } else if (screenWidth >= 450 && screenWidth < 600) {
-        return screenWidth / (screenHeight) * 0.82;
-      } else if (screenWidth >= 600 && screenWidth < 900) {
-        return screenWidth / (screenHeight) * 0.55;
-      }
-      return screenWidth / (screenHeight) * 0.3;
-    }
-
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          GridView.builder(
-            padding: EdgeInsets.zero,
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: hasReachedMax ? products.length : products.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 0.43,
-              crossAxisCount: selectScreenWidth(screenWidth),
-              crossAxisSpacing: 4.w,
-              mainAxisSpacing: 1.h,
-            ),
-            itemBuilder: (context, index) {
-              return ProductCardWidget(
-                isHomeScreen: false,
-                product: products[index],
-                addToCartPaddingButton: 3.w,
-              );
-            },
-          ),
-          if (!hasReachedMax)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0),
-              child: Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.buttonCategoryColor,
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
   }
 }

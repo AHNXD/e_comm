@@ -1,5 +1,5 @@
 import 'package:e_comm/Future/Home/Blocs/get_categories/get_categories_bloc.dart';
-import 'package:e_comm/Future/Home/Blocs/get_favorite/gerfavorite_bloc.dart';
+import 'package:e_comm/Future/Home/Blocs/get_favorite/get_favorite_bloc.dart';
 import 'package:e_comm/Future/Home/Blocs/get_latest_products/get_latest_products_bloc.dart';
 import 'package:e_comm/Future/Home/Blocs/get_my_orders/get_my_orders_bloc.dart';
 
@@ -92,8 +92,8 @@ class MyApp extends StatelessWidget {
           // add these lines
           // BlocProvider(
           //     create: (_) => GetMyOrdersBloc()..add(GetAllMyOrdersEvent())),
-          // BlocProvider(
-          //     create: (_) => GerfavoriteBloc()..add(GetAllFavoriteEvent())),
+          BlocProvider(
+              create: (_) => GetFavoriteBloc()..add(GetAllFavoriteEvent())),
           // BlocProvider(
           //     create: (_) => GetCategoriesBloc()..add(GetAllCategoriesEvent())),
           BlocProvider(create: (_) => CartCubit()),
