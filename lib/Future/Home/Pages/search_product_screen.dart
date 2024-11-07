@@ -143,6 +143,11 @@ class SearchContentWidget extends StatelessWidget {
                 child: Text("there_are_no_results_found".tr(context)),
               );
             }
+            if (state.products.length <= 2) {
+              context
+                  .read<SearchProductsBloc>()
+                  .add(SearchForProducsEvent(search: controller.text));
+            }
             return CustomLazyLoadGridView(
                 items: state.products,
                 hasReachedMax: state.hasReachedMax,

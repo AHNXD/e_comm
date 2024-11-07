@@ -131,6 +131,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       ),
                     );
                   }
+                  if (state.favoriteProducts.length <= 2) {
+                    context.read<GetFavoriteBloc>().add(GetAllFavoriteEvent());
+                  }
                   return ListView(
                     controller: scrollController,
                     physics: const BouncingScrollPhysics(),
