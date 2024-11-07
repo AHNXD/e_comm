@@ -1,10 +1,11 @@
 import 'package:e_comm/Future/Auth/Pages/login_screen.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Blocs/get_latest_products/get_latest_products_bloc.dart';
-import 'package:e_comm/Future/Home/Cubits/GetOffers/get_offers_cubit.dart';
+import 'package:e_comm/Future/Home/Blocs/get_offers/get_offers_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
 //import 'package:e_comm/Future/Home/Cubits/get_latest_products/get_latest_products_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
+import 'package:e_comm/Future/Home/Widgets/home_screen/offers_widget.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 
 import '/Future/Home/Widgets/home_screen/appbar_widget.dart';
@@ -26,27 +27,58 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _scrollController = ScrollController();
+  final _scrollControllerOffers = ScrollController();
+  final _scrollControllerCategories = ScrollController();
   final sc = ScrollController();
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
+    _scrollController.addListener(_onScrollLatestProducts);
+    _scrollControllerOffers.addListener(_onScrollOffers);
+    _scrollControllerCategories.addListener(_onScrollCategories);
   }
 
   @override
   void dispose() {
     _scrollController
-      ..removeListener(_onScroll)
+      ..removeListener(_onScrollLatestProducts)
       ..dispose();
+
+    _scrollControllerOffers
+      ..removeListener(_onScrollOffers)
+      ..dispose();
+
+    _scrollControllerCategories
+      ..removeListener(_onScrollCategories)
+      ..dispose();
+
     super.dispose();
   }
 
-  void _onScroll() {
+  void _onScrollLatestProducts() {
     final currentScroll = _scrollController.offset;
     final maxScroll = _scrollController.position.maxScrollExtent;
 
     if (currentScroll >= (maxScroll * 0.9)) {
       context.read<GetLatestProductsBloc>().add(GetAllLatestProductsEvent());
+    }
+  }
+
+  void _onScrollOffers() {
+    final currentScroll = _scrollControllerOffers.offset;
+    final maxScroll = _scrollControllerOffers.position.maxScrollExtent;
+
+    if (currentScroll >= (maxScroll * 0.9)) {
+      context.read<GetOffersBloc>().add(GetAllOffersEvent());
+    }
+  }
+
+  void _onScrollCategories() {
+    final currentScroll = _scrollControllerCategories.offset;
+    final maxScroll = _scrollControllerCategories.position.maxScrollExtent;
+
+    if (currentScroll >= (maxScroll * 0.9)) {
+      context.read<GetOffersBloc>().add(GetAllOffersEvent());
     }
   }
 
@@ -112,50 +144,84 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const HomePageCategoriesButtonWidget(),
-              BlocBuilder<GetOffersCubit, GetOffersState>(
-                builder: (context, state) {
-                  final model = context.read<GetOffersCubit>();
-                  if (state is GetOffersLoadingState) {
+              BlocBuilder<GetOffersBloc, GetOffersState>(
+                  builder: (context, state) {
+                switch (state.status) {
+                  case GetOffersStatus.loading:
                     return const Center(
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: CircularProgressIndicator(),
                       ),
                     );
-                  } else if (state is GetOffersErrorState) {
-                    return MyErrorWidget(
-                      msg: state.msg,
-                      onPressed: () {
-                        model.getOffers();
-                      },
-                    );
-                  } else if (state is GetOffersSuccessfulState) {
-                    return Column(
-                      children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "offers".tr(context),
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30,
-                                    color: AppColors.textTitleAppBarColor),
+                  case GetOffersStatus.success:
+                    if (state.offersProducts.isEmpty) {
+                      return const SizedBox();
+                    }
+                    return SizedBox(
+                      height: 480,
+                      width: double.infinity,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "offers".tr(context),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 30,
+                                      color: AppColors.textTitleAppBarColor),
+                                ),
                               ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 400,
+                            width: double.infinity,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              controller: _scrollControllerOffers,
+                              itemCount: state.hasReachedMax
+                                  ? state.offersProducts.length
+                                  : state.offersProducts.length + 1,
+                              itemBuilder: (BuildContext context, int index) {
+                                return index >= state.offersProducts.length
+                                    ? const Center(
+                                        child: Padding(
+                                          padding: EdgeInsets.all(4),
+                                          child: SizedBox(
+                                            height: 30,
+                                            width: 30,
+                                            child: CircularProgressIndicator(
+                                              color:
+                                                  AppColors.buttonCategoryColor,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : SizedBox(
+                                        child: OffersWidget(
+                                            data: state.offersProducts[index]),
+                                      );
+                              },
                             ),
-                          ],
-                        ),
-                        CarouselSliderWidget(
-                          list: offersList(state.products),
-                          height: 350,
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     );
-                  }
-                  return const SizedBox();
-                },
-              ),
+                  case GetOffersStatus.error:
+                    return Center(
+                        child: MyErrorWidget(
+                      msg: state.errorMsg,
+                      onPressed: () {
+                        context.read<GetOffersBloc>().add(GetAllOffersEvent());
+                      },
+                    ));
+                }
+              }),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
@@ -242,7 +308,15 @@ class _LastestProductAndTitleState extends State<LastestProductAndTitle> {
               },
             );
           case LatestProductsStatus.error:
-            return Center(child: Text(state.errorMsg));
+            return Center(
+                child: MyErrorWidget(
+              msg: state.errorMsg,
+              onPressed: () {
+                context
+                    .read<GetLatestProductsBloc>()
+                    .add(GetAllLatestProductsEvent());
+              },
+            ));
         }
       },
     );

@@ -2,6 +2,7 @@ import 'package:e_comm/Future/Home/Blocs/get_categories/get_categories_bloc.dart
 import 'package:e_comm/Future/Home/Blocs/get_favorite/get_favorite_bloc.dart';
 import 'package:e_comm/Future/Home/Blocs/get_latest_products/get_latest_products_bloc.dart';
 import 'package:e_comm/Future/Home/Blocs/get_my_orders/get_my_orders_bloc.dart';
+import 'package:e_comm/Future/Home/Blocs/get_offers/get_offers_bloc.dart';
 
 import 'package:e_comm/Future/Home/Blocs/get_products_by_cat_id/get_products_by_cat_id_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
@@ -83,23 +84,21 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => LocaleCubit()..getSaveLanguage()),
           BlocProvider(create: (_) => AuthCubit()..checkToken()),
-          BlocProvider(create: (_) => GetOffersCubit()..getOffers()),
           BlocProvider(create: (_) => GetCatigoriesCubit()..getCatigories()),
           BlocProvider(create: (_) => GetProductsCubit()..getProducts()),
           BlocProvider(create: (_) => FavoriteCubit()..getProductsFavorite()),
           BlocProvider(create: (_) => RangeSliderCubit()),
-          BlocProvider(create: (_) => GetMyOrdersCubit()..getMyOrders()),
-          // add these lines
-          // BlocProvider(
-          //     create: (_) => GetMyOrdersBloc()..add(GetAllMyOrdersEvent())),
+          BlocProvider(
+              create: (_) => GetMyOrdersBloc()..add(GetAllMyOrdersEvent())),
           BlocProvider(
               create: (_) => GetFavoriteBloc()..add(GetAllFavoriteEvent())),
-          // BlocProvider(
-          //     create: (_) => GetCategoriesBloc()..add(GetAllCategoriesEvent())),
+          BlocProvider(
+              create: (_) => GetOffersBloc()..add(GetAllOffersEvent())),
+          BlocProvider(
+              create: (_) => GetCategoriesBloc()..add(GetAllCategoriesEvent())),
           BlocProvider(create: (_) => CartCubit()),
           BlocProvider(create: (_) => CompairProductsCubit()),
           BlocProvider(create: (_) => PostOrdersCubit()),
-          //BlocProvider(create: (_) => GetPorductByIdCubit()),
           BlocProvider(create: (_) => GetProductsByCatIdBloc()),
           BlocProvider(create: (_) => AboutUsCubit()),
           BlocProvider(create: (_) => MaintenanceCubit()),
@@ -107,14 +106,9 @@ class MyApp extends StatelessWidget {
           BlocProvider(
               create: (_) =>
                   GetLatestProductsBloc()..add(GetAllLatestProductsEvent())),
-          // BlocProvider(
-          //     create: (_) => GetLatestProductsCubit()..getLatestProducts()),
           BlocProvider(
               create: (_) =>
                   PagesScreenCubit()..changedScreen(AppScreen.home, context)),
-          // BlocProvider(
-          //   create: (_) => SearchProductsCubit(),
-          // ),
           BlocProvider(create: (_) => SearchProductsBloc()),
           BlocProvider(create: (_) => SellProductCubit()),
           BlocProvider(create: (_) => PrintImageCubit()),

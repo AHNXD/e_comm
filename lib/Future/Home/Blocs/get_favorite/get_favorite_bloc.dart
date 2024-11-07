@@ -18,10 +18,13 @@ class GetFavoriteBloc extends Bloc<GetFavoriteEvent, GetFavoriteState> {
         try {
           if (state.status == GetFavoriteStatus.loading) {
             final response = await Network.getData(
-                url: "${Urls.getProductsFavorite}?per_page=5&page=1");
+                url: "${Urls.getProductsFavorite}?per_page=4&page=1");
             if (response.statusCode == 200 || response.statusCode == 201) {
               FavoriteModel favoritesProducts =
                   FavoriteModel.fromJson(response.data);
+              for (int i = 0; i < favoritesProducts.data!.length; i++) {
+                favoritesProducts.data![i].product!.isFavorite = true;
+              }
 
               return favoritesProducts.data!.isEmpty
                   ? emit(state.copyWith(
@@ -36,10 +39,13 @@ class GetFavoriteBloc extends Bloc<GetFavoriteEvent, GetFavoriteState> {
           } else {
             final response = await Network.getData(
                 url:
-                    "${Urls.getProductsFavorite}?per_page=5&page=${state.currentPage + 1}");
+                    "${Urls.getProductsFavorite}?per_page=4&page=${state.currentPage + 1}");
             if (response.statusCode == 200 || response.statusCode == 201) {
               FavoriteModel favoritesProducts =
                   FavoriteModel.fromJson(response.data);
+              for (int i = 0; i < favoritesProducts.data!.length; i++) {
+                favoritesProducts.data![i].product!.isFavorite = true;
+              }
               favoritesProducts.data!.isEmpty
                   ? emit(state.copyWith(hasReachedMax: true))
                   : emit(state.copyWith(

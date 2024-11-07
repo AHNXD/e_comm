@@ -8,3 +8,5 @@ sealed class GetMyOrdersEvent extends Equatable {
 }
 
 class GetAllMyOrdersEvent extends GetMyOrdersEvent {}
+
+class RestPagination extends GetMyOrdersEvent {}

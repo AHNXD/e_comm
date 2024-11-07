@@ -10,8 +10,8 @@ class CustomLazyLoadGridView<T> extends StatelessWidget {
     required this.itemBuilder,
     this.crossAxisCount = 2,
     this.childAspectRatio = 0.43,
-    this.crossAxisSpacing = 8.0,
-    this.mainAxisSpacing = 8.0,
+    this.crossAxisSpacing = 14.0,
+    this.mainAxisSpacing = 1.0,
     this.padding = const EdgeInsets.all(8.0),
   });
 
@@ -51,7 +51,7 @@ class CustomLazyLoadGridView<T> extends StatelessWidget {
                   color: AppColors.buttonCategoryColor,
                 ),
               ),
-            ),
+            )
         ],
       ),
     );

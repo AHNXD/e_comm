@@ -63,5 +63,18 @@ class GetMyOrdersBloc extends Bloc<GetMyOrdersEvent, GetMyOrdersState> {
         }
       }
     }, transformer: droppable());
+
+    on<RestPagination>(
+      (event, emit) {
+        emit(state.copyWith(
+          my_orders: [],
+          hasReachedMax: false,
+          status: GetMyOrdersStatus.loading,
+          currentPage: 1,
+          totalPages: 1,
+          errorMsg: "",
+        ));
+      },
+    );
   }
 }

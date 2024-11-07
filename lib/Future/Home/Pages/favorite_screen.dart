@@ -1,5 +1,4 @@
 import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
-import 'package:e_comm/Future/Home/Cubits/favoriteCubit/favorite_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/custom_lazy_load_grid_view.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/appbar_widget.dart';
@@ -69,125 +68,66 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       );
     }
 
-    //context.read<FavoriteCubit>().getProductsFavorite();
-    return BlocListener<FavoriteCubit, FavoriteState>(
+    context.read<GetFavoriteBloc>().add(GetAllFavoriteEvent());
+    return BlocListener<CartCubit, CartState>(
       listener: (context, state) {
-        if (state is FavoriteProductSuccessfulState) {
-          context.read<GetFavoriteBloc>().add(RestPagination());
-          context.read<GetFavoriteBloc>().add(GetAllFavoriteEvent());
+        if (state is AddToCartState) {
+          showMessage('add_product_done'.tr(context), Colors.green);
+        } else if (state is AlreadyInCartState) {
+          showMessage('product_in_cart'.tr(context), Colors.grey);
         }
       },
-      child: BlocListener<CartCubit, CartState>(
-        listener: (context, state) {
-          if (state is AddToCartState) {
-            showMessage('add_product_done'.tr(context), Colors.green);
-          } else if (state is AlreadyInCartState) {
-            showMessage('product_in_cart'.tr(context), Colors.grey);
-          }
-        },
-        child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size(double.infinity, 8.h),
-            child: AppBarWidget(
-              isHome: false,
-              title: "fav_screen_title".tr(context),
-            ),
-            // child: AppBar(
-            //   scrolledUnderElevation: 0,
-            //   backgroundColor: Colors.white,
-            //   centerTitle: true,
-            //   title: Padding(
-            //     padding: const EdgeInsets.only(top: 15.0),
-            //     child: Text(
-            //       "fav_screen_title".tr(context),
-            //       style: const TextStyle(
-            //           fontWeight: FontWeight.bold,
-            //           color: AppColors.primaryColors),
-            //     ),
-            //   ),
-            // ),
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size(double.infinity, 8.h),
+          child: AppBarWidget(
+            isHome: false,
+            title: "fav_screen_title".tr(context),
           ),
-          body: BlocBuilder<GetFavoriteBloc, GetFavoriteState>(
-            builder: (context, state) {
-              switch (state.status) {
-                case GetFavoriteStatus.loading:
-                  return const Center(
-                    child: CircularProgressIndicator(
-                        color: AppColors.primaryColors),
+        ),
+        body: BlocBuilder<GetFavoriteBloc, GetFavoriteState>(
+          builder: (context, state) {
+            switch (state.status) {
+              case GetFavoriteStatus.loading:
+                return const Center(
+                  child:
+                      CircularProgressIndicator(color: AppColors.primaryColors),
+                );
+              case GetFavoriteStatus.error:
+                return MyErrorWidget(
+                    msg: state.errorMsg,
+                    onPressed: () {
+                      context
+                          .read<GetFavoriteBloc>()
+                          .add(GetAllFavoriteEvent());
+                    });
+              case GetFavoriteStatus.success:
+                if (state.favoriteProducts.isEmpty) {
+                  return Center(
+                    child: Text(
+                      "fav_body_msg".tr(context),
+                    ),
                   );
-                case GetFavoriteStatus.error:
-                  return MyErrorWidget(
-                      msg: state.errorMsg,
-                      onPressed: () {
-                        context
-                            .read<GetFavoriteBloc>()
-                            .add(GetAllFavoriteEvent());
-                      });
-                case GetFavoriteStatus.success:
-                  if (state.favoriteProducts.isEmpty) {
-                    return Center(
-                      child: Text(
-                        "fav_body_msg".tr(context),
-                      ),
-                    );
-                  }
-                  if (state.favoriteProducts.length <= 2) {
-                    context.read<GetFavoriteBloc>().add(GetAllFavoriteEvent());
-                  }
-                  return ListView(
-                    controller: scrollController,
-                    physics: const BouncingScrollPhysics(),
-                    children: [
-                      CustomLazyLoadGridView(
-                        items: state.favoriteProducts,
-                        itemBuilder: (context, favoriteProduct) {
-                          return ProductCardWidget(
-                            isHomeScreen: false,
-                            product: favoriteProduct.product!,
-                            addToCartPaddingButton: 3.w,
-                          );
-                        },
-                        hasReachedMax: state.hasReachedMax,
-                      ),
-                    ],
-                  );
-              }
-            },
-          ),
-          // body: BlocConsumer<FavoriteCubit, FavoriteState>(
-          //   listener: (context, state) {},
-          //   builder: (context, state) {
-          //     if (state is GetFavoriteProductsSuccessfulState) {
-          //       if (state.fvModel!.isEmpty) {
-          //         return Center(
-          //           child: Text(
-          //             "fav_body_msg".tr(context),
-          //           ),
-          //         );
-          //       } else {
-          //         return ListView(
-          //           children: [
-          //             CustomGridVeiw(
-          //               products: state.fvModel!,
-          //               shrinkWrap: true,
-          //               physics: const NeverScrollableScrollPhysics(),
-          //             ),
-          //           ],
-          //         );
-          //       }
-          //     } else if (state is FavoriteProductsErrorState) {
-          //       return MyErrorWidget(
-          //           msg: state.message,
-          //           onPressed: () {
-          //             context.read<FavoriteCubit>().getProductsFavorite();
-          //           });
-          //     } else {
-          //       return const Center(
-          //         child: CircularProgressIndicator(),
-          //       );
-          //     }
-          //   },
-          // ),
+                }
+                return ListView(
+                  controller: scrollController,
+                  physics: const BouncingScrollPhysics(),
+                  children: [
+                    CustomLazyLoadGridView(
+                      hasReachedMax: state.hasReachedMax,
+                      items: state.favoriteProducts,
+                      itemBuilder: (context, favoriteProduct) {
+                        return ProductCardWidget(
+                          isHomeScreen: false,
+                          product: favoriteProduct.product!,
+                          addToCartPaddingButton: 3.w,
+                        );
+                      },
+                    ),
+                  ],
+                );
+            }
+          },
         ),
       ),
     );
