@@ -20,35 +20,35 @@ class GetMyOrdersBloc extends Bloc<GetMyOrdersEvent, GetMyOrdersState> {
             final response = await Network.getData(
                 url: "${Urls.getMyOrders}?per_page=5&page=1");
             if (response.statusCode == 200 || response.statusCode == 201) {
-              OrdersInformation my_orders =
+              OrdersInformation myOrders =
                   OrdersInformation.fromJson(response.data);
 
-              return my_orders.data!.isEmpty
+              return myOrders.data!.isEmpty
                   ? emit(state.copyWith(
                       status: GetMyOrdersStatus.success, hasReachedMax: true))
                   : emit(state.copyWith(
                       status: GetMyOrdersStatus.success,
-                      my_orders: my_orders.data,
+                      my_orders: myOrders.data,
                       hasReachedMax: false,
-                      currentPage: my_orders.pagination!.currentPage,
-                      totalPages: my_orders.pagination!.total));
+                      currentPage: myOrders.pagination!.currentPage,
+                      totalPages: myOrders.pagination!.total));
             }
           } else {
             final response = await Network.getData(
                 url:
                     "${Urls.getMyOrders}?per_page=5&page=${state.currentPage + 1}");
             if (response.statusCode == 200 || response.statusCode == 201) {
-              OrdersInformation my_orders =
+              OrdersInformation myOrders =
                   OrdersInformation.fromJson(response.data);
-              my_orders.data!.isEmpty
+              myOrders.data!.isEmpty
                   ? emit(state.copyWith(hasReachedMax: true))
                   : emit(state.copyWith(
                       status: GetMyOrdersStatus.success,
                       my_orders: List.of(state.my_orders)
-                        ..addAll(my_orders.data!),
+                        ..addAll(myOrders.data!),
                       hasReachedMax: false,
-                      currentPage: my_orders.pagination!.currentPage,
-                      totalPages: my_orders.pagination!.total));
+                      currentPage: myOrders.pagination!.currentPage,
+                      totalPages: myOrders.pagination!.total));
             }
           }
         } catch (error) {

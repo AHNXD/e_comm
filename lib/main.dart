@@ -19,7 +19,6 @@ import 'package:e_comm/Future/Home/Cubits/all_proudcts_by_all_cat/all_products_b
 import 'package:e_comm/Future/Home/Cubits/contactUsCubit/contact_us_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/favoriteCubit/favorite_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/getCatigories/get_catigories_cubit.dart';
-import 'package:e_comm/Future/Home/Cubits/getMyOrders/get_my_orders_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/getProducts/get_products_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/get_print_sizes_cubit/get_print_sizes_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/locale/locale_cubit.dart';
@@ -34,7 +33,6 @@ import '/Utils/SharedPreferences/SharedPreferencesHelper.dart';
 import 'Future/Home/Blocs/search_filter_products/search_filter_poducts_bloc.dart';
 import 'Future/Home/Blocs/search_products/search_products_bloc.dart';
 import 'Future/Home/Cubits/CompairPruductsCubit/compair_products_cubit.dart';
-import 'Future/Home/Cubits/GetOffers/get_offers_cubit.dart';
 import 'Future/Home/Cubits/cartCubit/cart.bloc.dart';
 import 'Future/Home/Cubits/pages_cubit/pages_cubit.dart';
 import 'Future/Home/Cubits/postOrders/post_orders_cubit.dart';

@@ -3,7 +3,6 @@ import 'package:e_comm/Future/Home/Blocs/get_my_orders/get_my_orders_bloc.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/historyScreen/historyOrderCard.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/appbar_widget.dart';
-import 'package:e_comm/Future/Home/models/my_orders_information.dart';
 
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
