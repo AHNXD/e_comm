@@ -1,5 +1,4 @@
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
-import 'package:e_comm/Future/Home/Widgets/scroll_top_button.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/enums.dart';
 import 'package:e_comm/Utils/images.dart';
@@ -54,8 +53,6 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      floatingActionButton:
-          ScrollToTopButton(scrollController: scrollController),
       appBar: AppBar(
         scrolledUnderElevation: 0,
         leading: IconButton(
@@ -142,11 +139,6 @@ class SearchContentWidget extends StatelessWidget {
               return Center(
                 child: Text("there_are_no_results_found".tr(context)),
               );
-            }
-            if (state.products.length <= 2) {
-              context
-                  .read<SearchProductsBloc>()
-                  .add(SearchForProducsEvent(search: controller.text));
             }
             return CustomLazyLoadGridView(
                 items: state.products,

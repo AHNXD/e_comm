@@ -32,7 +32,8 @@ class SearchProductsBloc
                   : emit(state.copyWith(
                       products: resault.data,
                       status: SearchProductsStatus.success,
-                      hasReachedMax: resault.data!.length <= 1,
+                      hasReachedMax: resault.pagination!.currentPage ==
+                          resault.pagination!.lastPage,
                       totalPages: resault.pagination?.lastPage ?? 1,
                       currentPage: resault.pagination?.currentPage ?? 1,
                     ));
@@ -54,7 +55,8 @@ class SearchProductsBloc
                   : emit(state.copyWith(
                       products: List.of(state.products)..addAll(resault.data!),
                       status: SearchProductsStatus.success,
-                      hasReachedMax: false,
+                      hasReachedMax: resault.pagination!.currentPage ==
+                          resault.pagination!.lastPage,
                       totalPages: resault.pagination!.lastPage,
                       currentPage: resault.pagination!.currentPage,
                     ));

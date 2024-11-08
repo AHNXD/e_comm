@@ -32,7 +32,9 @@ class GetFavoriteBloc extends Bloc<GetFavoriteEvent, GetFavoriteState> {
                   : emit(state.copyWith(
                       status: GetFavoriteStatus.success,
                       favoriteProducts: favoritesProducts.data,
-                      hasReachedMax: false,
+                      hasReachedMax:
+                          favoritesProducts.pagination!.currentPage ==
+                              favoritesProducts.pagination!.lastPage,
                       currentPage: favoritesProducts.pagination!.currentPage,
                       totalPages: favoritesProducts.pagination!.total));
             }
@@ -52,7 +54,9 @@ class GetFavoriteBloc extends Bloc<GetFavoriteEvent, GetFavoriteState> {
                       status: GetFavoriteStatus.success,
                       favoriteProducts: List.of(state.favoriteProducts)
                         ..addAll(favoritesProducts.data!),
-                      hasReachedMax: false,
+                      hasReachedMax:
+                          favoritesProducts.pagination!.currentPage ==
+                              favoritesProducts.pagination!.lastPage,
                       currentPage: favoritesProducts.pagination!.currentPage,
                       totalPages: favoritesProducts.pagination!.total));
             }
