@@ -12,6 +12,15 @@ part 'get_offers_state.dart';
 
 class GetOffersBloc extends Bloc<GetOffersEvent, GetOffersState> {
   GetOffersBloc() : super(const GetOffersState()) {
+    on<ResetPaginationAllOffersEvent>((event, emit) => emit(
+          state.copyWith(
+              offersProducts: [],
+              hasReachedMax: false,
+              status: GetOffersStatus.loading,
+              currentPage: 1,
+              totalPages: 1,
+              errorMsg: ""),
+        ));
     on<GetOffersEvent>((event, emit) async {
       if (event is GetAllOffersEvent) {
         if (state.hasReachedMax) return;

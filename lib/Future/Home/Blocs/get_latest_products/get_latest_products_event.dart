@@ -8,3 +8,5 @@ sealed class GetLatestProductsEvent extends Equatable {
 }
 
 class GetAllLatestProductsEvent extends GetLatestProductsEvent {}
+
+class ResetPaginationAllLatestProductsEvent extends GetLatestProductsEvent {}

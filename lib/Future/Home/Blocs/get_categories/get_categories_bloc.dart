@@ -12,6 +12,16 @@ part 'get_categories_state.dart';
 
 class GetCategoriesBloc extends Bloc<GetCategoriesEvent, GetCategoriesState> {
   GetCategoriesBloc() : super(const GetCategoriesState()) {
+    on<ResetPaginationCategoriesEvent>(
+      (event, emit) => emit(state.copyWith(
+        categories: [],
+        status: GetCategoriesStatus.loading,
+        hasReachedMax: false,
+        totalPages: 1,
+        currentPage: 1,
+        errorMsg: "",
+      )),
+    );
     on<GetCategoriesEvent>((event, emit) async {
       if (event is GetAllCategoriesEvent) {
         if (state.hasReachedMax) return;

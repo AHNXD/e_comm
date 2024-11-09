@@ -83,8 +83,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => LocaleCubit()..getSaveLanguage()),
           BlocProvider(create: (_) => AuthCubit()..checkToken()),
           BlocProvider(create: (_) => GetCatigoriesCubit()..getCatigories()),
-          BlocProvider(create: (_) => GetProductsCubit()..getProducts()),
-          BlocProvider(create: (_) => FavoriteCubit()..getProductsFavorite()),
+          BlocProvider(create: (_) => GetProductsCubit()),
+          BlocProvider(create: (_) => FavoriteCubit()),
           BlocProvider(create: (_) => RangeSliderCubit()),
           BlocProvider(
               create: (_) => GetMyOrdersBloc()..add(GetAllMyOrdersEvent())),

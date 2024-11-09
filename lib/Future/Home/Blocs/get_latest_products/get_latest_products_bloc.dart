@@ -12,6 +12,16 @@ part 'get_latest_products_state.dart';
 class GetLatestProductsBloc
     extends Bloc<GetLatestProductsEvent, GetLatestProductsState> {
   GetLatestProductsBloc() : super(const GetLatestProductsState()) {
+    on<ResetPaginationAllLatestProductsEvent>(
+      (event, emit) => emit(state.copyWith(
+          latestProducts: [],
+          hasReachedMax: false,
+          status: LatestProductsStatus.loading,
+          currentPage: 1,
+          totalPages: 1,
+          errorMsg: "")),
+    );
+
     on<GetLatestProductsEvent>((event, emit) async {
       if (event is GetAllLatestProductsEvent) {
         if (state.hasReachedMax) return;

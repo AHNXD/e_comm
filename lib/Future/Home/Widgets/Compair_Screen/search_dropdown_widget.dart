@@ -1,6 +1,5 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:e_comm/Future/Home/Cubits/CompairPruductsCubit/compair_products_cubit.dart';
-import 'package:e_comm/Utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -27,9 +26,9 @@ class SearchDropDownWidget extends StatelessWidget {
             items: namesList,
             // dropdownSearchDecoration: InputDecoration(labelText: "Name"),
             onChanged: (s) {
-              context
-                  .read<CompairProductsCubit>()
-                  .changeProduct(getPruductByName(context, s!), numberProduct);
+              // context
+              //     .read<CompairProductsCubit>()
+              //     .changeProduct(getPruductByName(context, s!), numberProduct);
             },
             selectedItem:
                 numberProduct == 1 ? namesList.first : namesList.elementAt(1),

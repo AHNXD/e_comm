@@ -8,3 +8,5 @@ sealed class GetOffersEvent extends Equatable {
 }
 
 class GetAllOffersEvent extends GetOffersEvent {}
+
+class ResetPaginationAllOffersEvent extends GetOffersEvent {}

@@ -1,10 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:e_comm/Future/Auth/Widgets/my_button_widget.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
-import 'package:e_comm/Future/Home/Cubits/GetOffers/get_offers_cubit.dart';
-import 'package:e_comm/Future/Home/Cubits/favoriteCubit/favorite_cubit.dart';
+import 'package:e_comm/Future/Home/Blocs/get_latest_products/get_latest_products_bloc.dart';
+import 'package:e_comm/Future/Home/Blocs/get_offers/get_offers_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/getCatigories/get_catigories_cubit.dart';
-import 'package:e_comm/Future/Home/Cubits/getMyOrders/get_my_orders_cubit.dart';
-import 'package:e_comm/Future/Home/Cubits/getProducts/get_products_cubit.dart';
 import 'package:e_comm/Future/Home/Pages/about_us_screen.dart';
 import 'package:e_comm/Future/Home/Pages/maintenance_order.dart';
 import 'package:e_comm/Future/Home/Pages/print_image.dart';
@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../Blocs/get_categories/get_categories_bloc.dart';
 import '../../Cubits/cartCubit/cart.bloc.dart';
 import '../../Cubits/get_print_sizes_cubit/get_print_sizes_cubit.dart';
 import '../../Pages/contact_us_screen.dart';
@@ -117,14 +118,11 @@ class DrawerWidget extends StatelessWidget {
                     String langCode =
                         await SaveService.retrieve("LOCALE") ?? "en";
                     lang = langCode == "en" ? "ar" : "en";
-                    context.read<LocaleCubit>().changeLanguage(lang);
-                    context.read<GetCatigoriesCubit>().getCatigories();
-                    context.read<GetOffersCubit>().getOffers();
-                    context.read<GetProductsCubit>().getProducts();
-                    context.read<FavoriteCubit>().getProductsFavorite();
-                    context.read<GetMyOrdersCubit>().getMyOrders();
-                    context.read<CartCubit>().refreshCartOnLanguageChange();
-                    context.read<GetPrintSizesCubit>().getPrintSizes();
+                    changeLang(context);
+                    // context.read<GetOffersCubit>().getOffers();
+                    // context.read<GetProductsCubit>().getProducts();
+                    //context.read<FavoriteCubit>().getProductsFavorite();
+                    //context.read<GetMyOrdersCubit>().getMyOrders();
                     await Future.delayed(const Duration(milliseconds: 500), () {
                       Navigator.pop(context);
                       massege(context, "change_lang".tr(context), Colors.green);
@@ -163,5 +161,32 @@ class DrawerWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void changeLang(BuildContext context) {
+    context.read<LocaleCubit>().changeLanguage(lang);
+    getCategorisONChangeLang(context);
+    getOffersOnChangeLang(context);
+    getLatestProductsOnChangeLang(context);
+    context.read<GetCatigoriesCubit>().getCatigories();
+    context.read<CartCubit>().refreshCartOnLanguageChange();
+    context.read<GetPrintSizesCubit>().getPrintSizes();
+  }
+
+  void getCategorisONChangeLang(BuildContext context) {
+    context.read<GetCategoriesBloc>().add(ResetPaginationCategoriesEvent());
+    context.read<GetCategoriesBloc>().add(GetAllCategoriesEvent());
+  }
+
+  void getOffersOnChangeLang(BuildContext context) {
+    context.read<GetOffersBloc>().add(ResetPaginationAllOffersEvent());
+    context.read<GetOffersBloc>().add(GetAllOffersEvent());
+  }
+
+  void getLatestProductsOnChangeLang(BuildContext context) {
+    context
+        .read<GetLatestProductsBloc>()
+        .add(ResetPaginationAllLatestProductsEvent());
+    context.read<GetLatestProductsBloc>().add(GetAllLatestProductsEvent());
   }
 }

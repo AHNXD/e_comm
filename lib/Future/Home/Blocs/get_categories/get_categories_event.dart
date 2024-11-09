@@ -8,3 +8,5 @@ sealed class GetCategoriesEvent extends Equatable {
 }
 
 class GetAllCategoriesEvent extends GetCategoriesEvent {}
+
+class ResetPaginationCategoriesEvent extends GetCategoriesEvent {}
