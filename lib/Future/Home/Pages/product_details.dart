@@ -143,7 +143,6 @@ class _DetailPageState extends State<DetailPage> {
                               ),
                             ),
                             // For price
-
                             if (widget.product.isOffer! == false)
                               Center(
                                 child: Text(
@@ -186,7 +185,7 @@ class _DetailPageState extends State<DetailPage> {
                                         width: 8,
                                       ),
                                       CircleAvatar(
-                                        radius: 20.sp,
+                                        radius: 18.sp,
                                         backgroundColor: Colors.red,
                                         child: Text(
                                           "${(1 - (double.tryParse(widget.product.offers!.priceAfterOffer!)! / double.tryParse(widget.product.offers!.priceAfterOffer!)!)) * 100}%",

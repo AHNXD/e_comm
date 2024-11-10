@@ -114,7 +114,8 @@ class _CategoriesButtonWidgetState
                                                     .categories[index].isOffer!
                                                 ? Colors.red
                                                 : AppColors.primaryColors[400]!,
-                                            blurRadius: 15,
+                                            blurStyle: BlurStyle.solid,
+                                            blurRadius: 10,
                                             offset: const Offset(0, 4))
                                       ],
                                       borderRadius: BorderRadius.circular(16),

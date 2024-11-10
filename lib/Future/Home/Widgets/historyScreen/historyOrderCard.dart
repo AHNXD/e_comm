@@ -17,8 +17,13 @@ class HistoryCardItem extends StatelessWidget {
         decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                  color: AppColors.primaryColors[400]!,
-                  blurRadius: 15,
+                  color: order.status == "Accept"
+                      ? Colors.green
+                      : order.status == "Checkout"
+                          ? const Color.fromARGB(255, 223, 206, 51)
+                          : Colors.red,
+                  blurRadius: 8,
+                  blurStyle: BlurStyle.solid,
                   offset: const Offset(0, 4))
             ],
             borderRadius: const BorderRadius.all(Radius.circular(16)),

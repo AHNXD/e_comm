@@ -62,7 +62,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
       },
       child: Container(
         width: 65.w,
-        margin: const EdgeInsets.symmetric(vertical: 16),
+        margin: const EdgeInsets.symmetric(vertical: 20),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
@@ -70,6 +70,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                   ? Colors.red
                   : AppColors.primaryColors[400]!,
               blurRadius: 15,
+              blurStyle: BlurStyle.solid,
               offset: const Offset(0, 4))
         ], borderRadius: BorderRadius.circular(5.w), color: Colors.white),
         child: Column(

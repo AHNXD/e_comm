@@ -29,7 +29,8 @@ class OffersWidget extends StatelessWidget {
           BoxShadow(
               // color: AppColors.primaryColors[400]!,
               color: Colors.red,
-              blurRadius: 15,
+              blurRadius: 10,
+              blurStyle: BlurStyle.solid,
               offset: Offset(0, 4))
         ], borderRadius: BorderRadius.circular(6.w), color: Colors.white),
         child: Column(
