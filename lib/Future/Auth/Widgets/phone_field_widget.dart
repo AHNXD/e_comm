@@ -5,9 +5,9 @@ import 'package:phone_form_field/phone_form_field.dart';
 import 'package:sizer/sizer.dart';
 
 class PhoneFieldWidget extends StatefulWidget {
-  const PhoneFieldWidget({super.key, required this.controller});
+  const PhoneFieldWidget({super.key, required this.controller, this.hintText});
   final PhoneController controller;
-
+  final String? hintText;
   @override
   State<PhoneFieldWidget> createState() => _PhoneFieldWidgetState();
 }
@@ -43,6 +43,7 @@ class _PhoneFieldWidgetState extends State<PhoneFieldWidget> {
           controller: widget.controller,
           focusNode: fNode,
           decoration: InputDecoration(
+            hintText: widget.hintText,
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: Color(0xffB2B9C6)),
               borderRadius: BorderRadius.circular(3.w),

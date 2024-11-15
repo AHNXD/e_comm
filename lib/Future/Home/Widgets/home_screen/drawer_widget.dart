@@ -6,6 +6,7 @@ import 'package:e_comm/Future/Home/Blocs/get_latest_products/get_latest_products
 import 'package:e_comm/Future/Home/Blocs/get_offers/get_offers_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/getCatigories/get_catigories_cubit.dart';
 import 'package:e_comm/Future/Home/Pages/about_us_screen.dart';
+import 'package:e_comm/Future/Home/Pages/edit_profile.dart';
 import 'package:e_comm/Future/Home/Pages/maintenance_order.dart';
 import 'package:e_comm/Future/Home/Pages/print_image.dart';
 import 'package:e_comm/Future/Home/Pages/sell_prodact.dart';
@@ -156,6 +157,15 @@ class DrawerWidget extends StatelessWidget {
                       verticalHieght: 1.h,
                       horizontalWidth: 2.w,
                       color: AppColors.buttonCategoryColor),
+              MyButtonWidget(
+                  text: "edit_profile".tr(context),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const EditeProfile()));
+                  },
+                  verticalHieght: 1.h,
+                  horizontalWidth: 2.w,
+                  color: AppColors.buttonCategoryColor),
             ],
           ),
         ),

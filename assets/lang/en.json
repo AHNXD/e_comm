@@ -138,5 +138,6 @@
     "Reject" : "Rejected",
     "problem_desc" : "Description of the problem",
     "optional" : "(optional)",
-    "ver_code_error" : "The code Should Be 5 Digites"
+    "ver_code_error" : "The code Should Be 5 Digites",
+    "edit_profile" : "Edite your profile "
 }

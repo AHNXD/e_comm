@@ -47,4 +47,6 @@ class Urls {
   static const String getLinks = "${baseUrl}links";
   static const String getMinMax = "${baseUrl}min_max";
   static const String checkToken = "${baseUrl}check-token";
+  static const String getUser = "${baseUrl}get/profile";
+  static const String editProfile = "${baseUrl}update/profile";
 }

@@ -6,6 +6,7 @@ import 'package:e_comm/Future/Home/Blocs/get_offers/get_offers_bloc.dart';
 
 import 'package:e_comm/Future/Home/Blocs/get_products_by_cat_id/get_products_by_cat_id_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
+import 'package:e_comm/Future/Home/Cubits/get_user/get_user_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/mange_search_filter_products/mange_search_filter_products_cubit.dart';
 import 'package:e_comm/splashScreen.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ import 'Future/Home/Blocs/search_filter_products/search_filter_poducts_bloc.dart
 import 'Future/Home/Blocs/search_products/search_products_bloc.dart';
 import 'Future/Home/Cubits/CompairPruductsCubit/compair_products_cubit.dart';
 import 'Future/Home/Cubits/cartCubit/cart.bloc.dart';
+import 'Future/Home/Cubits/edit_profile/edit_profile_cubit.dart';
 import 'Future/Home/Cubits/pages_cubit/pages_cubit.dart';
 import 'Future/Home/Cubits/postOrders/post_orders_cubit.dart';
 import 'Future/Home/Cubits/rangeSliderCubit/range_slider_cubit.dart';
@@ -120,7 +122,9 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (_) => SearchFilterPoductsBloc(),
           ),
-          BlocProvider(create: (_) => MangeSearchFilterProductsCubit())
+          BlocProvider(create: (_) => MangeSearchFilterProductsCubit()),
+          BlocProvider(create: (_) => GetUserCubit()),
+          BlocProvider(create: (_) => EditProfileCubit()),
         ],
         child: BlocBuilder<LocaleCubit, ChangeLocaleState>(
           builder: (context, state) {
