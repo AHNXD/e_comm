@@ -59,9 +59,11 @@ class _EditeProfileState extends State<EditeProfile> {
       listener: (context, state) {
         if (state is EditProfileSuccess) {
           showAwesomeDialog(message: state.msg);
+          context.read<EditProfileCubit>().resetToInintState();
           key1.currentState!.reset();
         } else if (state is EditProfileError) {
           showMessage(Colors.red, state.msg);
+          context.read<EditProfileCubit>().resetToInintState();
         }
       },
       child: Scaffold(
@@ -80,7 +82,7 @@ class _EditeProfileState extends State<EditeProfile> {
           child: BlocBuilder<GetUserCubit, GetUserState>(
             builder: (context, state) {
               if (state is GetUserErorre) {
-                MyErrorWidget(
+                return MyErrorWidget(
                     msg: state.msg,
                     onPressed: context.read<GetUserCubit>().getUserProfile);
               } else if (state is GetUserSuccess) {
@@ -97,15 +99,6 @@ class _EditeProfileState extends State<EditeProfile> {
                     key: key1,
                     child: Column(
                       children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 2.w, vertical: 3.h),
-                          child: Text(
-                            "sell_product_hint".tr(context),
-                            style:
-                                TextStyle(fontSize: 12.sp, color: Colors.black),
-                          ),
-                        ),
                         TextFieldWidget(
                             validatorFun: (p0) =>
                                 validation(p0, ValidationState.normal),

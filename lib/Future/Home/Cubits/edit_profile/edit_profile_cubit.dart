@@ -28,4 +28,8 @@ class EditProfileCubit extends Cubit<EditProfileState> {
       }
     }
   }
+
+  void resetToInintState() {
+    emit(EditProfileInitial());
+  }
 }
