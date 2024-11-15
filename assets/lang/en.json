@@ -131,12 +131,12 @@
     "please_Enter_your" : "please Enter your",
     "confirm_password" : "Confirm Password",
     "confirm_password_msg" : "The Password or Confirm Password is not True",
-    "verification_code_msg" : "A Verification Code Has Been Sent To Your Account",
-    "verification_Code" : "Verification Code",
+    "verification_code_msg" : "A Verification Code Has Been Sent To Your Account, The Code Expired Time Tow Minutes",
+    "verification_code" : "Verification Code",
     "Checkout" : "Pending",
     "Accept" : "Accepted",
     "Reject" : "Rejected",
     "problem_desc" : "Description of the problem",
-    "optional" : "(optional)"
-
+    "optional" : "(optional)",
+    "ver_code_error" : "The code Should Be 5 Digites"
 }

@@ -35,7 +35,7 @@ class CatigoriesData {
   int? id;
   String? name;
   int? parentId;
-  List<Children>? children;
+  List<CatigoriesData>? children;
   List<Files>? files;
   bool? isOffer;
 
@@ -52,10 +52,10 @@ class CatigoriesData {
     name = json['name'];
     parentId = json['parent_id'];
     isOffer = json['IsOffer'];
-    if (json['children'] != null) {
-      children = <Children>[];
-      json['children'].forEach((v) {
-        children!.add(Children.fromJson(v));
+    if (json['child'] != null) {
+      children = <CatigoriesData>[];
+      json['child'].forEach((v) {
+        children!.add(CatigoriesData.fromJson(v));
       });
     }
     if (json['files'] != null) {
@@ -73,33 +73,11 @@ class CatigoriesData {
     data['parent_id'] = parentId;
     data['IsOffer'] = isOffer;
     if (children != null) {
-      data['children'] = children!.map((v) => v.toJson()).toList();
+      data['child'] = children!.map((v) => v.toJson()).toList();
     }
     if (files != null) {
       data['files'] = files!.map((v) => v.toJson()).toList();
     }
-    return data;
-  }
-}
-
-class Children {
-  int? id;
-  String? name;
-  int? parentId;
-
-  Children({this.id, this.name, this.parentId});
-
-  Children.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    parentId = json['parent_id'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['parent_id'] = parentId;
     return data;
   }
 }

@@ -79,14 +79,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   isPassword: false,
                   controller: context.read<AuthCubit>().lastNameController,
                 ),
-                // const SwitchWidget(),
-                // SizedBox(
-                //   height: 2.h,
-                // ),
-                // const SwitchTextWidget(),
-                // SizedBox(
-                //   height: 2.h,
-                // ),
+
                 TextFieldWidget(
                   validatorFun: (p0) => validation(p0, ValidationState.email),
                   text:

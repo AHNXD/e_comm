@@ -37,7 +37,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
           hasStyle: false,
           iconColor: Colors.black,
           textColor: Colors.black,
-          text: "signUp".tr(context),
+          text: widget.prevScreen == "forgetpassword"
+              ? "verification_code".tr(context)
+              : "signUp".tr(context),
         ),
       ),
       body: BlocConsumer<AuthCubit, AuthState>(
@@ -62,7 +64,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
             );
             Navigator.of(context).push(MaterialPageRoute(builder: (builder) {
               if (widget.prevScreen == "forgetpassword") {
-                return ResetPasswordScreen();
+                return const ResetPasswordScreen();
               } else {
                 return const NavBarPage();
               }
@@ -86,20 +88,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    FadeInLeft(
-                        duration: const Duration(milliseconds: 1500),
-                        child: Text(
-                          "verification_code".tr(context),
-                          style: TextStyle(
-                            color: const Color.fromRGBO(49, 39, 79, 1),
-                            fontWeight: FontWeight.bold,
-                            // fontSize: 30,
-                            fontSize: 22.sp,
-                          ),
-                        )),
-                    SizedBox(
-                      height: 1.h,
-                    ),
                     FadeInLeft(
                         duration: const Duration(milliseconds: 1500),
                         child: Text(
@@ -150,21 +138,15 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             text: "next".tr(context),
                             onPressed: () {
                               if (value.isNotEmpty && value.length > 4) {
-                                // context
-                                //     .read<AuthCubit>()
-                                //     .veridicationCodeByCreateAccount(
-                                //         email: widget.prvEmail, otp: value);
-                                Navigator.of(context)
-                                    .push(MaterialPageRoute(builder: (builder) {
-                                  if (widget.prevScreen == "forgetpassword") {
-                                    return ResetPasswordScreen();
-                                  } else {
-                                    return const NavBarPage();
-                                  }
-                                }));
+                                context
+                                    .read<AuthCubit>()
+                                    .veridicationCodeByCreateAccount(
+                                        email: widget.prvEmail, otp: value);
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text("Error")));
+                                    SnackBar(
+                                        content: Text(
+                                            "ver_code_error".tr(context))));
                               }
                             },
                           )

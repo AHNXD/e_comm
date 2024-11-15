@@ -115,18 +115,18 @@ class AuthCubit extends Cubit<AuthState> {
         "password": passwordController.text.trim(),
         "password_confirmation": passwordController.text.trim(),
       }).then((value) {
-        // print(l);
-        if (value.data['success'] == false) {
-          Map t = value.data["data"];
-          List l = [];
-          l.add(value.data['success']);
-          l.addAll(t.values);
-          emit(AuthErrorState(l.toString()));
-        }
-        print(value.data['status']);
-        if (value.data['status'] == true) {
-          print(value.data["msg"]);
-          emit(AuthSuccessfulState(value.data["msg"]));
+        if ((value.statusCode == 200 || value.statusCode == 201)) {
+          print(value.data['status']);
+          if (value.data['status'] == true) {
+            print(value.data["msg"]);
+            emit(AuthSuccessfulState(value.data["msg"]));
+          } else {
+            Map t = value.data["errors"];
+            List l = [];
+            l.add(value.data['status']);
+            l.addAll(t.values);
+            emit(AuthErrorState(l.toString()));
+          }
         }
       });
     } catch (error) {
@@ -151,17 +151,18 @@ class AuthCubit extends Cubit<AuthState> {
         "email": email,
       }).then((value) {
         // print(l);
-        if (value.data['success'] == false) {
-          Map t = value.data["data"];
-          List l = [];
-          l.add(value.data['success']);
-          l.addAll(t.values);
-          emit(AuthErrorState(l.toString()));
-        }
-        print(value.data['status']);
-        if (value.data['status'] == true) {
-          print(value.data["msg"]);
-          emit(AuthSuccessfulState(value.data["msg"]));
+        if ((value.statusCode == 200 || value.statusCode == 201)) {
+          print(value.data['status']);
+          if (value.data['status'] == true) {
+            print(value.data["msg"]);
+            emit(AuthSuccessfulState(value.data["msg"]));
+          } else {
+            Map t = value.data["message"];
+            List l = [];
+            l.add(value.data['status']);
+            l.addAll(t.values);
+            emit(AuthErrorState(l.toString()));
+          }
         }
       });
     } catch (error) {
@@ -180,26 +181,28 @@ class AuthCubit extends Cubit<AuthState> {
   void resetPassword(
       {required String email,
       required String password,
-      required String confirmPassword}) async {
+      required String confirmPassword,
+      required String otp}) async {
     emit(AuthLoadingState());
     try {
       await Network.postData(url: Urls.resetPassword, data: {
         "email": email,
         "password": password,
         "password_confirmation": confirmPassword,
-        "token": AppSharedPreferences.getToken,
+        "token": otp,
       }).then((value) {
-        if (value.data['success'] == false) {
-          Map t = value.data["data"];
-          List l = [];
-          l.add(value.data['success']);
-          l.addAll(t.values);
-          emit(AuthErrorState(l.toString()));
-        }
-        print(value.data['status']);
-        if (value.data['status'] == true) {
-          print(value.data["msg"]);
-          emit(AuthSuccessfulState(value.data["msg"]));
+        if ((value.statusCode == 200 || value.statusCode == 201)) {
+          print(value.data['status']);
+          if (value.data['status'] == true) {
+            print(value.data["msg"]);
+            emit(AuthSuccessfulState(value.data["msg"]));
+          } else {
+            Map t = value.data["message"];
+            List l = [];
+            l.add(value.data['status']);
+            l.addAll(t.values);
+            emit(AuthErrorState(l.toString()));
+          }
         }
       });
     } catch (error) {

@@ -123,10 +123,10 @@ class _ProductScreenState extends State<ProductScreen> {
           child: Column(
             children: [
               TopOvalWidget(
-                isNotHome: widget.isNotHome,
-                firstText: widget.cData.name!,
-                parentId: widget.cData.id!,
-              ),
+                  isNotHome: widget.isNotHome,
+                  firstText: widget.cData.name!,
+                  parentId: widget.cData.id!,
+                  children: widget.cData.children ?? []),
               BlocBuilder<SearchFilterPoductsBloc, SearchFilterPoductsState>(
                 builder: (context, state) {
                   switch (state.status) {

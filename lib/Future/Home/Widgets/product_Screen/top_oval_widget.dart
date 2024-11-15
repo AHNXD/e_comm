@@ -3,6 +3,7 @@ import 'package:e_comm/Future/Home/Blocs/search_filter_products/search_filter_po
 import 'package:e_comm/Future/Home/Cubits/mange_search_filter_products/mange_search_filter_products_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/back_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/categories_button_widget.dart';
+import 'package:e_comm/Future/Home/models/catigories_model.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -13,15 +14,16 @@ import '../../Blocs/get_products_by_cat_id/get_products_by_cat_id_bloc.dart';
 import '../../Cubits/get_min_max_cubit/get_min_max_cubit.dart';
 
 class TopOvalWidget extends StatefulWidget {
-  const TopOvalWidget({
-    super.key,
-    required this.firstText,
-    required this.parentId,
-    required this.isNotHome,
-  });
+  const TopOvalWidget(
+      {super.key,
+      required this.firstText,
+      required this.parentId,
+      required this.isNotHome,
+      required this.children});
   final String firstText;
   final int parentId;
   final bool isNotHome;
+  final List<CatigoriesData> children;
 
   @override
   State<TopOvalWidget> createState() => _TopOvalWidgetState();
@@ -139,9 +141,9 @@ class _TopOvalWidgetState extends State<TopOvalWidget> {
             SizedBox(
               height: 8.h,
               child: CategoriesButtonWidget(
-                parentId: widget.parentId,
-                firstText: widget.firstText,
-              ),
+                  parentId: widget.parentId,
+                  firstText: widget.firstText,
+                  children: widget.children),
             ),
           ],
         ),

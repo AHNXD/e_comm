@@ -135,11 +135,12 @@
     "please_Enter_your" : "الرجاء ادخال",
     "confirm_password" : "تاكيد كلمة المرور",
     "confirm_password_msg" : "كلمة المرور غير متطابقة",
-    "verification_code_msg" : "لقد تم ارسال كود التحقق الى حسابك",
-    "verification_Code" : "كود التحقق",
+    "verification_code_msg" : "لقد تم ارسال كود التحقق الى حسابك، صلاحية الكود دقيقتين",
+    "verification_code" : "كود التحقق",
     "Checkout" : "قيد الإنتظار",
     "Accept" : "تم القبول",
     "Reject" : "تم الرفض",
     "problem_desc" : "وصف المشكلة",
-    "optional" : "(اختياري)"
+    "optional" : "(اختياري)",
+    "ver_code_error" : "يجب ان يكون الكود من خمس ارقام"
 }

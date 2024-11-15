@@ -1,4 +1,4 @@
-import 'package:e_comm/Future/Auth/Pages/verification_screen.dart';
+import 'package:e_comm/Future/Auth/Pages/reset_password_screen.dart';
 import 'package:e_comm/Future/Auth/Widgets/my_button_widget.dart';
 import 'package:e_comm/Future/Auth/Widgets/text_field_widget.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
@@ -44,7 +44,7 @@ class ForgetPassword extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                     elevation: 0,
-                    backgroundColor: Colors.transparent,
+                    backgroundColor: Colors.green,
                     content: Container(
                       padding: EdgeInsets.symmetric(vertical: 1.h),
                       decoration: BoxDecoration(
@@ -58,14 +58,10 @@ class ForgetPassword extends StatelessWidget {
                     ),
                     duration: const Duration(seconds: 5)),
               );
-              Navigator.of(context).pushAndRemoveUntil(
+              Navigator.of(context).push(
                 MaterialPageRoute(builder: (builder) {
-                  return VerificationScreen(
-                    prvEmail: emailOrPhoneNumberController.text.trim(),
-                    prevScreen: "forgetpassword",
-                  );
+                  return const ResetPasswordScreen();
                 }),
-                (route) => false,
               );
             } else if (state is AuthErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -107,7 +103,7 @@ class ForgetPassword extends StatelessWidget {
                   TextFieldWidget(
                     validatorFun: (p0) =>
                         validation(p0, ValidationState.normal),
-                    text: "emailOrPhone".tr(context),
+                    text: "email".tr(context),
                     controller: emailOrPhoneNumberController,
                     isPassword: false,
                   ),

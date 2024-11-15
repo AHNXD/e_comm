@@ -1,4 +1,4 @@
-import 'package:e_comm/Future/Auth/Pages/verification_screen.dart';
+import 'package:e_comm/Future/Auth/Pages/login_screen.dart';
 import 'package:e_comm/Future/Auth/Widgets/my_button_widget.dart';
 import 'package:e_comm/Future/Auth/Widgets/text_field_widget.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
@@ -54,16 +54,21 @@ class SignupScreenTow extends StatelessWidget {
                   ),
                   duration: const Duration(seconds: 5)),
             );
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (builder) {
-                return VerificationScreen(
-                  prevScreen: "signUp".tr(context),
-                  prvEmail:
-                      context.read<AuthCubit>().emailController.text.trim(),
-                );
-              }),
-              (route) => false,
-            );
+            // Navigator.of(context).pushAndRemoveUntil(
+            //   MaterialPageRoute(builder: (builder) {
+            //     return VerificationScreen(
+            //       prevScreen: "signUp".tr(context),
+            //       prvEmail:
+            //           context.read<AuthCubit>().emailController.text.trim(),
+            //     );
+            //   }),
+            //   (route) => false,
+            // );
+
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (builder) {
+              return LoginScreen();
+            }));
           }
           if (state is AuthErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -71,6 +76,14 @@ class SignupScreenTow extends StatelessWidget {
                   backgroundColor: Colors.red,
                   content: Text(state.message),
                   duration: const Duration(seconds: 2)),
+            );
+          }
+          if (state is AuthErrorState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  backgroundColor: Colors.red,
+                  content: Text(state.message),
+                  duration: const Duration(seconds: 5)),
             );
           }
         },
@@ -120,10 +133,10 @@ class SignupScreenTow extends StatelessWidget {
 
                 state is AuthLoadingState
                     ? Center(
-                        child: Lottie.asset(LottieAssets.loadingAnimation,
+                        child: Lottie.asset(LottieAssets.loadingAnimation1,
                             animate: true,
                             repeat: true,
-                            height: 15.h,
+                            height: 10.h,
                             fit: BoxFit.fill))
                     : MyButtonWidget(
                         color: AppColors.buttonCategoryColor,

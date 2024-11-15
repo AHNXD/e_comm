@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:e_comm/Future/Auth/Pages/login_screen.dart';
 import 'package:e_comm/Future/Auth/Widgets/my_button_widget.dart';
 import 'package:e_comm/Future/Auth/Widgets/text_field_widget.dart';
@@ -6,24 +7,32 @@ import 'package:e_comm/Future/Home/Widgets/home_screen/back_widget.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
 import 'package:e_comm/Utils/enums.dart';
-import 'package:e_comm/Utils/images.dart';
 import 'package:e_comm/Utils/lottie.dart';
 import 'package:e_comm/Utils/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 
-class ResetPasswordScreen extends StatelessWidget {
-  ResetPasswordScreen({super.key});
+class ResetPasswordScreen extends StatefulWidget {
+  const ResetPasswordScreen({super.key});
 
+  @override
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
+}
+
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final TextEditingController passwordController = TextEditingController();
+
   final TextEditingController emailOrPhoneNumberController =
       TextEditingController();
+
   final TextEditingController confirmPasswordController =
       TextEditingController();
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  String value = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,34 +89,48 @@ class ResetPasswordScreen extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.symmetric(horizontal: 3.w),
               children: [
+                FadeInLeft(
+                    duration: const Duration(milliseconds: 1500),
+                    child: Text(
+                      "verification_code_msg".tr(context),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: const Color.fromRGBO(49, 39, 79, 1),
+                        fontWeight: FontWeight.w400,
+                        // fontSize: 30,
+                        fontSize: 12.sp,
+                      ),
+                    )),
                 SizedBox(
-                  height: 10.h,
+                  height: 3.h,
                 ),
-                // FlutterLogo(
-                //   size: 15.h,
-                // ),
-                Image.asset(
-                  AppImagesAssets.logoNoBg,
-                  height: 15.h,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 3.h),
-                  child: Text(
-                    "reset_password".tr(context),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 25.sp,
-                        fontWeight: FontWeight.bold),
-                  ),
+                FadeInLeft(
+                    duration: const Duration(microseconds: 1700),
+                    child: SizedBox(
+                      height: 7.5.h,
+                      child: OtpTextField(
+                        onSubmit: (valu) {
+                          setState(() {
+                            value = valu;
+                            print(value);
+                          });
+                        },
+                        borderColor: AppColors.buttonCategoryColor,
+                        fieldWidth: 15.w,
+                        showFieldAsBox: true,
+                        numberOfFields: 5,
+                        borderRadius: BorderRadius.circular(5.w),
+                      ),
+                    )),
+                SizedBox(
+                  height: 1.h,
                 ),
                 TextFieldWidget(
                   validatorFun: (p0) => validation(p0, ValidationState.normal),
-                  text: "emailOrPhone".tr(context),
+                  text: "email".tr(context),
                   controller: emailOrPhoneNumberController,
                   isPassword: false,
                 ),
-
                 TextFieldWidget(
                   controller: passwordController,
                   text: "password".tr(context),
@@ -122,7 +145,7 @@ class ResetPasswordScreen extends StatelessWidget {
                   isPassword: true,
                 ),
                 SizedBox(
-                  height: 2.h,
+                  height: 1.h,
                 ),
                 state is AuthLoadingState
                     ? Center(
@@ -137,24 +160,26 @@ class ResetPasswordScreen extends StatelessWidget {
                         horizontalWidth: 0,
                         text: "next".tr(context),
                         onPressed: () {
-                          if (_key.currentState!.validate() &&
-                              confirmPasswordController.text ==
-                                  passwordController.text) {
-                            context.read<AuthCubit>().resetPassword(
-                                email: emailOrPhoneNumberController.text.trim(),
-                                confirmPassword:
-                                    confirmPasswordController.text.trim(),
-                                password: passwordController.text.trim());
-                            // Navigator.of(context).pushAndRemoveUntil(
-                            //   MaterialPageRoute(builder: (builder) {
-                            //     return LoginScreen();
-                            //   }),
-                            //   (route) => false,
-                            // );
+                          if (value.isNotEmpty && value.length > 4) {
+                            if (_key.currentState!.validate() &&
+                                confirmPasswordController.text ==
+                                    passwordController.text) {
+                              context.read<AuthCubit>().resetPassword(
+                                  email:
+                                      emailOrPhoneNumberController.text.trim(),
+                                  confirmPassword:
+                                      confirmPasswordController.text.trim(),
+                                  password: passwordController.text.trim(),
+                                  otp: value);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          "confirm_password_msg".tr(context))));
+                            }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content:
-                                    Text("confirm_password_msg".tr(context))));
+                                content: Text("ver_code_error".tr(context))));
                           }
                         },
                       )

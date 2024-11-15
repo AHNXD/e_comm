@@ -160,7 +160,7 @@ class _CategoriesButtonWidgetState
                                                     .files![0].name!,
                                           )
                                         : const AssetImage(
-                                            AppImagesAssets.test1))),
+                                            AppImagesAssets.plus))),
                           ],
                         );
                 },
