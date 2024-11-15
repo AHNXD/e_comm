@@ -29,7 +29,8 @@ class GetMyOrdersBloc extends Bloc<GetMyOrdersEvent, GetMyOrdersState> {
                   : emit(state.copyWith(
                       status: GetMyOrdersStatus.success,
                       my_orders: myOrders.data,
-                      hasReachedMax: false,
+                      hasReachedMax: myOrders.pagination!.currentPage ==
+                          myOrders.pagination!.lastPage,
                       currentPage: myOrders.pagination!.currentPage,
                       totalPages: myOrders.pagination!.total));
             }
@@ -46,7 +47,8 @@ class GetMyOrdersBloc extends Bloc<GetMyOrdersEvent, GetMyOrdersState> {
                       status: GetMyOrdersStatus.success,
                       my_orders: List.of(state.my_orders)
                         ..addAll(myOrders.data!),
-                      hasReachedMax: false,
+                      hasReachedMax: myOrders.pagination!.currentPage ==
+                          myOrders.pagination!.lastPage,
                       currentPage: myOrders.pagination!.currentPage,
                       totalPages: myOrders.pagination!.total));
             }

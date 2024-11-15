@@ -200,7 +200,9 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                         widget.product.sizes!.isNotEmpty) {
                       showMessage("select_size".tr(context), Colors.red);
                     } else {
-                      context.read<CartCubit>().addToCart(widget.product);
+                      context
+                          .read<CartCubit>()
+                          .addToCart(widget.product, widget.isHomeScreen);
                     }
                   },
                   child: Text(

@@ -80,7 +80,7 @@ class AboutUsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: [
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -146,7 +146,7 @@ class AboutUsWidget extends StatelessWidget {
           height: 60,
           child: Center(
             child: ListView.builder(
-              itemCount: links.data!.length ?? 0,
+              itemCount: links.data!.length,
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {

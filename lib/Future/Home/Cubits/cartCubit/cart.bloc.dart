@@ -13,12 +13,16 @@ part 'cart.state.dart';
 class CartCubit extends Cubit<CartState> {
   CartCubit() : super(EmptyCartState());
   List<MainProduct> pcw = <MainProduct>[];
-  void addToCart(MainProduct p) {
+  void addToCart(MainProduct p, bool isHomeScreen) {
     if (pcw.any((element) => element.id == p.id)) {
       emit(AlreadyInCartState());
     } else {
       pcw.add(p);
-      emit(AddToCartState());
+      if (isHomeScreen) {
+        emit(AddedTocartFromHomeScreen());
+      } else {
+        emit(AddToCartState());
+      }
     }
   }
 

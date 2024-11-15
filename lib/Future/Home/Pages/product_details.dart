@@ -292,7 +292,9 @@ class _DetailPageState extends State<DetailPage> {
                               widget.product.sizes![selectedIndex!]);
                         }
                       } else {
-                        context.read<CartCubit>().addToCart(widget.product);
+                        context
+                            .read<CartCubit>()
+                            .addToCart(widget.product, false);
                       }
                     },
                     child: Text(

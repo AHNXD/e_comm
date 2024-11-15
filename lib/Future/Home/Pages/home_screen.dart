@@ -123,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: AppColors.backgroundColor,
         body: BlocListener<CartCubit, CartState>(
           listener: (context, state) {
-            if (state is AddToCartState) {
+            if (state is AddedTocartFromHomeScreen) {
               showMessage('add_product_done'.tr(context), Colors.green);
             } else if (state is AlreadyInCartState) {
               showMessage('product_in_cart'.tr(context), Colors.grey);

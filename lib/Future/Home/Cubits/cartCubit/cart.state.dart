@@ -28,3 +28,5 @@ final class CartErrorState extends CartState {
 
   CartErrorState({required this.errorMessage});
 }
+
+final class AddedTocartFromHomeScreen extends CartState {}
