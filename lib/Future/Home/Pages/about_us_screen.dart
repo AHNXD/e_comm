@@ -126,7 +126,7 @@ class AboutUsWidget extends StatelessWidget {
               text: "phone_number".tr(context),
               children: [
                 TextSpan(
-                  text: "\n${aboutUs.phoneNumber ?? ""}",
+                  text: "\n${aboutUs.phoneNumber ?? ""}\n+963980555582",
                   style: TextStyle(
                       color: Colors.blueAccent,
                       fontWeight: FontWeight.bold,
@@ -185,7 +185,8 @@ class AboutUsWidget extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                     children: [
                       TextSpan(
-                          text: "\n${aboutUs.companyName ?? ""}",
+                          text:
+                              "\n${aboutUs.companyName ?? ""}\n Ali Al-Hadi Nizam \n Ayham Kefo",
                           style: TextStyle(
                               fontSize: 10.sp,
                               fontWeight: FontWeight.bold,
