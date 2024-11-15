@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class TextFieldWidget extends StatefulWidget {
-  const TextFieldWidget(
-      {super.key,
-      this.borderColor,
-      required this.text,
-      required this.isPassword,
-      this.maxLine = 1,
-      required this.controller,
-      this.validatorFun,
-      this.keyboardType,
-      this.hintText});
+  const TextFieldWidget({
+    super.key,
+    this.borderColor,
+    required this.text,
+    required this.isPassword,
+    this.maxLine = 1,
+    required this.controller,
+    this.validatorFun,
+    this.keyboardType,
+  });
   final String text;
   final bool isPassword;
   final int maxLine;
@@ -19,7 +19,6 @@ class TextFieldWidget extends StatefulWidget {
   final String? Function(String?)? validatorFun;
   final Color? borderColor;
   final TextInputType? keyboardType;
-  final String? hintText;
 
   @override
   State<TextFieldWidget> createState() => _TextFieldWidgetState();
@@ -67,7 +66,6 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         maxLines: widget.maxLine,
         obscureText: widget.isPassword ? !showPassowrd : false,
         decoration: InputDecoration(
-          hintText: widget.hintText,
           labelStyle: const TextStyle(color: Colors.black),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(

@@ -85,6 +85,12 @@ class _EditeProfileState extends State<EditeProfile> {
                     onPressed: context.read<GetUserCubit>().getUserProfile);
               } else if (state is GetUserSuccess) {
                 gender ??= state.userProfile.gender;
+                firstNameController.text = state.userProfile.firstName!;
+                lastNameController.text = state.userProfile.lastName!;
+                emailController.text = state.userProfile.email!;
+                addressController.text = state.userProfile.address!;
+                phoneController.changeNationalNumber(state.userProfile.phone);
+
                 return Padding(
                   padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
                   child: Form(
@@ -104,25 +110,21 @@ class _EditeProfileState extends State<EditeProfile> {
                             validatorFun: (p0) =>
                                 validation(p0, ValidationState.normal),
                             text: "FN_info".tr(context),
-                            hintText: state.userProfile.firstName,
                             isPassword: false,
                             controller: firstNameController),
                         TextFieldWidget(
                             validatorFun: (p0) =>
                                 validation(p0, ValidationState.normal),
                             text: 'LN_info'.tr(context),
-                            hintText: state.userProfile.lastName,
                             isPassword: false,
                             controller: lastNameController),
                         PhoneFieldWidget(
                           controller: phoneController,
-                          hintText: state.userProfile.phone,
                         ),
                         TextFieldWidget(
                           validatorFun: (p0) =>
                               validation(p0, ValidationState.email),
                           text: "email".tr(context),
-                          hintText: state.userProfile.email,
                           isPassword: false,
                           controller: emailController,
                         ),
@@ -130,7 +132,6 @@ class _EditeProfileState extends State<EditeProfile> {
                             validatorFun: (p0) =>
                                 validation(p0, ValidationState.normal),
                             text: "address".tr(context),
-                            hintText: state.userProfile.address,
                             isPassword: false,
                             controller: addressController),
                         Row(
