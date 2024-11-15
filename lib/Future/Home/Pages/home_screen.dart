@@ -3,6 +3,7 @@ import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Blocs/get_latest_products/get_latest_products_bloc.dart';
 import 'package:e_comm/Future/Home/Blocs/get_offers/get_offers_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
+import 'package:e_comm/Future/Home/Cubits/cubit/delete_profile_cubit.dart';
 //import 'package:e_comm/Future/Home/Cubits/get_latest_products/get_latest_products_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/offers_widget.dart';
@@ -115,128 +116,144 @@ class _HomeScreenState extends State<HomeScreen> {
           }));
         }
       },
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 8.5.h),
-          child: const AppBarWidget(),
-        ),
-        backgroundColor: AppColors.backgroundColor,
-        body: BlocListener<CartCubit, CartState>(
-          listener: (context, state) {
-            if (state is AddedTocartFromHomeScreen) {
-              showMessage('add_product_done'.tr(context), Colors.green);
-            } else if (state is AlreadyInCartState) {
-              showMessage('product_in_cart'.tr(context), Colors.grey);
-            }
-          },
-          child: ListView(
-            shrinkWrap: true,
-            controller: _scrollController,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "categoris".tr(context),
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                      color: AppColors.textTitleAppBarColor),
+      child: BlocListener<DeleteProfileCubit, DeleteProfileState>(
+        listener: (context, state) {
+          if (state is DeleteProfileSuccess) {
+            showMessage(state.msg, Colors.red);
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (builder) {
+              return LoginScreen();
+            }));
+          } else if (state is DeleteProfileError) {
+            showMessage(state.msg, Colors.red);
+          }
+        },
+        child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size(double.infinity, 8.5.h),
+            child: const AppBarWidget(),
+          ),
+          backgroundColor: AppColors.backgroundColor,
+          body: BlocListener<CartCubit, CartState>(
+            listener: (context, state) {
+              if (state is AddedTocartFromHomeScreen) {
+                showMessage('add_product_done'.tr(context), Colors.green);
+              } else if (state is AlreadyInCartState) {
+                showMessage('product_in_cart'.tr(context), Colors.grey);
+              }
+            },
+            child: ListView(
+              shrinkWrap: true,
+              controller: _scrollController,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "categoris".tr(context),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                        color: AppColors.textTitleAppBarColor),
+                  ),
                 ),
-              ),
-              const HomePageCategoriesButtonWidget(),
-              BlocBuilder<GetOffersBloc, GetOffersState>(
-                  builder: (context, state) {
-                switch (state.status) {
-                  case GetOffersStatus.loading:
-                    return const Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  case GetOffersStatus.success:
-                    if (state.offersProducts.isEmpty) {
-                      return const SizedBox();
-                    }
-                    return SizedBox(
-                      height: 480,
-                      width: double.infinity,
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "offers".tr(context),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30,
-                                      color: AppColors.textTitleAppBarColor),
+                const HomePageCategoriesButtonWidget(),
+                BlocBuilder<GetOffersBloc, GetOffersState>(
+                    builder: (context, state) {
+                  switch (state.status) {
+                    case GetOffersStatus.loading:
+                      return const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    case GetOffersStatus.success:
+                      if (state.offersProducts.isEmpty) {
+                        return const SizedBox();
+                      }
+                      return SizedBox(
+                        height: 480,
+                        width: double.infinity,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "offers".tr(context),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 30,
+                                        color: AppColors.textTitleAppBarColor),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 400,
-                            width: double.infinity,
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              controller: _scrollControllerOffers,
-                              itemCount: state.hasReachedMax
-                                  ? state.offersProducts.length
-                                  : state.offersProducts.length + 1,
-                              itemBuilder: (BuildContext context, int index) {
-                                return index >= state.offersProducts.length
-                                    ? const Center(
-                                        child: Padding(
-                                          padding: EdgeInsets.all(4),
-                                          child: SizedBox(
-                                            height: 30,
-                                            width: 30,
-                                            child: CircularProgressIndicator(
-                                              color:
-                                                  AppColors.buttonCategoryColor,
+                              ],
+                            ),
+                            SizedBox(
+                              height: 400,
+                              width: double.infinity,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                controller: _scrollControllerOffers,
+                                itemCount: state.hasReachedMax
+                                    ? state.offersProducts.length
+                                    : state.offersProducts.length + 1,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return index >= state.offersProducts.length
+                                      ? const Center(
+                                          child: Padding(
+                                            padding: EdgeInsets.all(4),
+                                            child: SizedBox(
+                                              height: 30,
+                                              width: 30,
+                                              child: CircularProgressIndicator(
+                                                color: AppColors
+                                                    .buttonCategoryColor,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      )
-                                    : SizedBox(
-                                        child: OffersWidget(
-                                            data: state.offersProducts[index]),
-                                      );
-                              },
+                                        )
+                                      : SizedBox(
+                                          child: OffersWidget(
+                                              data:
+                                                  state.offersProducts[index]),
+                                        );
+                                },
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  case GetOffersStatus.error:
-                    return Center(
-                        child: MyErrorWidget(
-                      msg: state.errorMsg,
-                      onPressed: () {
-                        context.read<GetOffersBloc>().add(GetAllOffersEvent());
-                      },
-                    ));
-                }
-              }),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "latest_products".tr(context),
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                      color: AppColors.textTitleAppBarColor),
+                          ],
+                        ),
+                      );
+                    case GetOffersStatus.error:
+                      return Center(
+                          child: MyErrorWidget(
+                        msg: state.errorMsg,
+                        onPressed: () {
+                          context
+                              .read<GetOffersBloc>()
+                              .add(GetAllOffersEvent());
+                        },
+                      ));
+                  }
+                }),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "latest_products".tr(context),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                        color: AppColors.textTitleAppBarColor),
+                  ),
                 ),
-              ),
-              LastestProductAndTitle(controller: _scrollController),
-              SizedBox(
-                height: 2.h,
-              )
-            ],
+                LastestProductAndTitle(controller: _scrollController),
+                SizedBox(
+                  height: 2.h,
+                )
+              ],
+            ),
           ),
         ),
       ),

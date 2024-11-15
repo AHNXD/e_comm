@@ -1,9 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:e_comm/Future/Auth/Widgets/my_button_widget.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Blocs/get_latest_products/get_latest_products_bloc.dart';
 import 'package:e_comm/Future/Home/Blocs/get_offers/get_offers_bloc.dart';
+import 'package:e_comm/Future/Home/Cubits/cubit/delete_profile_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/getCatigories/get_catigories_cubit.dart';
 import 'package:e_comm/Future/Home/Pages/about_us_screen.dart';
 import 'package:e_comm/Future/Home/Pages/edit_profile.dart';
@@ -32,6 +34,23 @@ class DrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void showAwesomeDialog(
+        {required String tilte, required String message}) async {
+      await AwesomeDialog(
+        descTextStyle: TextStyle(fontSize: 12.sp),
+        title: tilte,
+        desc: message,
+        btnOkText: "ok".tr(context),
+        btnOkColor: AppColors.primaryColors,
+        context: context,
+        dialogType: DialogType.error,
+        animType: AnimType.scale,
+        btnOkOnPress: () {
+          context.read<DeleteProfileCubit>().deleteProfile();
+        },
+      ).show();
+    }
+
     return SafeArea(
       child: Drawer(
         child: Padding(
@@ -132,6 +151,15 @@ class DrawerWidget extends StatelessWidget {
                   verticalHieght: 1.h,
                   horizontalWidth: 2.w,
                   color: AppColors.buttonCategoryColor),
+              MyButtonWidget(
+                  text: "edit_profile".tr(context),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const EditeProfile()));
+                  },
+                  verticalHieght: 1.h,
+                  horizontalWidth: 2.w,
+                  color: AppColors.buttonCategoryColor),
               !AppSharedPreferences.hasToken
                   ? Column(
                       children: [
@@ -158,14 +186,16 @@ class DrawerWidget extends StatelessWidget {
                       horizontalWidth: 2.w,
                       color: AppColors.buttonCategoryColor),
               MyButtonWidget(
-                  text: "edit_profile".tr(context),
+                  text: "delete_account".tr(context),
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const EditeProfile()));
+                    showAwesomeDialog(
+                      tilte: "delete_account".tr(context),
+                      message: "delete_account_msg".tr(context),
+                    );
                   },
                   verticalHieght: 1.h,
                   horizontalWidth: 2.w,
-                  color: AppColors.buttonCategoryColor),
+                  color: Colors.red),
             ],
           ),
         ),

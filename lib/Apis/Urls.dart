@@ -49,4 +49,5 @@ class Urls {
   static const String checkToken = "${baseUrl}check-token";
   static const String getUser = "${baseUrl}get/profile";
   static const String editProfile = "${baseUrl}update/profile";
+  static const String deleteProfile = "${baseUrl}delete/profile";
 }
