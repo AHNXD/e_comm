@@ -31,7 +31,6 @@ class _CartInformationState extends State<CartInformation> {
 
   late final TextEditingController lastNameController;
 
-
   late final PhoneController phoneController;
 
   late final TextEditingController address1Controller;
@@ -113,35 +112,23 @@ class _CartInformationState extends State<CartInformation> {
           if (state is PostOrdersSuccessfulState) {
             showSuccessSnackBar(
                 message: "the_order_was_send_successfully".tr(context));
-            Future.delayed(const Duration(seconds: 2)).then((onValue) {
-              context.read<CartCubit>().pcw = [];
-              context
-                  .read<PagesScreenCubit>()
-                  .changedScreen(AppScreen.home, context);
-              getAllApiInMainPage(context);
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (builder) {
-                  return const NavBarPage();
-                }),
-                (route) => false,
-              );
-            });
+            context.read<CartCubit>().pcw = [];
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (builder) {
+                return const NavBarPage();
+              }),
+              (route) => false,
+            );
           } else if (state is PostOrdersErrorState) {
-            showSuccessSnackBar(message: "Error");
-            Future.delayed(const Duration(seconds: 2)).then((onValue) {
-              context
-                  .read<PagesScreenCubit>()
-                  .changedScreen(AppScreen.home, context);
-              getAllApiInMainPage(context);
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (builder) {
-                  return const NavBarPage();
-                }),
-                (route) => false,
-              );
-            });
+            showSuccessSnackBar(message: state.msg);
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (builder) {
+                return const NavBarPage();
+              }),
+              (route) => false,
+            );
           }
         },
         builder: (context, state) {

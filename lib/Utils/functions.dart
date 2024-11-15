@@ -12,7 +12,6 @@ import '../Future/Auth/Widgets/text_field_widget.dart';
 import '../Future/Home/Cubits/GetOffers/get_offers_cubit.dart';
 import '../Future/Home/Cubits/postOrders/post_orders_cubit.dart';
 
-
 void showSuccessSnackBar({required String message}) {
   ScaffoldMessenger.of(scaffoldKey.currentState!.context).showSnackBar(SnackBar(
     behavior: SnackBarBehavior.floating,
