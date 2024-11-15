@@ -36,7 +36,7 @@ class SignupScreenTow extends StatelessWidget {
       ),
       body: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
-          if (state is AuthSuccessfulState) {
+          if (state is RegisterSuccessfulState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                   elevation: 0,
@@ -70,7 +70,7 @@ class SignupScreenTow extends StatelessWidget {
               return LoginScreen();
             }));
           }
-          if (state is AuthErrorState) {
+          if (state is RegisterErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                   backgroundColor: Colors.red,
@@ -78,7 +78,7 @@ class SignupScreenTow extends StatelessWidget {
                   duration: const Duration(seconds: 2)),
             );
           }
-          if (state is AuthErrorState) {
+          if (state is RegisterErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                   backgroundColor: Colors.red,
@@ -131,7 +131,7 @@ class SignupScreenTow extends StatelessWidget {
                   height: 2.h,
                 ),
 
-                state is AuthLoadingState
+                state is RegisterLoadingState
                     ? Center(
                         child: Lottie.asset(LottieAssets.loadingAnimation1,
                             animate: true,

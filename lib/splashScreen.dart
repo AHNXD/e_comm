@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen>
                 MaterialPageRoute(builder: (builder) {
               return LoginScreen();
             }));
-          } else if (state is AuthErrorState) {
+          } else if (state is TokenErrorState) {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (builder) {
               return LoginScreen();

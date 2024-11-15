@@ -36,7 +36,7 @@ class LoginScreen extends StatelessWidget {
       ),
       body: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
-          if (state is AuthSuccessfulState) {
+          if (state is LoginSuccessfulState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                   elevation: 0,
@@ -59,7 +59,7 @@ class LoginScreen extends StatelessWidget {
               return const NavBarPage();
             }));
           }
-          if (state is AuthErrorState) {
+          if (state is LoginErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                   backgroundColor: Colors.red,
@@ -144,7 +144,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                state is AuthLoadingState
+                state is LoginLoadingState
                     ? const Center(child: CircularProgressIndicator())
                     : MyButtonWidget(
                         color: AppColors.buttonCategoryColor,

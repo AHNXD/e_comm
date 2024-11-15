@@ -26,12 +26,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   bool _signUpState = false;
   int genderState = 1; //male=1;fmale=0;
-  // SwitchStateWael swichState = SwitchStateWael.email;
-
-  // set setSwitchState(SwitchStateWael s) {
-  //   swichState = s;
-  //   emit(SwitchState());
-  // }
 
   set setSignUpStatusIsEmail(bool isEmail) {
     _signUpState = isEmail;
@@ -47,7 +41,7 @@ class AuthCubit extends Cubit<AuthState> {
     required String email,
     required String password,
   }) async {
-    emit(AuthLoadingState());
+    emit(LoginLoadingState());
 
     try {
       await Network.postData(url: Urls.logInApi, data: {
@@ -59,42 +53,16 @@ class AuthCubit extends Cubit<AuthState> {
         }
       });
 
-      emit(AuthSuccessfulState());
+      emit(LoginSuccessfulState());
     } catch (error) {
       if (error is DioException) {
         emit(
-          AuthErrorState(
+          LoginErrorState(
             exceptionsHandle(error: error),
           ),
         );
       } else {
-        AuthErrorState(error.toString());
-      }
-    }
-  }
-
-  void checkForgetPassoword({required String emailOrPhoneNumber}) async {
-    emit(AuthLoadingState());
-
-    try {
-      await Network.postData(
-          url: Urls.logInApi,
-          data: {"email": emailOrPhoneNumber}).then((value) {
-        if (value.data['status'] == true) {
-          AppSharedPreferences.saveToken(value.data['data']);
-        }
-      });
-
-      emit(AuthSuccessfulState());
-    } catch (error) {
-      if (error is DioException) {
-        emit(
-          AuthErrorState(
-            exceptionsHandle(error: error),
-          ),
-        );
-      } else {
-        emit(AuthErrorState(error.toString()));
+        LoginErrorState(error.toString());
       }
     }
   }
@@ -102,7 +70,7 @@ class AuthCubit extends Cubit<AuthState> {
   void createAccount({
     required int gender,
   }) async {
-    emit(AuthLoadingState());
+    emit(RegisterLoadingState());
     try {
       await Network.postData(url: Urls.registerApi, data: {
         "first_name": firstNameController.text.trim(),
@@ -119,25 +87,25 @@ class AuthCubit extends Cubit<AuthState> {
           print(value.data['status']);
           if (value.data['status'] == true) {
             print(value.data["msg"]);
-            emit(AuthSuccessfulState(value.data["msg"]));
+            emit(RegisterSuccessfulState(value.data["msg"]));
           } else {
             Map t = value.data["errors"];
             List l = [];
             l.add(value.data['status']);
             l.addAll(t.values);
-            emit(AuthErrorState(l.toString()));
+            emit(RegisterErrorState(l.toString()));
           }
         }
       });
     } catch (error) {
       if (error is DioException) {
         emit(
-          AuthErrorState(
+          RegisterErrorState(
             exceptionsHandle(error: error),
           ),
         );
       } else {
-        AuthErrorState(error.toString());
+        RegisterErrorState(error.toString());
       }
     }
   }
@@ -145,7 +113,7 @@ class AuthCubit extends Cubit<AuthState> {
   void emailForgetPassword({
     required String email,
   }) async {
-    emit(AuthLoadingState());
+    emit(ForgetPasswordLoadingState());
     try {
       await Network.postData(url: Urls.forgetPassword, data: {
         "email": email,
@@ -155,25 +123,25 @@ class AuthCubit extends Cubit<AuthState> {
           print(value.data['status']);
           if (value.data['status'] == true) {
             print(value.data["msg"]);
-            emit(AuthSuccessfulState(value.data["msg"]));
+            emit(ForgetPasswordSuccessfulState(value.data["msg"]));
           } else {
             Map t = value.data["message"];
             List l = [];
             l.add(value.data['status']);
             l.addAll(t.values);
-            emit(AuthErrorState(l.toString()));
+            emit(ForgetPasswordErrorState(l.toString()));
           }
         }
       });
     } catch (error) {
       if (error is DioException) {
         emit(
-          AuthErrorState(
+          ForgetPasswordErrorState(
             exceptionsHandle(error: error),
           ),
         );
       } else {
-        AuthErrorState(error.toString());
+        ForgetPasswordErrorState(error.toString());
       }
     }
   }
@@ -183,7 +151,7 @@ class AuthCubit extends Cubit<AuthState> {
       required String password,
       required String confirmPassword,
       required String otp}) async {
-    emit(AuthLoadingState());
+    emit(ResetPasswordLoadingState());
     try {
       await Network.postData(url: Urls.resetPassword, data: {
         "email": email,
@@ -195,56 +163,31 @@ class AuthCubit extends Cubit<AuthState> {
           print(value.data['status']);
           if (value.data['status'] == true) {
             print(value.data["msg"]);
-            emit(AuthSuccessfulState(value.data["msg"]));
+            emit(ResetPasswordSuccessfulState(value.data["msg"]));
           } else {
             Map t = value.data["message"];
             List l = [];
             l.add(value.data['status']);
             l.addAll(t.values);
-            emit(AuthErrorState(l.toString()));
+            emit(ResetPasswordErrorState(l.toString()));
           }
         }
       });
     } catch (error) {
       if (error is DioException) {
         emit(
-          AuthErrorState(
+          ResetPasswordErrorState(
             exceptionsHandle(error: error),
           ),
         );
       } else {
-        AuthErrorState(error.toString());
-      }
-    }
-  }
-
-  void veridicationCodeByCreateAccount(
-      {required String otp, required String email}) async {
-    emit(AuthLoadingState());
-    try {
-      await Network.postData(
-          url: Urls.verificationCode,
-          data: {"email": email, "otp": otp}).then((value) {
-        if ((value.statusCode == 200 || value.statusCode == 201)) {
-          AppSharedPreferences.saveToken(value.data['data']);
-          emit(AuthSuccessfulState("the Account Created successfully"));
-        }
-      });
-    } catch (error) {
-      if (error is DioException) {
-        emit(
-          AuthErrorState(
-            exceptionsHandle(error: error),
-          ),
-        );
-      } else {
-        AuthErrorState(error.toString());
+        ResetPasswordErrorState(error.toString());
       }
     }
   }
 
   void checkToken() async {
-    emit(AuthLoadingState());
+    emit(TokenLoadingState());
     final String fullToken = AppSharedPreferences.getToken;
 
     final String token = fullToken.split('|').last;
@@ -267,18 +210,18 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (error) {
       if (error is DioException) {
         emit(
-          AuthErrorState(
+          TokenErrorState(
             exceptionsHandle(error: error),
           ),
         );
       } else {
-        AuthErrorState(error.toString());
+        TokenErrorState(error.toString());
       }
     }
   }
 
   void logOut() async {
-    emit(AuthLoadingState());
+    emit(LogoutLoadingState());
     try {
       await Network.postData(
         url: Urls.logout,
@@ -294,12 +237,12 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (error) {
       if (error is DioException) {
         emit(
-          AuthErrorState(
+          LogoutErrorState(
             exceptionsHandle(error: error),
           ),
         );
       } else {
-        AuthErrorState(error.toString());
+        LogoutErrorState(error.toString());
       }
     }
   }

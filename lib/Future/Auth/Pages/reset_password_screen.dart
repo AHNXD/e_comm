@@ -49,7 +49,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       ),
       body: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
-          if (state is AuthSuccessfulState) {
+          if (state is ResetPasswordSuccessfulState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                   elevation: 0,
@@ -74,7 +74,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               (route) => false,
             );
           }
-          if (state is AuthErrorState) {
+          if (state is ResetPasswordErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                   backgroundColor: Colors.red,
@@ -147,7 +147,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 SizedBox(
                   height: 1.h,
                 ),
-                state is AuthLoadingState
+                state is ResetPasswordLoadingState
                     ? Center(
                         child: Lottie.asset(LottieAssets.loadingAnimation1,
                             animate: true,

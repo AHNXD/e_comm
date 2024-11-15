@@ -40,7 +40,7 @@ class ForgetPassword extends StatelessWidget {
         create: (context) => cubit,
         child: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
-            if (state is AuthSuccessfulState) {
+            if (state is ForgetPasswordSuccessfulState) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                     elevation: 0,
@@ -63,7 +63,7 @@ class ForgetPassword extends StatelessWidget {
                   return const ResetPasswordScreen();
                 }),
               );
-            } else if (state is AuthErrorState) {
+            } else if (state is ForgetPasswordErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                     backgroundColor: Colors.red,
@@ -111,7 +111,7 @@ class ForgetPassword extends StatelessWidget {
                     height: 2.h,
                   ),
 
-                  state is AuthLoadingState
+                  state is ForgetPasswordLoadingState
                       ? Center(
                           child: Lottie.asset(LottieAssets.loadingAnimation1,
                               animate: true,
