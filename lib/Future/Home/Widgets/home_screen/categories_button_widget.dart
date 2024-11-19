@@ -67,11 +67,12 @@ class _CategoriesButtonWidgetState extends State<CategoriesButtonWidget> {
                           : Colors.white),
                 ),
                 const SizedBox(width: 8),
-                if (index != 0 && widget.children[index - 1].isOffer!)
-                  const Text(
-                    "%",
-                    style: TextStyle(color: Colors.red),
-                  ),
+                if (index != 0 && widget.children[index - 1].isOffer != null)
+                  if (widget.children[index - 1].isOffer!)
+                    const Text(
+                      "%",
+                      style: TextStyle(color: Colors.red),
+                    ),
               ],
             ),
           ),

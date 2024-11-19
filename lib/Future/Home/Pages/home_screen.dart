@@ -157,6 +157,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const HomePageCategoriesButtonWidget(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "offers".tr(context),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                        color: AppColors.textTitleAppBarColor),
+                  ),
+                ),
                 BlocBuilder<GetOffersBloc, GetOffersState>(
                     builder: (context, state) {
                   switch (state.status) {
@@ -169,27 +179,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     case GetOffersStatus.success:
                       if (state.offersProducts.isEmpty) {
-                        return const SizedBox();
+                        return Center(
+                          child: Text(
+                            "offers_empty_msg".tr(context),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        );
                       }
                       return SizedBox(
                         height: 480,
                         width: double.infinity,
                         child: Column(
                           children: [
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "offers".tr(context),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 30,
-                                        color: AppColors.textTitleAppBarColor),
-                                  ),
-                                ),
-                              ],
-                            ),
                             SizedBox(
                               height: 400,
                               width: double.infinity,
@@ -231,6 +234,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: MyErrorWidget(
                         msg: state.errorMsg,
                         onPressed: () {
+                          context
+                              .read<GetOffersBloc>()
+                              .add(ResetPaginationAllOffersEvent());
                           context
                               .read<GetOffersBloc>()
                               .add(GetAllOffersEvent());
@@ -329,6 +335,9 @@ class _LastestProductAndTitleState extends State<LastestProductAndTitle> {
                 child: MyErrorWidget(
               msg: state.errorMsg,
               onPressed: () {
+                context
+                    .read<GetLatestProductsBloc>()
+                    .add(ResetPaginationAllLatestProductsEvent());
                 context
                     .read<GetLatestProductsBloc>()
                     .add(GetAllLatestProductsEvent());

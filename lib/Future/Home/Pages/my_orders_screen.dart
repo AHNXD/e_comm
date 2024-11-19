@@ -82,6 +82,17 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                   ),
                 );
               case GetMyOrdersStatus.success:
+                if (state.my_orders.isEmpty) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        "my_orders_empty_msg".tr(context),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                }
                 return ListView.builder(
                   shrinkWrap: true,
                   controller: _scrollControllerMyOrders,

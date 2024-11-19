@@ -65,17 +65,19 @@ class AboutUsScreen extends StatelessWidget {
 class AboutUsWidget extends StatelessWidget {
   final AboutUsModel aboutUs;
   final Links links;
-  const AboutUsWidget({super.key, required this.aboutUs, required this.links});
+
+  const AboutUsWidget({
+    super.key,
+    required this.aboutUs,
+    required this.links,
+  });
+
   void _launchUrl(String url, BuildContext context) async {
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url));
     } else {
       massege(context, "unknown_error".tr(context), Colors.red);
     }
-  }
-
-  IconData _getIconData(int index) {
-    return icons[index];
   }
 
   @override
@@ -99,12 +101,14 @@ class AboutUsWidget extends StatelessWidget {
                 fontWeight: FontWeight.bold),
           ),
         ),
-        const Spacer(),
+        SizedBox(height: 16.0), 
         Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(3.w),
-              gradient: const LinearGradient(
-                  colors: [Colors.blue, Colors.indigo, Colors.purple])),
+            borderRadius: BorderRadius.circular(3.w),
+            gradient: const LinearGradient(
+              colors: [Colors.blue, Colors.indigo, Colors.purple],
+            ),
+          ),
           margin: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
           padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
           child: Center(
@@ -118,7 +122,7 @@ class AboutUsWidget extends StatelessWidget {
             ),
           ),
         ),
-        const Spacer(),
+        SizedBox(height: 16.0), 
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 8),
           child: RichText(
@@ -126,7 +130,8 @@ class AboutUsWidget extends StatelessWidget {
               text: "phone_number".tr(context),
               children: [
                 TextSpan(
-                  text: "\n${aboutUs.phoneNumber ?? ""}\n+963980555582",
+                  text:
+                      "\n${aboutUs.phoneNumber ?? ""}\n+963980555582\n+936937816715",
                   style: TextStyle(
                       color: Colors.blueAccent,
                       fontWeight: FontWeight.bold,
@@ -141,19 +146,19 @@ class AboutUsWidget extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        const Spacer(),
-        SizedBox(
-          height: 60,
-          child: Center(
-            child: ListView.builder(
-              itemCount: links.data!.length,
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                final link = links.data?[index].link;
-                final iconData = _getIconData(index);
-
-                return IconButton(
+        SizedBox(height: 16.0),
+        if (links.data != null && links.data!.isNotEmpty)
+          SizedBox(
+            height: 60,
+            child: Center(
+              child: ListView.builder(
+                itemCount: links.data!.length,
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  final link = links.data![index].link;
+                  final iconData = icons[index % icons.length];
+                  return IconButton(
                     onPressed: () {
                       if (link != null) {
                         _launchUrl(link, context);
@@ -166,11 +171,12 @@ class AboutUsWidget extends StatelessWidget {
                       iconData,
                       size: 32.0,
                       color: AppColors.primaryColors,
-                    ));
-              },
+                    ),
+                  );
+                },
+              ),
             ),
           ),
-        ),
         Padding(
           padding: EdgeInsets.only(bottom: 3.h),
           child: Column(
@@ -195,7 +201,7 @@ class AboutUsWidget extends StatelessWidget {
                   )),
             ],
           ),
-        )
+        ),
       ],
     );
   }

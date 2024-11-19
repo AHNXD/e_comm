@@ -171,6 +171,9 @@ class _CategoriesButtonWidgetState
                 child: MyErrorWidget(
               msg: state.errorMsg,
               onPressed: () {
+                context
+                    .read<GetCategoriesBloc>()
+                    .add(ResetPaginationCategoriesEvent());
                 context.read<GetCategoriesBloc>().add(GetAllCategoriesEvent());
               },
             ));
