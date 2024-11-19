@@ -6,7 +6,6 @@ import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Blocs/get_latest_products/get_latest_products_bloc.dart';
 import 'package:e_comm/Future/Home/Blocs/get_offers/get_offers_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/cubit/delete_profile_cubit.dart';
-import 'package:e_comm/Future/Home/Cubits/getCatigories/get_catigories_cubit.dart';
 import 'package:e_comm/Future/Home/Pages/about_us_screen.dart';
 import 'package:e_comm/Future/Home/Pages/edit_profile.dart';
 import 'package:e_comm/Future/Home/Pages/maintenance_order.dart';
@@ -208,7 +207,6 @@ class DrawerWidget extends StatelessWidget {
     getCategorisONChangeLang(context);
     getOffersOnChangeLang(context);
     getLatestProductsOnChangeLang(context);
-    context.read<GetCatigoriesCubit>().getCatigories();
     context.read<CartCubit>().refreshCartOnLanguageChange();
     context.read<GetPrintSizesCubit>().getPrintSizes();
   }

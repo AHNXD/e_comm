@@ -1,5 +1,4 @@
 import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
-import 'package:e_comm/Future/Home/Cubits/pages_cubit/pages_cubit.dart';
 import 'package:e_comm/Future/Home/Pages/navbar_screen.dart';
 import 'package:e_comm/Future/Home/models/order_information.dart';
 import 'package:e_comm/Utils/app_localizations.dart';

@@ -20,7 +20,6 @@ import 'package:e_comm/Future/Home/Cubits/aboutUs/about_us_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/all_proudcts_by_all_cat/all_products_by_all_category_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/contactUsCubit/contact_us_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/favoriteCubit/favorite_cubit.dart';
-import 'package:e_comm/Future/Home/Cubits/getCatigories/get_catigories_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/getProducts/get_products_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/get_print_sizes_cubit/get_print_sizes_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/locale/locale_cubit.dart';
@@ -37,6 +36,7 @@ import 'Future/Home/Blocs/search_products/search_products_bloc.dart';
 import 'Future/Home/Cubits/CompairPruductsCubit/compair_products_cubit.dart';
 import 'Future/Home/Cubits/cartCubit/cart.bloc.dart';
 import 'Future/Home/Cubits/edit_profile/edit_profile_cubit.dart';
+import 'Future/Home/Cubits/getCatigories/get_catigories_cubit.dart';
 import 'Future/Home/Cubits/pages_cubit/pages_cubit.dart';
 import 'Future/Home/Cubits/postOrders/post_orders_cubit.dart';
 import 'Future/Home/Cubits/rangeSliderCubit/range_slider_cubit.dart';
@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => LocaleCubit()..getSaveLanguage()),
           BlocProvider(create: (_) => AuthCubit()..checkToken()),
-          BlocProvider(create: (_) => GetCatigoriesCubit()..getCatigories()),
+          BlocProvider(create: (_) => GetCatigoriesCubit()),
           BlocProvider(create: (_) => GetProductsCubit()),
           BlocProvider(create: (_) => FavoriteCubit()),
           BlocProvider(create: (_) => RangeSliderCubit()),

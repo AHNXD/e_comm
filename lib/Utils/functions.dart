@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
-import 'package:e_comm/Future/Home/Cubits/getCatigories/get_catigories_cubit.dart';
 import 'package:e_comm/Future/Home/models/order_information.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/main.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import '../Future/Auth/Widgets/text_field_widget.dart';
-import '../Future/Home/Cubits/GetOffers/get_offers_cubit.dart';
 import '../Future/Home/Cubits/postOrders/post_orders_cubit.dart';
 
 void showSuccessSnackBar({required String message}) {
@@ -113,9 +111,9 @@ void showAwesomeDialogForAskCode(
   ).show();
 }
 
-void getAllApiInMainPage(BuildContext context) {
-  BlocProvider.of<GetOffersCubit>(context).getOffers();
-  BlocProvider.of<GetCatigoriesCubit>(context).getCatigories();
-  //BlocProvider.of<GetProductsCubit>(context).getProducts();
-  //BlocProvider.of<FavoriteCubit>(context).getProductsFavorite();
-}
+// void getAllApiInMainPage(BuildContext context) {
+//   BlocProvider.of<GetOffersCubit>(context).getOffers();
+//   BlocProvider.of<GetCatigoriesCubit>(context).getCatigories();
+//   BlocProvider.of<GetProductsCubit>(context).getProducts();
+//   BlocProvider.of<FavoriteCubit>(context).getProductsFavorite();
+// }
