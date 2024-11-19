@@ -17,7 +17,11 @@ class PostOrdersCubit extends Cubit<PostOrdersState> {
       Network.postData(url: Urls.storeOrder, data: order.toJson())
           .then((value) {
         if (value.statusCode == 200 || value.statusCode == 201) {
-          emit(PostOrdersSuccessfulState());
+          if (value.data['status']) {
+            emit(PostOrdersSuccessfulState());
+          } else {
+            PostOrdersErrorState(value.data['msg'].toString());
+          }
         }
       });
     } catch (error) {
