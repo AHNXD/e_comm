@@ -9,6 +9,7 @@ import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/offers_widget.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 
+import '../Widgets/custom_circular_progress_indicator.dart';
 import '../Widgets/custom_snak_bar.dart';
 import '/Future/Home/Widgets/home_screen/appbar_widget.dart';
 import '/Future/Home/Widgets/home_screen/carousel_slider_widget.dart';
@@ -155,9 +156,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     case GetOffersStatus.loading:
                       return const Center(
                         child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: CircularProgressIndicator(),
-                        ),
+                            padding: EdgeInsets.all(8.0),
+                            child: CustomCircularProgressIndicator()),
                       );
                     case GetOffersStatus.success:
                       if (state.offersProducts.isEmpty) {
@@ -191,13 +191,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                           child: Padding(
                                             padding: EdgeInsets.all(4),
                                             child: SizedBox(
-                                              height: 30,
-                                              width: 30,
-                                              child: CircularProgressIndicator(
-                                                color: AppColors
-                                                    .buttonCategoryColor,
-                                              ),
-                                            ),
+                                                height: 30,
+                                                width: 30,
+                                                child:
+                                                    CustomCircularProgressIndicator()),
                                           ),
                                         )
                                       : SizedBox(
@@ -269,9 +266,8 @@ class _LastestProductAndTitleState extends State<LastestProductAndTitle> {
           case LatestProductsStatus.loading:
             return const Center(
               child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: CircularProgressIndicator(),
-              ),
+                  padding: EdgeInsets.all(8.0),
+                  child: CustomCircularProgressIndicator()),
             );
           case LatestProductsStatus.success:
             // if (state.latestProducts.isEmpty) {
@@ -291,12 +287,9 @@ class _LastestProductAndTitleState extends State<LastestProductAndTitle> {
                         child: Padding(
                           padding: EdgeInsets.all(4),
                           child: SizedBox(
-                            height: 30,
-                            width: 30,
-                            child: CircularProgressIndicator(
-                              color: AppColors.buttonCategoryColor,
-                            ),
-                          ),
+                              height: 30,
+                              width: 30,
+                              child: CustomCircularProgressIndicator()),
                         ),
                       )
                     : Column(

@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../Home/Widgets/custom_circular_progress_indicator.dart';
+
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
   final TextEditingController emailOrPhoneNumberController =
@@ -145,7 +147,7 @@ class LoginScreen extends StatelessWidget {
                   ],
                 ),
                 state is LoginLoadingState
-                    ? const Center(child: CircularProgressIndicator())
+                    ? const Center(child: CustomCircularProgressIndicator())
                     : MyButtonWidget(
                         color: AppColors.buttonCategoryColor,
                         verticalHieght: 0,

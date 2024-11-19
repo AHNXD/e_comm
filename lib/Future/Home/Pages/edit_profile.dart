@@ -15,6 +15,7 @@ import '../../Auth/Widgets/my_button_widget.dart';
 import '../../Auth/Widgets/phone_field_widget.dart';
 import '../../Auth/Widgets/text_field_widget.dart';
 import '../Cubits/edit_profile/edit_profile_cubit.dart';
+import '../Widgets/custom_circular_progress_indicator.dart';
 import '../Widgets/custom_snak_bar.dart';
 
 class EditeProfile extends StatefulWidget {
@@ -174,11 +175,8 @@ class _EditeProfileState extends State<EditeProfile> {
               }
               return const Center(
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: CircularProgressIndicator(
-                    color: AppColors.primaryColors,
-                  ),
-                ),
+                    padding: EdgeInsets.all(8.0),
+                    child: CustomCircularProgressIndicator()),
               );
             },
           ),

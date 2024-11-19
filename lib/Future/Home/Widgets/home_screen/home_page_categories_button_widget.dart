@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import '../custom_circular_progress_indicator.dart';
+
 class HomePageCategoriesButtonWidget extends StatefulWidget {
   const HomePageCategoriesButtonWidget({
     super.key,
@@ -56,9 +58,8 @@ class _CategoriesButtonWidgetState
           case GetCategoriesStatus.loading:
             return const Center(
               child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: CircularProgressIndicator(),
-              ),
+                  padding: EdgeInsets.all(8.0),
+                  child: CustomCircularProgressIndicator()),
             );
           case GetCategoriesStatus.success:
             return SizedBox(
@@ -77,12 +78,9 @@ class _CategoriesButtonWidgetState
                           child: Padding(
                             padding: EdgeInsets.all(4),
                             child: SizedBox(
-                              height: 30,
-                              width: 30,
-                              child: CircularProgressIndicator(
-                                color: AppColors.buttonCategoryColor,
-                              ),
-                            ),
+                                height: 30,
+                                width: 30,
+                                child: CustomCircularProgressIndicator()),
                           ),
                         )
                       : Stack(

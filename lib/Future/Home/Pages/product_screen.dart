@@ -8,6 +8,7 @@ import 'package:e_comm/Future/Home/Widgets/home_screen/product_card_widget.dart'
 
 import 'package:e_comm/Utils/app_localizations.dart';
 import '../Cubits/cartCubit/cart.bloc.dart';
+import '../Widgets/custom_circular_progress_indicator.dart';
 import '../Widgets/custom_snak_bar.dart';
 import '../Widgets/scroll_top_button.dart';
 import '../models/catigories_model.dart';
@@ -114,10 +115,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   switch (state.status) {
                     case SearchFilterProductsStatus.loading:
                       return const Center(
-                        child: CircularProgressIndicator(
-                          color: AppColors.buttonCategoryColor,
-                        ),
-                      );
+                          child: CustomCircularProgressIndicator());
                     case SearchFilterProductsStatus.error:
                       return MyErrorWidget(
                           msg: state.errorMsg, onPressed: () {});
@@ -195,11 +193,8 @@ class CategoriesGrid extends StatelessWidget {
           case GetProductsByCatIdStatus.loading:
             return const Center(
               child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: CircularProgressIndicator(
-                  color: AppColors.buttonCategoryColor,
-                ),
-              ),
+                  padding: EdgeInsets.all(8.0),
+                  child: CustomCircularProgressIndicator()),
             );
           case GetProductsByCatIdStatus.success:
             return CustomLazyLoadGridView(

@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import 'Future/Home/Widgets/custom_circular_progress_indicator.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -84,9 +86,7 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
               ),
               const Spacer(flex: 1),
-              const Center(
-                child: CircularProgressIndicator(),
-              ),
+              const Center(child: CustomCircularProgressIndicator()),
               const Spacer(flex: 2),
             ],
           ),

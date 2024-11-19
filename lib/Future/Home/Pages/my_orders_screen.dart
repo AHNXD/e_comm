@@ -5,10 +5,11 @@ import 'package:e_comm/Future/Home/Widgets/historyScreen/historyOrderCard.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/appbar_widget.dart';
 
 import 'package:e_comm/Utils/app_localizations.dart';
-import 'package:e_comm/Utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+
+import '../Widgets/custom_circular_progress_indicator.dart';
 
 class MyOrdersScreen extends StatefulWidget {
   const MyOrdersScreen({super.key});
@@ -77,9 +78,8 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
               case GetMyOrdersStatus.loading:
                 return const Center(
                   child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: CircularProgressIndicator(),
-                  ),
+                      padding: EdgeInsets.all(8.0),
+                      child: CustomCircularProgressIndicator()),
                 );
               case GetMyOrdersStatus.success:
                 if (state.my_orders.isEmpty) {
@@ -105,12 +105,9 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                             child: Padding(
                               padding: EdgeInsets.all(4),
                               child: SizedBox(
-                                height: 30,
-                                width: 30,
-                                child: CircularProgressIndicator(
-                                  color: AppColors.buttonCategoryColor,
-                                ),
-                              ),
+                                  height: 30,
+                                  width: 30,
+                                  child: CustomCircularProgressIndicator()),
                             ),
                           )
                         : HistoryCardItem(order: state.my_orders[index]);

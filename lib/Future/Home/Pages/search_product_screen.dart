@@ -9,6 +9,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 import '../../../Utils/colors.dart';
 import '../Blocs/search_products/search_products_bloc.dart';
+import '../Widgets/custom_circular_progress_indicator.dart';
 import '../Widgets/custom_lazy_load_grid_view.dart';
 import '../Widgets/home_screen/product_card_widget.dart';
 
@@ -120,11 +121,7 @@ class SearchContentWidget extends StatelessWidget {
               child: Text("search_product_screen_body".tr(context)),
             );
           case SearchProductsStatus.loading:
-            return const Center(
-              child: CircularProgressIndicator(
-                color: AppColors.primaryColors,
-              ),
-            );
+            return const Center(child: CustomCircularProgressIndicator());
           case SearchProductsStatus.error:
             return MyErrorWidget(
               msg: state.errorMsg,

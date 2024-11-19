@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../Utils/colors.dart';
+import '../Widgets/custom_circular_progress_indicator.dart';
 
 final List<IconData> icons = [Icons.facebook, Icons.message, Icons.pin_drop];
 
@@ -52,9 +53,7 @@ class AboutUsScreen extends StatelessWidget {
                   context.read<AboutUsCubit>().getAboutUsInfo();
                 });
           } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CustomCircularProgressIndicator());
           }
         },
       )),
@@ -101,7 +100,7 @@ class AboutUsWidget extends StatelessWidget {
                 fontWeight: FontWeight.bold),
           ),
         ),
-        SizedBox(height: 16.0), 
+        SizedBox(height: 16.0),
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(3.w),
@@ -122,7 +121,7 @@ class AboutUsWidget extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 16.0), 
+        SizedBox(height: 16.0),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 8),
           child: RichText(

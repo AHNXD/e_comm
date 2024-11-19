@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../Utils/colors.dart';
+import 'custom_circular_progress_indicator.dart';
 
 class CustomLazyLoadGridView<T> extends StatelessWidget {
   const CustomLazyLoadGridView({
@@ -46,11 +46,7 @@ class CustomLazyLoadGridView<T> extends StatelessWidget {
           if (!hasReachedMax)
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 8.0),
-              child: Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.buttonCategoryColor,
-                ),
-              ),
+              child: Center(child: CustomCircularProgressIndicator()),
             )
         ],
       ),

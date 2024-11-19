@@ -6,8 +6,8 @@ import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-import '../../../Utils/colors.dart';
 import '../Blocs/get_favorite/get_favorite_bloc.dart';
+import '../Widgets/custom_circular_progress_indicator.dart';
 import '../Widgets/custom_snak_bar.dart';
 import '../Widgets/home_screen/product_card_widget.dart';
 
@@ -72,8 +72,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             switch (state.status) {
               case GetFavoriteStatus.loading:
                 return const Center(
-                  child:
-                      CircularProgressIndicator(color: AppColors.primaryColors),
+                  child: CustomCircularProgressIndicator(),
                 );
               case GetFavoriteStatus.error:
                 return MyErrorWidget(

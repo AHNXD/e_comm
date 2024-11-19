@@ -3,6 +3,7 @@ import 'package:e_comm/Future/Home/Widgets/home_screen/appbar_widget.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:sizer/sizer.dart';
 import '../../../Utils/colors.dart';
+import '../Widgets/custom_circular_progress_indicator.dart';
 import '../Widgets/scroll_top_button.dart';
 import '/Future/Home/models/product_model.dart';
 import 'package:flutter/material.dart';
@@ -66,9 +67,7 @@ class _CartScreenState extends State<CartScreen1> {
               scrollController: scrollController,
             );
           } else if (state is CartLoadingState) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CustomCircularProgressIndicator());
           } else if (state is CartErrorState) {
             return MyErrorWidget(
                 msg: state.errorMessage,
