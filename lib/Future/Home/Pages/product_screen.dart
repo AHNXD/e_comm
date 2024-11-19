@@ -8,6 +8,7 @@ import 'package:e_comm/Future/Home/Widgets/home_screen/product_card_widget.dart'
 
 import 'package:e_comm/Utils/app_localizations.dart';
 import '../Cubits/cartCubit/cart.bloc.dart';
+import '../Widgets/custom_snak_bar.dart';
 import '../Widgets/scroll_top_button.dart';
 import '../models/catigories_model.dart';
 import '/Future/Home/Widgets/product_Screen/top_oval_widget.dart';
@@ -75,27 +76,6 @@ class _ProductScreenState extends State<ProductScreen> {
     }
   }
 
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showMessage(
-      String message, Color color) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          content: Container(
-            padding: EdgeInsets.symmetric(vertical: 1.h),
-            decoration: BoxDecoration(
-                color: color, borderRadius: BorderRadius.circular(2.w)),
-            margin: EdgeInsets.symmetric(horizontal: 0.1.w),
-            child: Text(
-              message,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 14),
-            ),
-          ),
-          duration: const Duration(seconds: 3)),
-    );
-  }
-
   @override
   void dispose() {
     scrollController.dispose();
@@ -107,9 +87,11 @@ class _ProductScreenState extends State<ProductScreen> {
     return BlocListener<CartCubit, CartState>(
       listener: (context, state) {
         if (state is AddToCartState) {
-          showMessage('add_product_done'.tr(context), Colors.green);
+          CustomSnackBar.showMessage(
+              context, 'add_product_done'.tr(context), Colors.green);
         } else if (state is AlreadyInCartState) {
-          showMessage('product_in_cart'.tr(context), Colors.grey);
+          CustomSnackBar.showMessage(
+              context, 'product_in_cart'.tr(context), Colors.grey);
         }
       },
       child: Scaffold(

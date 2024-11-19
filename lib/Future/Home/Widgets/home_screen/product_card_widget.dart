@@ -2,6 +2,7 @@ import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/functions.dart';
 
 import '../../Cubits/cartCubit/cart.bloc.dart';
+import '../custom_snak_bar.dart';
 import '/Future/Home/Cubits/favoriteCubit/favorite_cubit.dart';
 import '/Apis/Urls.dart';
 import '/Future/Home/Pages/product_details.dart';
@@ -29,27 +30,6 @@ class ProductCardWidget extends StatefulWidget {
 }
 
 class _ProductCardWidgetState extends State<ProductCardWidget> {
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showMessage(
-      String message, Color color) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          content: Container(
-            padding: EdgeInsets.symmetric(vertical: 1.h),
-            decoration: BoxDecoration(
-                color: color, borderRadius: BorderRadius.circular(2.w)),
-            margin: EdgeInsets.symmetric(horizontal: 0.1.w),
-            child: Text(
-              message,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 14),
-            ),
-          ),
-          duration: const Duration(seconds: 3)),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -198,7 +178,8 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                   onPressed: () {
                     if (widget.product.sizes != null &&
                         widget.product.sizes!.isNotEmpty) {
-                      showMessage("select_size".tr(context), Colors.red);
+                      CustomSnackBar.showMessage(
+                          context, "select_size".tr(context), Colors.red);
                     } else {
                       context
                           .read<CartCubit>()

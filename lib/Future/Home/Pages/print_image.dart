@@ -14,6 +14,7 @@ import '../../../Utils/constants.dart';
 
 import '../../Auth/Widgets/my_button_widget.dart';
 import '../Cubits/print_image_cubit/print_image_cubit.dart';
+import '../Widgets/custom_snak_bar.dart';
 import '../Widgets/print_image/print_image_form.dart';
 import '../models/print_image_model.dart';
 
@@ -59,11 +60,13 @@ class _PrintImageState extends State<PrintImageScreen> {
       if (imageUploaded && productImage != null) {
         final int? quantity = int.tryParse(quantityController.text);
         if (quantity == null) {
-          showMessage(
-              Colors.red[400]!,
-              lang == 'en'
-                  ? "Please enter a valid number"
-                  : "الرجاء ادخال رقم صحيح");
+          CustomSnackBar.showMessage(
+            context,
+            lang == 'en'
+                ? "Please enter a valid number"
+                : "الرجاء ادخال رقم صحيح",
+            Colors.red,
+          );
           return;
         }
 
@@ -82,11 +85,18 @@ class _PrintImageState extends State<PrintImageScreen> {
 
         context.read<PrintImageCubit>().sendPrintImageOrder(printOrder);
       } else {
-        showMessage(Colors.red[400]!,
-            'please_upload_an_image_before_submitting'.tr(context));
+        CustomSnackBar.showMessage(
+          context,
+          'please_upload_an_image_before_submitting'.tr(context),
+          Colors.red,
+        );
       }
     } else {
-      showMessage(Colors.red[400]!, 'failed_to_add_product'.tr(context));
+      CustomSnackBar.showMessage(
+        context,
+        'failed_to_add_product'.tr(context),
+        Colors.red,
+      );
     }
   }
 
@@ -114,31 +124,19 @@ class _PrintImageState extends State<PrintImageScreen> {
           productImage = File(pickedFile.path);
           imageUploaded = true;
         });
-        showMessage(Colors.green[400]!, "image_uploded".tr(context));
+        CustomSnackBar.showMessage(
+          context,
+          "image_uploded".tr(context),
+          Colors.green,
+        );
       }
     } catch (e) {
-      showMessage(Colors.red[400]!, "image_isn't_upoalded".tr(context));
+      CustomSnackBar.showMessage(
+        context,
+        "image_isn't_upoalded".tr(context),
+        Colors.red,
+      );
     }
-  }
-
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showMessage(
-      Color color, String message) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          content: Container(
-            padding: EdgeInsets.symmetric(vertical: 1.h),
-            decoration: BoxDecoration(
-                color: color, borderRadius: BorderRadius.circular(2.w)),
-            margin: EdgeInsets.symmetric(horizontal: 0.1.w),
-            child: Text(
-              message,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          duration: const Duration(seconds: 3)),
-    );
   }
 
   @override
@@ -166,7 +164,11 @@ class _PrintImageState extends State<PrintImageScreen> {
             productImage = null;
           });
         } else if (state is PrintImageError) {
-          showMessage(Colors.red[400]!, state.error);
+          CustomSnackBar.showMessage(
+            context,
+            state.error,
+            Colors.red,
+          );
         }
       },
       child: Scaffold(

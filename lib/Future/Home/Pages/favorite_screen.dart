@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import '../../../Utils/colors.dart';
 import '../Blocs/get_favorite/get_favorite_bloc.dart';
+import '../Widgets/custom_snak_bar.dart';
 import '../Widgets/home_screen/product_card_widget.dart';
 
 class FavoriteScreen extends StatefulWidget {
@@ -47,34 +48,15 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showMessage(
-        String message, Color color) {
-      return ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            content: Container(
-              padding: EdgeInsets.symmetric(vertical: 1.h),
-              decoration: BoxDecoration(
-                  color: color, borderRadius: BorderRadius.circular(2.w)),
-              margin: EdgeInsets.symmetric(horizontal: 0.1.w),
-              child: Text(
-                message,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 14),
-              ),
-            ),
-            duration: const Duration(seconds: 3)),
-      );
-    }
-
     context.read<GetFavoriteBloc>().add(GetAllFavoriteEvent());
     return BlocListener<CartCubit, CartState>(
       listener: (context, state) {
         if (state is AddToCartState) {
-          showMessage('add_product_done'.tr(context), Colors.green);
+          CustomSnackBar.showMessage(
+              context, 'add_product_done'.tr(context), Colors.green);
         } else if (state is AlreadyInCartState) {
-          showMessage('product_in_cart'.tr(context), Colors.grey);
+          CustomSnackBar.showMessage(
+              context, 'product_in_cart'.tr(context), Colors.grey);
         }
       },
       child: Scaffold(

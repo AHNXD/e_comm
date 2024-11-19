@@ -10,6 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:sizer/sizer.dart';
 
+import '../Widgets/custom_snak_bar.dart';
+
 class MaintenanceScreen extends StatefulWidget {
   const MaintenanceScreen({super.key});
 
@@ -57,7 +59,11 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
               problemCause: problemController.text,
               description: descriptionController.text));
     } else {
-      showMessage(Colors.red[400]!, 'error_msg'.tr(context));
+      CustomSnackBar.showMessage(
+        context,
+        'error_msg'.tr(context),
+        Colors.red,
+      );
     }
   }
 
@@ -91,26 +97,6 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
         Navigator.of(context).pop();
       },
     ).show();
-  }
-
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showMessage(
-      Color color, String message) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          content: Container(
-            padding: EdgeInsets.symmetric(vertical: 1.h),
-            decoration: BoxDecoration(
-                color: color, borderRadius: BorderRadius.circular(2.w)),
-            margin: EdgeInsets.symmetric(horizontal: 0.1.w),
-            child: Text(
-              message,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          duration: const Duration(seconds: 5)),
-    );
   }
 
   @override
@@ -147,7 +133,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
             showAwesomeDialog(message: state.msg);
             key1.currentState!.reset();
           } else if (state is MaintenanceError) {
-            showMessage(Colors.red[400]!, state.error);
+            CustomSnackBar.showMessage(context, state.error, Colors.red);
           }
         },
         child: ListView(

@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
+import '../Widgets/custom_snak_bar.dart';
+
 class ContactUsScreen extends StatefulWidget {
   const ContactUsScreen({
     super.key,
@@ -45,7 +47,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
         msg: messageController.text,
       ));
     } else {
-      showMessage(Colors.red[400]!, 'error_msg'.tr(context));
+      CustomSnackBar.showMessage(context, 'error_msg'.tr(context), Colors.red);
     }
   }
 
@@ -81,26 +83,6 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     ).show();
   }
 
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showMessage(
-      Color color, String message) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          content: Container(
-            padding: EdgeInsets.symmetric(vertical: 1.h),
-            decoration: BoxDecoration(
-                color: color, borderRadius: BorderRadius.circular(2.w)),
-            margin: EdgeInsets.symmetric(horizontal: 0.1.w),
-            child: Text(
-              message,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          duration: const Duration(seconds: 5)),
-    );
-  }
-
   @override
   void dispose() {
     userNameController.dispose();
@@ -130,7 +112,11 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
             showAwesomeDialog(message: state.msg);
             key1.currentState!.reset();
           } else if (state is ContactUsErrorState) {
-            showMessage(Colors.red[400]!, state.error);
+            CustomSnackBar.showMessage(
+              context,
+              state.error,
+              Colors.red,
+            );
           }
         },
         child: ListView(

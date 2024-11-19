@@ -11,6 +11,7 @@ import 'package:sizer/sizer.dart';
 
 import '../Cubits/cartCubit/cart.bloc.dart';
 import '../Cubits/favoriteCubit/favorite_cubit.dart';
+import '../Widgets/custom_snak_bar.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({
@@ -25,35 +26,17 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   int? selectedIndex = -1;
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showMessage(
-      String message, Color color) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          content: Container(
-            padding: EdgeInsets.symmetric(vertical: 1.h),
-            decoration: BoxDecoration(
-                color: color, borderRadius: BorderRadius.circular(2.w)),
-            margin: EdgeInsets.symmetric(horizontal: 0.1.w),
-            child: Text(
-              message,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 14),
-            ),
-          ),
-          duration: const Duration(seconds: 3)),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<CartCubit, CartState>(
       listener: (context, state) {
         if (state is AddToCartState) {
-          showMessage('add_product_done'.tr(context), Colors.green);
+          CustomSnackBar.showMessage(
+              context, 'add_product_done'.tr(context), Colors.green);
         } else if (state is AlreadyInCartState) {
-          showMessage('product_in_cart'.tr(context), Colors.grey);
+          CustomSnackBar.showMessage(
+              context, 'product_in_cart'.tr(context), Colors.grey);
         }
       },
       child: Scaffold(
@@ -285,7 +268,8 @@ class _DetailPageState extends State<DetailPage> {
                       if (widget.product.sizes != null &&
                           widget.product.sizes!.isNotEmpty) {
                         if (selectedIndex == -1) {
-                          showMessage("select_size".tr(context), Colors.red);
+                          CustomSnackBar.showMessage(
+                              context, "select_size".tr(context), Colors.red);
                         } else {
                           context.read<CartCubit>().addToCartWithSize(
                               widget.product,

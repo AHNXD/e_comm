@@ -9,6 +9,7 @@ import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/offers_widget.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 
+import '../Widgets/custom_snak_bar.dart';
 import '/Future/Home/Widgets/home_screen/appbar_widget.dart';
 import '/Future/Home/Widgets/home_screen/carousel_slider_widget.dart';
 import '../Widgets/home_screen/home_page_categories_button_widget.dart';
@@ -85,31 +86,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showMessage(
-        String message, Color color) {
-      return ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            content: Container(
-              padding: EdgeInsets.symmetric(vertical: 1.h),
-              decoration: BoxDecoration(
-                  color: color, borderRadius: BorderRadius.circular(2.w)),
-              margin: EdgeInsets.symmetric(horizontal: 0.1.w),
-              child: Text(
-                message,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 14),
-              ),
-            ),
-            duration: const Duration(seconds: 3)),
-      );
-    }
-
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is LogoutSuccessState) {
-          showMessage(state.message, Colors.green);
+          CustomSnackBar.showMessage(context, state.message, Colors.green);
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (builder) {
             return LoginScreen();
@@ -119,13 +99,13 @@ class _HomeScreenState extends State<HomeScreen> {
       child: BlocListener<DeleteProfileCubit, DeleteProfileState>(
         listener: (context, state) {
           if (state is DeleteProfileSuccess) {
-            showMessage(state.msg, Colors.red);
+            CustomSnackBar.showMessage(context, state.msg, Colors.red);
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (builder) {
               return LoginScreen();
             }));
           } else if (state is DeleteProfileError) {
-            showMessage(state.msg, Colors.red);
+            CustomSnackBar.showMessage(context, state.msg, Colors.red);
           }
         },
         child: Scaffold(
@@ -137,9 +117,11 @@ class _HomeScreenState extends State<HomeScreen> {
           body: BlocListener<CartCubit, CartState>(
             listener: (context, state) {
               if (state is AddedTocartFromHomeScreen) {
-                showMessage('add_product_done'.tr(context), Colors.green);
+                CustomSnackBar.showMessage(
+                    context, 'add_product_done'.tr(context), Colors.green);
               } else if (state is AlreadyInCartState) {
-                showMessage('product_in_cart'.tr(context), Colors.grey);
+                CustomSnackBar.showMessage(
+                    context, 'product_in_cart'.tr(context), Colors.grey);
               }
             },
             child: ListView(

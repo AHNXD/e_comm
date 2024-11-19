@@ -15,6 +15,7 @@ import '../../Auth/Widgets/my_button_widget.dart';
 import '../../Auth/Widgets/phone_field_widget.dart';
 import '../../Auth/Widgets/text_field_widget.dart';
 import '../Cubits/edit_profile/edit_profile_cubit.dart';
+import '../Widgets/custom_snak_bar.dart';
 
 class EditeProfile extends StatefulWidget {
   const EditeProfile({super.key});
@@ -62,7 +63,11 @@ class _EditeProfileState extends State<EditeProfile> {
           context.read<EditProfileCubit>().resetToInintState();
           key1.currentState!.reset();
         } else if (state is EditProfileError) {
-          showMessage(Colors.red, state.msg);
+          CustomSnackBar.showMessage(
+            context,
+            state.msg,
+            Colors.red,
+          );
           context.read<EditProfileCubit>().resetToInintState();
         }
       },
@@ -227,25 +232,5 @@ class _EditeProfileState extends State<EditeProfile> {
         Navigator.of(context).pop();
       },
     ).show();
-  }
-
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showMessage(
-      Color color, String message) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          content: Container(
-            padding: EdgeInsets.symmetric(vertical: 1.h),
-            decoration: BoxDecoration(
-                color: color, borderRadius: BorderRadius.circular(2.w)),
-            margin: EdgeInsets.symmetric(horizontal: 0.1.w),
-            child: Text(
-              message,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          duration: const Duration(seconds: 3)),
-    );
   }
 }
