@@ -5,7 +5,7 @@ import 'package:e_comm/Future/Home/Blocs/get_my_orders/get_my_orders_bloc.dart';
 import 'package:e_comm/Future/Home/Blocs/get_offers/get_offers_bloc.dart';
 
 import 'package:e_comm/Future/Home/Blocs/get_products_by_cat_id/get_products_by_cat_id_bloc.dart';
-import 'package:e_comm/Future/Home/Cubits/cubit/delete_profile_cubit.dart';
+import 'package:e_comm/Future/Home/Cubits/delete_profile/delete_profile_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/get_user/get_user_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/mange_search_filter_products/mange_search_filter_products_cubit.dart';

@@ -3,7 +3,7 @@ import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Blocs/get_latest_products/get_latest_products_bloc.dart';
 import 'package:e_comm/Future/Home/Blocs/get_offers/get_offers_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
-import 'package:e_comm/Future/Home/Cubits/cubit/delete_profile_cubit.dart';
+import 'package:e_comm/Future/Home/Cubits/delete_profile/delete_profile_cubit.dart';
 //import 'package:e_comm/Future/Home/Cubits/get_latest_products/get_latest_products_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/offers_widget.dart';
