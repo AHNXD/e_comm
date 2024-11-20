@@ -1,3 +1,5 @@
+import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
+
 import '../../../Utils/colors.dart';
 import '../Cubits/pages_cubit/pages_cubit.dart';
 import '../Widgets/home_screen/drawer_widget.dart';
@@ -47,10 +49,20 @@ class _NavBarPageState extends State<NavBarPage> {
               backgroundColor: AppColors.buttonCategoryColor,
               destinations: [
                 NavigationDestination(
-                  icon: const Center(
-                    child: Icon(
-                      Icons.home_outlined,
-                      color: Colors.white,
+                  icon: Container(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 1.7.h, horizontal: 1.w),
+                    height: 6.h,
+                    width: 12.w,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      // gradient: LinearGradient(colors: grediant),
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.home_outlined,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                   label: "Home",
@@ -68,29 +80,125 @@ class _NavBarPageState extends State<NavBarPage> {
                           color: AppColors.buttonCategoryColor)),
                 ),
                 NavigationDestination(
-                  icon: const Icon(
-                    Icons.shopping_bag_outlined,
-                    color: Colors.white,
+                  icon: Center(
+                    child: Stack(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 1.7.h, horizontal: 1.w),
+                          height: 6.h,
+                          width: 12.w,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            // gradient: LinearGradient(colors: grediant),
+                          ),
+                          child: Center(
+                            child: const Icon(
+                              Icons.shopping_bag_outlined,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        if (context.read<CartCubit>().pcw.length > 0)
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            child: Container(
+                              padding: const EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              constraints: const BoxConstraints(
+                                minWidth: 16,
+                                minHeight: 16,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  context
+                                      .read<CartCubit>()
+                                      .pcw
+                                      .length
+                                      .toString(),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                   label: "Cart",
-                  selectedIcon: Container(
+                  selectedIcon: Center(
+                    child: Stack(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 1.7.h, horizontal: 1.w),
+                          height: 6.h,
+                          width: 12.w,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            // gradient: LinearGradient(colors: grediant),
+                          ),
+                          child: Center(
+                            child: const Icon(Icons.shopping_bag,
+                                color: AppColors.buttonCategoryColor),
+                          ),
+                        ),
+                        if (context.read<CartCubit>().pcw.length > 0)
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            child: Container(
+                              padding: const EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              constraints: const BoxConstraints(
+                                minWidth: 16,
+                                minHeight: 16,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  context
+                                      .read<CartCubit>()
+                                      .pcw
+                                      .length
+                                      .toString(),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+                NavigationDestination(
+                  icon: Container(
                     padding:
                         EdgeInsets.symmetric(vertical: 1.7.h, horizontal: 1.w),
                     height: 6.h,
                     width: 12.w,
                     decoration: const BoxDecoration(
-                      color: Colors.white,
                       shape: BoxShape.circle,
                       // gradient: LinearGradient(colors: grediant),
                     ),
-                    child: const Icon(Icons.shopping_bag,
-                        color: AppColors.buttonCategoryColor),
-                  ),
-                ),
-                NavigationDestination(
-                  icon: const Icon(
-                    Icons.history_outlined,
-                    color: Colors.white,
+                    child: Center(
+                      child: const Icon(
+                        Icons.history_outlined,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                   label: "History",
                   selectedIcon: Container(
@@ -108,10 +216,20 @@ class _NavBarPageState extends State<NavBarPage> {
                   ),
                 ),
                 NavigationDestination(
-                    icon: const Center(
-                      child: Icon(
-                        Icons.favorite_outline,
-                        color: Colors.white,
+                    icon: Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 1.7.h, horizontal: 1.w),
+                      height: 6.h,
+                      width: 12.w,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        // gradient: LinearGradient(colors: grediant),
+                      ),
+                      child: const Center(
+                        child: Icon(
+                          Icons.favorite_outline,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     label: "Fav",

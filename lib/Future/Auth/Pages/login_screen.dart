@@ -96,7 +96,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 TextFieldWidget(
                   validatorFun: (p0) => validation(p0, ValidationState.normal),
-                  text: "emailOrPhone".tr(context),
+                  text: "email".tr(context),
                   controller: emailOrPhoneNumberController,
                   isPassword: false,
                 ),

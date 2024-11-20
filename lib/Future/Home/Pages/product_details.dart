@@ -279,16 +279,31 @@ class _DetailPageState extends State<DetailPage> {
                         context
                             .read<CartCubit>()
                             .addToCart(widget.product, false);
+
+                        setState(() {});
                       }
                     },
-                    child: Text(
-                      "add_to_cart".tr(context),
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          "add_to_cart".tr(context),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                        if (context
+                            .read<CartCubit>()
+                            .pcw
+                            .any((p) => p.id == widget.product.id))
+                          Icon(
+                            Icons.shopping_bag,
+                            color: Colors.white,
+                          )
+                      ],
                     ),
                   ),
 

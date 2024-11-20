@@ -1,3 +1,5 @@
+import 'package:e_comm/Future/Home/Blocs/get_favorite/get_favorite_bloc.dart';
+import 'package:e_comm/Future/Home/Pages/about_us_screen.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/functions.dart';
 
@@ -62,30 +64,34 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                 children: [
                   BlocBuilder<FavoriteCubit, FavoriteState>(
                     builder: (context, state) {
-                      return IconButton(
-                          onPressed: () async {
-                            widget.product.isFavorite = await context
-                                .read<FavoriteCubit>()
-                                .addAndDelFavoriteProducts(
-                                  widget.product.id!,
-                                );
-                            setState(() {
-                              massege(
-                                  context,
-                                  widget.product.isFavorite
-                                      ? "added_fav".tr(context)
-                                      : "removed_fav".tr(context),
-                                  Colors.green);
-                            });
-                          },
-                          icon: Icon(
-                            widget.product.isFavorite
+                      return IconButton(onPressed: () async {
+                        widget.product.isFavorite = await context
+                            .read<FavoriteCubit>()
+                            .addAndDelFavoriteProducts(
+                              widget.product.id!,
+                            );
+                        setState(() {
+                          massege(
+                              context,
+                              widget.product.isFavorite
+                                  ? "added_fav".tr(context)
+                                  : "removed_fav".tr(context),
+                              Colors.green);
+                        });
+                      }, icon: BlocBuilder<GetFavoriteBloc, GetFavoriteState>(
+                        builder: (context, state) {
+                          return Icon(
+                            state.favoriteProducts.any(
+                                    (p) => p.product!.id == widget.product.id)
                                 ? Icons.favorite
                                 : Icons.favorite_border_outlined,
-                            color: widget.product.isFavorite
+                            color: state.favoriteProducts.any(
+                                    (p) => p.product!.id == widget.product.id)
                                 ? AppColors.textTitleAppBarColor
                                 : Colors.black,
-                          ));
+                          );
+                        },
+                      ));
                     },
                   ),
                   widget.product.isOffer!
@@ -190,16 +196,31 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                       context
                           .read<CartCubit>()
                           .addToCart(widget.product, widget.isHomeScreen);
+
+                      setState(() {});
                     }
                   },
-                  child: Text(
-                    "add_to_cart".tr(context),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        "add_to_cart".tr(context),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                      if (context
+                          .read<CartCubit>()
+                          .pcw
+                          .any((p) => p.id == widget.product.id))
+                        Icon(
+                          Icons.shopping_bag,
+                          color: Colors.white,
+                        )
+                    ],
                   ),
                 ),
               ),
