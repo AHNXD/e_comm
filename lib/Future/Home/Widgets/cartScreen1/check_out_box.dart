@@ -3,6 +3,7 @@ import 'package:e_comm/Future/Home/Widgets/custom_note_label.dart';
 import 'package:e_comm/Future/Home/models/product_model.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
+import 'package:e_comm/Utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -40,7 +41,7 @@ class CheckOutBox extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "${items.length > 1 ? items.map((e) => (e.userQuantity * double.tryParse(e.isOffer == false ? e.sellingPrice! : e.offers!.priceAfterOffer!)!)).reduce((value1, value2) => value1 + value2) : items[0].userQuantity * double.tryParse(items[0].isOffer == false ? items[0].sellingPrice! : items[0].offers!.priceAfterOffer!)!}",
+                    "${formatter.format(items.length > 1 ? items.map((e) => (e.userQuantity * double.tryParse(e.isOffer == false ? e.sellingPrice! : e.offers!.priceAfterOffer!)!)).reduce((value1, value2) => value1 + value2) : items[0].userQuantity * double.tryParse(items[0].isOffer == false ? items[0].sellingPrice! : items[0].offers!.priceAfterOffer!)!)}",
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

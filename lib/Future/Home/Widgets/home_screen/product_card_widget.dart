@@ -123,7 +123,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
             if (widget.product.isOffer! == false)
               Center(
                 child: Text(
-                  "${widget.product.sellingPrice} ${"sp".tr(context)}",
+                  "${formatter.format(double.parse(widget.product.sellingPrice!).toInt())} ${"sp".tr(context)}",
                   maxLines: 1,
                   overflow: TextOverflow.clip,
                   style: TextStyle(
@@ -136,7 +136,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
               Column(
                 children: [
                   Text(
-                    "${widget.product.sellingPrice} ${"sp".tr(context)}",
+                    "${formatter.format(double.parse(widget.product.sellingPrice!).toInt())} ${"sp".tr(context)}",
                     maxLines: 1,
                     overflow: TextOverflow.clip,
                     style: TextStyle(
@@ -150,7 +150,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                   ),
                   Center(
                     child: Text(
-                      "${widget.product.offers!.priceAfterOffer} ${"sp".tr(context)}",
+                      "${formatter.format(double.parse(widget.product.offers!.priceAfterOffer!).toInt())} ${"sp".tr(context)}",
                       style: TextStyle(
                         color: Colors.red,
                         fontSize: 12.sp,

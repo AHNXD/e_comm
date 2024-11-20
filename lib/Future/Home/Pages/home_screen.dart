@@ -7,6 +7,7 @@ import 'package:e_comm/Future/Home/Cubits/delete_profile/delete_profile_cubit.da
 //import 'package:e_comm/Future/Home/Cubits/get_latest_products/get_latest_products_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/offers_widget.dart';
+import 'package:e_comm/Future/Home/Widgets/home_screen/product_card_widget.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 
 import '../Widgets/custom_circular_progress_indicator.dart';
@@ -172,12 +173,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       }
                       return SizedBox(
-                        height: 480,
+                        height: 430,
                         width: double.infinity,
                         child: Column(
                           children: [
                             SizedBox(
-                              height: 400,
+                              height: 420,
                               width: double.infinity,
                               child: ListView.builder(
                                 shrinkWrap: true,
@@ -190,7 +191,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   return index >= state.offersProducts.length
                                       ? const Center(
                                           child: Padding(
-                                            padding: EdgeInsets.all(4),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 8),
                                             child: SizedBox(
                                                 height: 30,
                                                 width: 30,
@@ -198,10 +200,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     CustomCircularProgressIndicator()),
                                           ),
                                         )
-                                      : SizedBox(
-                                          child: OffersWidget(
-                                              data:
-                                                  state.offersProducts[index]),
+                                      : Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16),
+                                          child: SizedBox(
+                                            child: ProductCardWidget(
+                                                isHomeScreen: true,
+                                                product: state
+                                                    .offersProducts[index]),
+                                          ),
                                         );
                                 },
                               ),
