@@ -57,23 +57,23 @@ class DrawerWidget extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              Container(
-                // height: 140.sp,
-                // width: 50.sp,
-                margin: EdgeInsets.symmetric(horizontal: 15.w),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(width: 5),
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Image.asset(
-                    AppImagesAssets.logoNoBg,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              ),
+              // Container(
+              //   // height: 140.sp,
+              //   // width: 50.sp,
+              //   margin: EdgeInsets.symmetric(horizontal: 15.w),
+              //   decoration: BoxDecoration(
+              //     color: Colors.white,
+              //     border: Border.all(width: 5),
+              //     borderRadius: BorderRadius.circular(100),
+              //   ),
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(16.0),
+              //     child: Image.asset(
+              //       AppImagesAssets.logoNoBg,
+              //       fit: BoxFit.fill,
+              //     ),
+              //   ),
+              // ),
               const Divider(
                 thickness: 2,
                 color: AppColors.buttonCategoryColor,

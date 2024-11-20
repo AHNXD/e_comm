@@ -6,6 +6,7 @@ import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 import '../Future/Auth/Widgets/text_field_widget.dart';
 import '../Future/Home/Cubits/postOrders/post_orders_cubit.dart';
@@ -111,6 +112,7 @@ void showAwesomeDialogForAskCode(
   ).show();
 }
 
+NumberFormat formatter = NumberFormat('#,###');
 // void getAllApiInMainPage(BuildContext context) {
 //   BlocProvider.of<GetOffersCubit>(context).getOffers();
 //   BlocProvider.of<GetCatigoriesCubit>(context).getCatigories();

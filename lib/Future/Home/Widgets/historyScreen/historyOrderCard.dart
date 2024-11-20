@@ -74,6 +74,10 @@ class HistoryCardItem extends StatelessWidget {
                   title: "order_total_price".tr(context),
                   body: order.total?.toString() ?? "",
                 ),
+                OrderInfoTextCardWidget(
+                  title: "products_num".tr(context),
+                  body: order.details!.length.toString(),
+                ),
               ],
             ),
           ),

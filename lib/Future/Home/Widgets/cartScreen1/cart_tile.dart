@@ -1,6 +1,7 @@
 import 'package:e_comm/Future/Home/Pages/product_details.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
+import 'package:e_comm/Utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:sizer/sizer.dart';
@@ -70,7 +71,7 @@ class CartTile extends StatelessWidget {
             SizedBox(height: 1.5.h),
             if (product.isOffer! == false)
               Text(
-                "${double.tryParse(product.sellingPrice!)! * product.userQuantity} ${"sp".tr(context)}",
+                "${formatter.format(double.tryParse(product.sellingPrice!)! * product.userQuantity)} ${"sp".tr(context)}",
                 style: TextStyle(
                     color: AppColors.textButtonColors,
                     fontSize: 14.sp,
@@ -80,7 +81,7 @@ class CartTile extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    "${product.sellingPrice} ${"sp".tr(context)}",
+                    "${formatter.format(double.parse(product.sellingPrice!).toInt())} ${"sp".tr(context)}",
                     style: TextStyle(
                         color: AppColors.textButtonColors,
                         fontSize: 10.sp,
@@ -91,7 +92,7 @@ class CartTile extends StatelessWidget {
                     height: 4,
                   ),
                   Text(
-                    "${double.tryParse(product.offers!.priceAfterOffer!)! * product.userQuantity} ${"sp".tr(context)}",
+                    "${formatter.format(double.tryParse(product.offers!.priceAfterOffer!)! * product.userQuantity)} ${"sp".tr(context)}",
                     style: TextStyle(
                       color: Colors.red,
                       fontSize: 14.sp,

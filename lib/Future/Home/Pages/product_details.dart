@@ -129,7 +129,7 @@ class _DetailPageState extends State<DetailPage> {
                             if (widget.product.isOffer! == false)
                               Center(
                                 child: Text(
-                                  '${widget.product.sellingPrice} ${"sp".tr(context)}',
+                                  '${formatter.format(double.parse(widget.product.sellingPrice!).toInt())} ${"sp".tr(context)}',
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 24,
@@ -141,7 +141,7 @@ class _DetailPageState extends State<DetailPage> {
                                 children: [
                                   Center(
                                     child: Text(
-                                      '${widget.product.sellingPrice} ${"sp".tr(context)}',
+                                      '${formatter.format(double.parse(widget.product.sellingPrice!).toInt())} ${"sp".tr(context)}',
                                       style: const TextStyle(
                                           decoration:
                                               TextDecoration.lineThrough,
@@ -157,7 +157,7 @@ class _DetailPageState extends State<DetailPage> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        "${widget.product.offers!.priceAfterOffer} ${"sp".tr(context)}",
+                                        "${formatter.format(double.parse(widget.product.offers!.priceAfterOffer!).toInt())} ${"sp".tr(context)}",
                                         style: const TextStyle(
                                           color: Colors.red,
                                           fontSize: 24,
@@ -384,9 +384,8 @@ class _DetailPageState extends State<DetailPage> {
                     widget.product.isFavorite
                         ? Icons.favorite
                         : Icons.favorite_border_outlined,
-                    color: widget.product.isFavorite
-                        ? AppColors.textTitleAppBarColor
-                        : Colors.black,
+                    color:
+                        widget.product.isFavorite ? Colors.white : Colors.white,
                   ),
                 ),
               ),

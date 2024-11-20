@@ -178,7 +178,7 @@ class _CartInformationState extends State<CartInformation> {
                         TextFieldWidget(
                             validatorFun: (p0) =>
                                 validation(p0, ValidationState.normal),
-                            text: "city".tr(context),
+                            text: "region".tr(context),
                             isPassword: false,
                             controller: cityController),
                         TextFieldWidget(

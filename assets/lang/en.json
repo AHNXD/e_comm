@@ -143,5 +143,8 @@
     "delete_account" : "Delete your Account",
     "delete_account_msg" : "Are you sure you want to delete your account? This action cannot be undone.",
     "offers_empty_msg" : "Stay tuned for our offers coming soon!",
-    "my_orders_empty_msg" : "There are no orders yet, hurry and order your products"
+    "my_orders_empty_msg" : "There are no orders yet, hurry and order your products",
+    "products_num" : "Number of products",
+    "req_number": "Phone number is required",
+    "invaled_number": "Invalid phone number format"
 }
