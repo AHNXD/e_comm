@@ -1,5 +1,4 @@
 import 'package:e_comm/Future/Home/Blocs/get_favorite/get_favorite_bloc.dart';
-import 'package:e_comm/Future/Home/Pages/about_us_screen.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/functions.dart';
 
