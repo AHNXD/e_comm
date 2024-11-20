@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:sizer/sizer.dart';
 
+import '../Cubits/get_user/get_user_cubit.dart';
 import '../Widgets/custom_snak_bar.dart';
 
 class MaintenanceScreen extends StatefulWidget {
@@ -33,13 +34,22 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
 
   @override
   void initState() {
-    FNController = TextEditingController();
-    LNController = TextEditingController();
+    FNController = TextEditingController(
+        text: context.read<GetUserCubit>().userProfile != null
+            ? context.read<GetUserCubit>().userProfile!.firstName
+            : "");
+    LNController = TextEditingController(
+        text: context.read<GetUserCubit>().userProfile != null
+            ? context.read<GetUserCubit>().userProfile!.lastName
+            : "");
     phoneController = PhoneController(
         initialValue: const PhoneNumber(isoCode: IsoCode.SY, nsn: ""));
     provinceController = TextEditingController();
     regionController = TextEditingController();
-    addressController = TextEditingController();
+    addressController = TextEditingController(
+        text: context.read<GetUserCubit>().userProfile != null
+            ? context.read<GetUserCubit>().userProfile!.address
+            : "");
     problemController = TextEditingController();
     descriptionController = TextEditingController();
     super.initState();
@@ -115,6 +125,10 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    phoneController.changeNationalNumber(
+        context.read<GetUserCubit>().userProfile != null
+            ? context.read<GetUserCubit>().userProfile!.phone
+            : "");
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.white,

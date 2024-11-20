@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/appbar_widget.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
@@ -96,6 +97,26 @@ class CartListViewItem extends StatelessWidget {
   final ScrollController scrollController;
   @override
   Widget build(BuildContext context) {
+    void showAwesomeDialog(
+        {required String message, required int index}) async {
+      await AwesomeDialog(
+              descTextStyle: TextStyle(fontSize: 15.sp),
+              btnOkText: "yes".tr(context),
+              btnCancelText: "no".tr(context),
+              btnOkColor: Colors.red,
+              btnCancelColor: Colors.green,
+              context: context,
+              dialogType: DialogType.error,
+              animType: AnimType.scale,
+              title: message,
+              btnOkOnPress: () {
+                context.read<CartCubit>().pcw[index].userQuantity = 1;
+                context.read<CartCubit>().removeformTheCart(l[index]);
+              },
+              btnCancelOnPress: () {})
+          .show();
+    }
+
     return SingleChildScrollView(
       controller: scrollController,
       physics: const BouncingScrollPhysics(),
@@ -115,8 +136,8 @@ class CartListViewItem extends StatelessWidget {
               itemCount: l.length,
               itemBuilder: (context, index) => CartTile(
                 deleteProduct: () {
-                  context.read<CartCubit>().pcw[index].userQuantity = 1;
-                  context.read<CartCubit>().removeformTheCart(l[index]);
+                  showAwesomeDialog(
+                      index: index, message: "delete_product_msg".tr(context));
                 },
                 product: l[index],
                 onRemove: () {

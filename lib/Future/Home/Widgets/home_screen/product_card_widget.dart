@@ -178,6 +178,12 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                   onPressed: () {
                     if (widget.product.sizes != null &&
                         widget.product.sizes!.isNotEmpty) {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return DetailPage(
+                          product: widget.product,
+                        );
+                      }));
                       CustomSnackBar.showMessage(
                           context, "select_size".tr(context), Colors.red);
                     } else {

@@ -2,6 +2,7 @@ import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
 import 'package:e_comm/Future/Home/Pages/navbar_screen.dart';
 import 'package:e_comm/Future/Home/models/order_information.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
+import '../Cubits/get_user/get_user_cubit.dart';
 import '/Future/Auth/Widgets/my_button_widget.dart';
 import '/Future/Auth/Widgets/phone_field_widget.dart';
 import '/Future/Auth/Widgets/text_field_widget.dart';
@@ -47,14 +48,23 @@ class _CartInformationState extends State<CartInformation> {
   final GlobalKey<FormState> key1 = GlobalKey<FormState>();
   @override
   void initState() {
-    firstNameController = TextEditingController();
+    firstNameController = TextEditingController(
+        text: context.read<GetUserCubit>().userProfile != null
+            ? context.read<GetUserCubit>().userProfile!.firstName
+            : "");
 
-    lastNameController = TextEditingController();
+    lastNameController = TextEditingController(
+        text: context.read<GetUserCubit>().userProfile != null
+            ? context.read<GetUserCubit>().userProfile!.lastName
+            : "");
 
     phoneController = PhoneController(
         initialValue: const PhoneNumber(isoCode: IsoCode.SY, nsn: ""));
 
-    address1Controller = TextEditingController();
+    address1Controller = TextEditingController(
+        text: context.read<GetUserCubit>().userProfile != null
+            ? context.read<GetUserCubit>().userProfile!.address
+            : "");
 
     address2Controller = TextEditingController();
 
@@ -94,6 +104,10 @@ class _CartInformationState extends State<CartInformation> {
 
   @override
   Widget build(BuildContext context) {
+    phoneController.changeNationalNumber(
+        context.read<GetUserCubit>().userProfile != null
+            ? context.read<GetUserCubit>().userProfile!.phone
+            : "");
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,

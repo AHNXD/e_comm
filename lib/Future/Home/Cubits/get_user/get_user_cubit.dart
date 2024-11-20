@@ -11,14 +11,14 @@ part 'get_user_state.dart';
 
 class GetUserCubit extends Cubit<GetUserState> {
   GetUserCubit() : super(GetUserInitial());
-
+  UserProfile? userProfile;
   void getUserProfile() async {
     emit(GetUserLoadin());
     try {
       var response = await Network.getData(url: Urls.getUser);
       if (response.statusCode == 200 || response.statusCode == 201) {
         User user = User.fromJson(response.data);
-
+        userProfile = user.data;
         emit(GetUserSuccess(userProfile: user.data!));
       }
     } catch (error) {

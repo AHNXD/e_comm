@@ -99,7 +99,7 @@
     "emailOrPhone" : "Email or Phone Number",
     "msg" : "Message" ,
     "please_select_a_size": "Please select a size.",
-    "select_size" : "Please select all details",
+    "select_size" : "Please select a size for the product",
     "no_orders" : "There are no orders",
     "cart_note" : "Delivery within Damascus areas is free",
     "sell_product_not" : "When the application sells your product, it takes a 10% commission from the product price",
@@ -143,5 +143,6 @@
     "delete_account" : "Delete your Account",
     "delete_account_msg" : "Are you sure you want to delete your account? This action cannot be undone.",
     "offers_empty_msg" : "Stay tuned for our offers coming soon!",
-    "my_orders_empty_msg" : "There are no orders yet, hurry and order your products"
+    "my_orders_empty_msg" : "There are no orders yet, hurry and order your products",
+    "delete_product_msg" : "Are you sure you want to delete the product?"
 }

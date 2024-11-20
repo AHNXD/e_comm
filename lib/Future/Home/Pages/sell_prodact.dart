@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:e_comm/Future/Home/Cubits/get_user/get_user_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/sell_product_cubit/sell_product_cubit.dart';
 
 import 'package:e_comm/Utils/app_localizations.dart';
@@ -37,7 +38,9 @@ class _SellProdactState extends State<SellProdact> {
   bool imageUploaded = false;
   @override
   void initState() {
-    nameController = TextEditingController();
+    nameController = TextEditingController(
+        text:
+            "${context.read<GetUserCubit>().userProfile != null ? context.read<GetUserCubit>().userProfile!.firstName : ""} ${context.read<GetUserCubit>().userProfile != null ? context.read<GetUserCubit>().userProfile!.lastName : ""}");
 
     productNameController = TextEditingController();
 
@@ -159,6 +162,10 @@ class _SellProdactState extends State<SellProdact> {
 
   @override
   Widget build(BuildContext context) {
+    phoneController.changeNationalNumber(
+        context.read<GetUserCubit>().userProfile != null
+            ? context.read<GetUserCubit>().userProfile!.phone
+            : "");
     return BlocListener<SellProductCubit, SellProductState>(
       listener: (context, state) {
         if (state is SellProductSuccess) {

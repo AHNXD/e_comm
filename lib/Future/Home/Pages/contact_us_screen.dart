@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:e_comm/Future/Auth/Widgets/my_button_widget.dart';
 import 'package:e_comm/Future/Home/Cubits/contactUsCubit/contact_us_cubit.dart';
+import 'package:e_comm/Future/Home/Cubits/get_user/get_user_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/Contact_Us_Screen/contact_us_from.dart';
 import 'package:e_comm/Future/Home/models/contactUs_model.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
@@ -32,8 +33,13 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
 
   @override
   void initState() {
-    userNameController = TextEditingController();
-    emailOrPhoneController = TextEditingController();
+    userNameController = TextEditingController(
+        text:
+            "${context.read<GetUserCubit>().userProfile != null ? context.read<GetUserCubit>().userProfile!.firstName : ""} ${context.read<GetUserCubit>().userProfile != null ? context.read<GetUserCubit>().userProfile!.lastName : ""}");
+    emailOrPhoneController = TextEditingController(
+        text: context.read<GetUserCubit>().userProfile != null
+            ? context.read<GetUserCubit>().userProfile!.phone
+            : "");
     messageController = TextEditingController();
     super.initState();
   }

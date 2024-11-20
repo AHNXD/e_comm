@@ -13,6 +13,7 @@ import '../../../Utils/colors.dart';
 import '../../../Utils/constants.dart';
 
 import '../../Auth/Widgets/my_button_widget.dart';
+import '../Cubits/get_user/get_user_cubit.dart';
 import '../Cubits/print_image_cubit/print_image_cubit.dart';
 import '../Widgets/custom_snak_bar.dart';
 import '../Widgets/print_image/print_image_form.dart';
@@ -40,11 +41,20 @@ class _PrintImageState extends State<PrintImageScreen> {
   bool imageUploaded = false;
   @override
   void initState() {
-    firstNameController = TextEditingController();
-    lastNameController = TextEditingController();
+    firstNameController = TextEditingController(
+        text: context.read<GetUserCubit>().userProfile != null
+            ? context.read<GetUserCubit>().userProfile!.firstName
+            : "");
+    lastNameController = TextEditingController(
+        text: context.read<GetUserCubit>().userProfile != null
+            ? context.read<GetUserCubit>().userProfile!.lastName
+            : "");
     provinceController = TextEditingController();
     regionController = TextEditingController();
-    addressController = TextEditingController();
+    addressController = TextEditingController(
+        text: context.read<GetUserCubit>().userProfile != null
+            ? context.read<GetUserCubit>().userProfile!.address
+            : "");
 
     phoneController = PhoneController(
         initialValue: const PhoneNumber(isoCode: IsoCode.SY, nsn: ""));
@@ -154,6 +164,10 @@ class _PrintImageState extends State<PrintImageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    phoneController.changeNationalNumber(
+        context.read<GetUserCubit>().userProfile != null
+            ? context.read<GetUserCubit>().userProfile!.phone
+            : "");
     return BlocListener<PrintImageCubit, PrintImageState>(
       listener: (context, state) {
         if (state is PrintImageSuccess) {

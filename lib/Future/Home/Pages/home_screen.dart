@@ -105,9 +105,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 MaterialPageRoute(builder: (builder) {
               return LoginScreen();
             }));
-          } else if (state is DeleteProfileError) {
-            CustomSnackBar.showMessage(context, state.msg, Colors.red);
           }
+          // } else if (state is DeleteProfileError) {
+          //   CustomSnackBar.showMessage(context, state.msg, Colors.red);
+          // }
         },
         child: Scaffold(
           appBar: PreferredSize(

@@ -124,7 +124,7 @@ class MyApp extends StatelessWidget {
             create: (_) => SearchFilterPoductsBloc(),
           ),
           BlocProvider(create: (_) => MangeSearchFilterProductsCubit()),
-          BlocProvider(create: (_) => GetUserCubit()),
+          BlocProvider(create: (_) => GetUserCubit()..getUserProfile()),
           BlocProvider(create: (_) => EditProfileCubit()),
           BlocProvider(create: (_) => DeleteProfileCubit()),
         ],
