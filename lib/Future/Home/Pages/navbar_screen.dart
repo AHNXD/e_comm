@@ -79,109 +79,113 @@ class _NavBarPageState extends State<NavBarPage> {
                       child: const Icon(Icons.home_filled,
                           color: AppColors.buttonCategoryColor)),
                 ),
-                NavigationDestination(
-                  icon: Center(
-                    child: Stack(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 1.7.h, horizontal: 1.w),
-                          height: 6.h,
-                          width: 12.w,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            // gradient: LinearGradient(colors: grediant),
-                          ),
-                          child: Center(
-                            child: const Icon(
-                              Icons.shopping_bag_outlined,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        if (context.read<CartCubit>().pcw.length > 0)
-                          Positioned(
-                            right: 0,
-                            top: 0,
-                            child: Container(
-                              padding: const EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              constraints: const BoxConstraints(
-                                minWidth: 16,
-                                minHeight: 16,
+                BlocBuilder<CartCubit, CartState>(
+                  builder: (context, state) {
+                    return NavigationDestination(
+                      icon: Center(
+                        child: Stack(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 1.7.h, horizontal: 1.w),
+                              height: 6.h,
+                              width: 12.w,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                // gradient: LinearGradient(colors: grediant),
                               ),
                               child: Center(
-                                child: Text(
-                                  context
-                                      .read<CartCubit>()
-                                      .pcw
-                                      .length
-                                      .toString(),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                  ),
+                                child: const Icon(
+                                  Icons.shopping_bag_outlined,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
-                          ),
-                      ],
-                    ),
-                  ),
-                  label: "Cart",
-                  selectedIcon: Center(
-                    child: Stack(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 1.7.h, horizontal: 1.w),
-                          height: 6.h,
-                          width: 12.w,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            // gradient: LinearGradient(colors: grediant),
-                          ),
-                          child: Center(
-                            child: const Icon(Icons.shopping_bag,
-                                color: AppColors.buttonCategoryColor),
-                          ),
-                        ),
-                        if (context.read<CartCubit>().pcw.length > 0)
-                          Positioned(
-                            right: 0,
-                            top: 0,
-                            child: Container(
-                              padding: const EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              constraints: const BoxConstraints(
-                                minWidth: 16,
-                                minHeight: 16,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  context
-                                      .read<CartCubit>()
-                                      .pcw
-                                      .length
-                                      .toString(),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
+                            if (context.read<CartCubit>().pcw.length > 0)
+                              Positioned(
+                                right: 0,
+                                top: 0,
+                                child: Container(
+                                  padding: const EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  constraints: const BoxConstraints(
+                                    minWidth: 16,
+                                    minHeight: 16,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      context
+                                          .read<CartCubit>()
+                                          .pcw
+                                          .length
+                                          .toString(),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
+                          ],
+                        ),
+                      ),
+                      label: "Cart",
+                      selectedIcon: Center(
+                        child: Stack(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 1.7.h, horizontal: 1.w),
+                              height: 6.h,
+                              width: 12.w,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                // gradient: LinearGradient(colors: grediant),
+                              ),
+                              child: Center(
+                                child: const Icon(Icons.shopping_bag,
+                                    color: AppColors.buttonCategoryColor),
+                              ),
                             ),
-                          ),
-                      ],
-                    ),
-                  ),
+                            if (context.read<CartCubit>().pcw.length > 0)
+                              Positioned(
+                                right: 0,
+                                top: 0,
+                                child: Container(
+                                  padding: const EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  constraints: const BoxConstraints(
+                                    minWidth: 16,
+                                    minHeight: 16,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      context
+                                          .read<CartCubit>()
+                                          .pcw
+                                          .length
+                                          .toString(),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 NavigationDestination(
                   icon: Container(

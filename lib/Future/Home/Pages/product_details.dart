@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_comm/Apis/Urls.dart';
+import 'package:e_comm/Future/Home/Blocs/get_favorite/get_favorite_bloc.dart';
 import 'package:e_comm/Future/Home/models/product_model.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
@@ -256,55 +257,59 @@ class _DetailPageState extends State<DetailPage> {
                   const SizedBox(
                     height: 25,
                   ),
-                  TextButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.buttonCategoryColor,
-                      minimumSize: const Size(double.infinity, 55),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    onPressed: () {
-                      if (widget.product.sizes != null &&
-                          widget.product.sizes!.isNotEmpty) {
-                        if (selectedIndex == -1) {
-                          CustomSnackBar.showMessage(
-                              context, "select_size".tr(context), Colors.red);
-                        } else {
-                          context.read<CartCubit>().addToCartWithSize(
-                              widget.product,
-                              widget.product.sizes![selectedIndex!]);
-                        }
-                      } else {
-                        context
-                            .read<CartCubit>()
-                            .addToCart(widget.product, false);
-
-                        setState(() {});
-                      }
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          "add_to_cart".tr(context),
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
+                  BlocBuilder<CartCubit, CartState>(
+                    builder: (context, state) {
+                      return TextButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.buttonCategoryColor,
+                          minimumSize: const Size(double.infinity, 55),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
                           ),
                         ),
-                        if (context
-                            .read<CartCubit>()
-                            .pcw
-                            .any((p) => p.id == widget.product.id))
-                          Icon(
-                            Icons.shopping_bag,
-                            color: Colors.white,
-                          )
-                      ],
-                    ),
+                        onPressed: () {
+                          if (widget.product.sizes != null &&
+                              widget.product.sizes!.isNotEmpty) {
+                            if (selectedIndex == -1) {
+                              CustomSnackBar.showMessage(context,
+                                  "select_size".tr(context), Colors.red);
+                            } else {
+                              context.read<CartCubit>().addToCartWithSize(
+                                  widget.product,
+                                  widget.product.sizes![selectedIndex!]);
+                            }
+                          } else {
+                            context
+                                .read<CartCubit>()
+                                .addToCart(widget.product, false);
+
+                            setState(() {});
+                          }
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              "add_to_cart".tr(context),
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                            if (context
+                                .read<CartCubit>()
+                                .pcw
+                                .any((p) => p.id == widget.product.id))
+                              Icon(
+                                Icons.shopping_bag,
+                                color: Colors.white,
+                              )
+                          ],
+                        ),
+                      );
+                    },
                   ),
 
                   const SizedBox(
@@ -373,38 +378,57 @@ class _DetailPageState extends State<DetailPage> {
           ),
           const Spacer(),
 
-          InkWell(
-            onTap: () async {
-              bool result = await context
-                  .read<FavoriteCubit>()
-                  .addAndDelFavoriteProducts(widget.product.id!);
-              setState(() {
-                widget.product.isFavorite = result;
-              });
-              massege(
-                  context,
-                  result ? "added_fav".tr(context) : "removed_fav".tr(context),
-                  Colors.green);
+          BlocBuilder<GetFavoriteBloc, GetFavoriteState>(
+            builder: (context, stateOne) {
+              return BlocBuilder<GetFavoriteBloc, GetFavoriteState>(
+                builder: (context, state) {
+                  return InkWell(
+                    onTap: () async {
+                      bool result = await context
+                          .read<FavoriteCubit>()
+                          .addAndDelFavoriteProducts(widget.product.id!);
+                      setState(() {
+                        widget.product.isFavorite = result;
+                      });
+                      if (!result)
+                        stateOne.favoriteProducts
+                            .removeWhere((p) => p.id == widget.product.id);
+                      else {
+                        stateOne.favoriteProducts.add(widget.product);
+                      }
+                      massege(
+                          context,
+                          result
+                              ? "added_fav".tr(context)
+                              : "removed_fav".tr(context),
+                          Colors.green);
+                    },
+                    child: Material(
+                      color: Colors.white.withOpacity(0.21),
+                      borderRadius: BorderRadius.circular(10),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          alignment: Alignment.center,
+                          child: Icon(
+                            stateOne.favoriteProducts
+                                    .any((p) => p.id == widget.product.id)
+                                ? Icons.favorite
+                                : Icons.favorite_border_outlined,
+                            color: stateOne.favoriteProducts
+                                    .any((p) => p.id == widget.product.id)
+                                ? Colors.white
+                                : Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
             },
-            child: Material(
-              color: Colors.white.withOpacity(0.21),
-              borderRadius: BorderRadius.circular(10),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(10),
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  alignment: Alignment.center,
-                  child: Icon(
-                    widget.product.isFavorite
-                        ? Icons.favorite
-                        : Icons.favorite_border_outlined,
-                    color:
-                        widget.product.isFavorite ? Colors.white : Colors.white,
-                  ),
-                ),
-              ),
-            ),
           )
         ],
       ),

@@ -4,7 +4,7 @@ enum GetFavoriteStatus { loading, success, error }
 
 class GetFavoriteState extends Equatable {
   final GetFavoriteStatus status;
-  final List<FavoriteData> favoriteProducts;
+  final List<MainProduct> favoriteProducts;
   final bool hasReachedMax;
   final String errorMsg;
   final int currentPage;
@@ -21,7 +21,7 @@ class GetFavoriteState extends Equatable {
 
   GetFavoriteState copyWith({
     GetFavoriteStatus? status,
-    List<FavoriteData>? favoriteProducts,
+    List<MainProduct>? favoriteProducts,
     bool? hasReachedMax,
     String? errorMsg,
     int? currentPage,

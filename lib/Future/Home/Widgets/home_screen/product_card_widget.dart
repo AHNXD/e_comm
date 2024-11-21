@@ -61,36 +61,50 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  BlocBuilder<FavoriteCubit, FavoriteState>(
-                    builder: (context, state) {
-                      return IconButton(onPressed: () async {
-                        widget.product.isFavorite = await context
-                            .read<FavoriteCubit>()
-                            .addAndDelFavoriteProducts(
-                              widget.product.id!,
-                            );
-                        setState(() {
-                          massege(
-                              context,
-                              widget.product.isFavorite
-                                  ? "added_fav".tr(context)
-                                  : "removed_fav".tr(context),
-                              Colors.green);
-                        });
-                      }, icon: BlocBuilder<GetFavoriteBloc, GetFavoriteState>(
+                  BlocBuilder<GetFavoriteBloc, GetFavoriteState>(
+                    builder: (context, stateOne) {
+                      return BlocBuilder<FavoriteCubit, FavoriteState>(
                         builder: (context, state) {
-                          return Icon(
-                            state.favoriteProducts.any(
-                                    (p) => p.product!.id == widget.product.id)
-                                ? Icons.favorite
-                                : Icons.favorite_border_outlined,
-                            color: state.favoriteProducts.any(
-                                    (p) => p.product!.id == widget.product.id)
-                                ? AppColors.textTitleAppBarColor
-                                : Colors.black,
-                          );
+                          return IconButton(
+                              onPressed: () async {
+                                widget.product.isFavorite = await context
+                                    .read<FavoriteCubit>()
+                                    .addAndDelFavoriteProducts(
+                                      widget.product.id!,
+                                    );
+                                // context
+                                //     .read<GetFavoriteBloc>()
+                                //     .add(RestPagination());
+                                // context
+                                //     .read<GetFavoriteBloc>()
+                                //     .add(GetAllFavoriteEvent());
+                                if (!widget.product.isFavorite)
+                                  stateOne.favoriteProducts.removeWhere(
+                                      (p) => p.id == widget.product.id);
+                                else {
+                                  stateOne.favoriteProducts.add(widget.product);
+                                }
+                                setState(() {
+                                  massege(
+                                      context,
+                                      widget.product.isFavorite
+                                          ? "added_fav".tr(context)
+                                          : "removed_fav".tr(context),
+                                      Colors.green);
+                                });
+                              },
+                              icon: Icon(
+                                stateOne.favoriteProducts
+                                        .any((p) => p.id == widget.product.id)
+                                    ? Icons.favorite
+                                    : Icons.favorite_border_outlined,
+                                color: stateOne.favoriteProducts
+                                        .any((p) => p.id == widget.product.id)
+                                    ? AppColors.textTitleAppBarColor
+                                    : Colors.black,
+                              ));
                         },
-                      ));
+                      );
                     },
                   ),
                   widget.product.isOffer!
@@ -170,58 +184,62 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
               padding: EdgeInsets.symmetric(
                   horizontal: widget.addToCartPaddingButton ?? 10.w,
                   vertical: 16),
-              child: SizedBox(
-                width: double.infinity,
-                child: TextButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.buttonCategoryColor,
-                    minimumSize: Size(double.infinity, 6.5.h),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(3.w),
-                    ),
-                  ),
-                  onPressed: () {
-                    if (widget.product.sizes != null &&
-                        widget.product.sizes!.isNotEmpty) {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return DetailPage(
-                          product: widget.product,
-                        );
-                      }));
-                      CustomSnackBar.showMessage(
-                          context, "select_size".tr(context), Colors.red);
-                    } else {
-                      context
-                          .read<CartCubit>()
-                          .addToCart(widget.product, widget.isHomeScreen);
-
-                      setState(() {});
-                    }
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        "add_to_cart".tr(context),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
+              child: BlocBuilder<CartCubit, CartState>(
+                builder: (context, state) {
+                  return SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.buttonCategoryColor,
+                        minimumSize: Size(double.infinity, 6.5.h),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(3.w),
                         ),
                       ),
-                      if (context
-                          .read<CartCubit>()
-                          .pcw
-                          .any((p) => p.id == widget.product.id))
-                        Icon(
-                          Icons.shopping_bag,
-                          color: Colors.white,
-                        )
-                    ],
-                  ),
-                ),
+                      onPressed: () {
+                        if (widget.product.sizes != null &&
+                            widget.product.sizes!.isNotEmpty) {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return DetailPage(
+                              product: widget.product,
+                            );
+                          }));
+                          CustomSnackBar.showMessage(
+                              context, "select_size".tr(context), Colors.red);
+                        } else {
+                          context
+                              .read<CartCubit>()
+                              .addToCart(widget.product, widget.isHomeScreen);
+
+                          setState(() {});
+                        }
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            "add_to_cart".tr(context),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                          if (context
+                              .read<CartCubit>()
+                              .pcw
+                              .any((p) => p.id == widget.product.id))
+                            Icon(
+                              Icons.shopping_bag,
+                              color: Colors.white,
+                            )
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ],

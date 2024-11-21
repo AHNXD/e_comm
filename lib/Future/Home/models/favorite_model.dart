@@ -2,7 +2,7 @@ import 'package:e_comm/Future/Home/models/product_model.dart';
 
 class FavoriteModel {
   bool? status;
-  List<FavoriteData>? data;
+  List<MainProduct>? data;
   Pagination? pagination;
 
   FavoriteModel({this.status, this.data, this.pagination});
@@ -10,9 +10,9 @@ class FavoriteModel {
   FavoriteModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     if (json['data'] != null) {
-      data = <FavoriteData>[];
+      data = <MainProduct>[];
       json['data'].forEach((v) {
-        data!.add(FavoriteData.fromJson(v));
+        data!.add(MainProduct.fromJson(v['product']));
       });
     }
     pagination = json['pagination'] != null
@@ -28,47 +28,6 @@ class FavoriteModel {
     }
     if (pagination != null) {
       data['pagination'] = pagination!.toJson();
-    }
-    return data;
-  }
-}
-
-class FavoriteData {
-  int? id;
-  int? productId;
-  int? userId;
-  String? createdAt;
-  String? updatedAt;
-  MainProduct? product;
-
-  FavoriteData(
-      {this.id,
-      this.productId,
-      this.userId,
-      this.createdAt,
-      this.updatedAt,
-      this.product});
-
-  FavoriteData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    productId = json['product_id'];
-    userId = json['user_id'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-
-    product =
-        json['product'] != null ? MainProduct.fromJson(json['product']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['product_id'] = productId;
-    data['user_id'] = userId;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    if (product != null) {
-      data['product'] = product!.toJson();
     }
     return data;
   }

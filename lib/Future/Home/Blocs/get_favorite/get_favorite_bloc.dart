@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:e_comm/Apis/ExceptionsHandle.dart';
 import 'package:e_comm/Apis/Network.dart';
 import 'package:e_comm/Apis/Urls.dart';
+import 'package:e_comm/Future/Home/models/product_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:e_comm/Future/Home/models/favorite_model.dart';
 import 'package:equatable/equatable.dart';
@@ -18,12 +19,12 @@ class GetFavoriteBloc extends Bloc<GetFavoriteEvent, GetFavoriteState> {
         try {
           if (state.status == GetFavoriteStatus.loading) {
             final response = await Network.getData(
-                url: "${Urls.getProductsFavorite}?per_page=4&page=1");
+                url: "${Urls.getProductsFavorite}?per_page=8&page=1");
             if (response.statusCode == 200 || response.statusCode == 201) {
               FavoriteModel favoritesProducts =
                   FavoriteModel.fromJson(response.data);
               for (int i = 0; i < favoritesProducts.data!.length; i++) {
-                favoritesProducts.data![i].product!.isFavorite = true;
+                favoritesProducts.data![i].isFavorite = true;
               }
 
               return favoritesProducts.data!.isEmpty
@@ -41,12 +42,12 @@ class GetFavoriteBloc extends Bloc<GetFavoriteEvent, GetFavoriteState> {
           } else {
             final response = await Network.getData(
                 url:
-                    "${Urls.getProductsFavorite}?per_page=4&page=${state.currentPage + 1}");
+                    "${Urls.getProductsFavorite}?per_page=8&page=${state.currentPage + 1}");
             if (response.statusCode == 200 || response.statusCode == 201) {
               FavoriteModel favoritesProducts =
                   FavoriteModel.fromJson(response.data);
               for (int i = 0; i < favoritesProducts.data!.length; i++) {
-                favoritesProducts.data![i].product!.isFavorite = true;
+                favoritesProducts.data![i].isFavorite = true;
               }
               favoritesProducts.data!.isEmpty
                   ? emit(state.copyWith(hasReachedMax: true))
@@ -73,7 +74,6 @@ class GetFavoriteBloc extends Bloc<GetFavoriteEvent, GetFavoriteState> {
         }
       }
     }, transformer: droppable());
-
     on<RestPagination>(
       (event, emit) {
         emit(state.copyWith(
