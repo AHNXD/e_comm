@@ -298,14 +298,15 @@ class _DetailPageState extends State<DetailPage> {
                                 color: Colors.white,
                               ),
                             ),
-                            if (context
-                                .read<CartCubit>()
-                                .pcw
-                                .any((p) => p.id == widget.product.id))
-                              Icon(
-                                Icons.shopping_bag,
-                                color: Colors.white,
-                              )
+                            Icon(
+                              context
+                                      .read<CartCubit>()
+                                      .pcw
+                                      .any((p) => p.id == widget.product.id)
+                                  ? Icons.shopping_bag
+                                  : Icons.shopping_bag_outlined,
+                              color: Colors.white,
+                            )
                           ],
                         ),
                       );
