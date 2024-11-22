@@ -13,15 +13,47 @@ part 'cart.state.dart';
 class CartCubit extends Cubit<CartState> {
   CartCubit() : super(EmptyCartState());
   List<MainProduct> pcw = <MainProduct>[];
-  void addToCart(MainProduct p, bool isHomeScreen) {
+  void addToCart(MainProduct p, bool isHomeScreen, String screen) {
     if (pcw.any((element) => element.id == p.id)) {
-      emit(AlreadyInCartState());
+      switch (screen) {
+        case "home":
+          emit(AlreadyInCartFromHomeState());
+          break;
+        case "product":
+          emit(AlreadyInCartState());
+          break;
+        case "fav":
+          emit(AlreadyInCartFromFavState());
+          break;
+        case "cat":
+          emit(AlreadyInCartFromCatState());
+          break;
+        case "search":
+          emit(AlreadyInCartFromSearchState());
+          break;
+        default:
+          emit(AlreadyInCartState());
+      }
     } else {
       pcw.add(p);
-      if (isHomeScreen) {
-        emit(AddedTocartFromHomeScreen());
-      } else {
-        emit(AddToCartState());
+      switch (screen) {
+        case "home":
+          emit(AddedTocartFromHomeScreen());
+          break;
+        case "product":
+          emit(AddToCartState());
+          break;
+        case "fav":
+          emit(AddToCartFromFavState());
+          break;
+        case "cat":
+          emit(AddToCartFromCatState());
+          break;
+        case "search":
+          emit(AddToCartFromSearchState());
+          break;
+        default:
+          emit(AddToCartState());
       }
     }
   }

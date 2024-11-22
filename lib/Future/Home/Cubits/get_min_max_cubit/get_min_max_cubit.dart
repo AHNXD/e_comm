@@ -17,7 +17,8 @@ class GetMinMaxCubit extends Cubit<GetMinMaxState> {
       minPrice = response.data['min'];
       maxPrice = response.data['max'];
       print("ttt$maxPrice");
-      emit(GetMinMaxsuccess(maxPrice: maxPrice!, minPrice: minPrice!));
+      emit(GetMinMaxsuccess(
+          maxPrice: maxPrice ?? "0", minPrice: minPrice ?? "0"));
     }
   }
 }

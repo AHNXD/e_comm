@@ -281,7 +281,7 @@ class _DetailPageState extends State<DetailPage> {
                           } else {
                             context
                                 .read<CartCubit>()
-                                .addToCart(widget.product, false);
+                                .addToCart(widget.product, false, "product");
 
                             setState(() {});
                           }

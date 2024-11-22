@@ -72,7 +72,13 @@ class _TopOvalWidgetState extends State<TopOvalWidget> {
     // }
 
     return Container(
-      color: AppColors.offersContainerColor,
+      decoration: const BoxDecoration(
+        color: AppColors.offersContainerColor,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
+      ),
       child: Column(
         children: [
           BackWidget(

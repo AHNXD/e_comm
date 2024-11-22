@@ -1,3 +1,5 @@
+import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
+import 'package:e_comm/Future/Home/Widgets/custom_snak_bar.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/enums.dart';
@@ -52,53 +54,64 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          style: ButtonStyle(
-            backgroundColor: WidgetStateColor.resolveWith(
-                (states) => AppColors.buttonCategoryColor),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: SvgPicture.asset(
-            AppImagesAssets.back,
-            height: 3.h,
-          ),
-          color: Colors.white,
-          iconSize: 20.sp,
-        ),
-        excludeHeaderSemantics: false,
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        title: Text(
-          "search_product_screen_title".tr(context),
-          style: TextStyle(
-              color: AppColors.textTitleAppBarColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 15.sp),
-        ),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          ShearchBarWidget(controller: controller),
-          Expanded(
-            child: ListView(
-              shrinkWrap: true,
-              controller: scrollController,
-              physics: const BouncingScrollPhysics(),
-              children: [
-                SearchContentWidget(
-                  controller: controller,
-                ),
-              ],
+    return BlocListener<CartCubit, CartState>(
+      listener: (context, state) {
+        if (state is AddToCartFromSearchState) {
+          CustomSnackBar.showMessage(
+              context, 'add_product_done'.tr(context), Colors.green);
+        } else if (state is AlreadyInCartFromSearchState) {
+          CustomSnackBar.showMessage(
+              context, 'product_in_cart'.tr(context), Colors.grey);
+        }
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.backgroundColor,
+        appBar: AppBar(
+          scrolledUnderElevation: 0,
+          leading: IconButton(
+            style: ButtonStyle(
+              backgroundColor: WidgetStateColor.resolveWith(
+                  (states) => AppColors.buttonCategoryColor),
             ),
-          )
-        ],
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: SvgPicture.asset(
+              AppImagesAssets.back,
+              height: 3.h,
+            ),
+            color: Colors.white,
+            iconSize: 20.sp,
+          ),
+          excludeHeaderSemantics: false,
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          title: Text(
+            "search_product_screen_title".tr(context),
+            style: TextStyle(
+                color: AppColors.textTitleAppBarColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 15.sp),
+          ),
+          centerTitle: true,
+        ),
+        body: Column(
+          children: [
+            ShearchBarWidget(controller: controller),
+            Expanded(
+              child: ListView(
+                shrinkWrap: true,
+                controller: scrollController,
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  SearchContentWidget(
+                    controller: controller,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -141,10 +154,10 @@ class SearchContentWidget extends StatelessWidget {
                 items: state.products,
                 hasReachedMax: state.hasReachedMax,
                 itemBuilder: (context, product) => ProductCardWidget(
-                      isHomeScreen: false,
-                      product: product,
-                      addToCartPaddingButton: 3.w,
-                    ));
+                    isHomeScreen: false,
+                    product: product,
+                    addToCartPaddingButton: 3.w,
+                    screen: "search"));
         }
       },
     );

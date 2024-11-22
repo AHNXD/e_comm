@@ -20,11 +20,13 @@ class ProductCardWidget extends StatefulWidget {
     super.key,
     required this.isHomeScreen,
     required this.product,
+    required this.screen,
     this.addToCartPaddingButton,
   });
   final bool isHomeScreen;
   final MainProduct product;
   final double? addToCartPaddingButton;
+  final String screen;
 
   @override
   State<ProductCardWidget> createState() => _ProductCardWidgetState();
@@ -210,9 +212,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                         } else {
                           context
                               .read<CartCubit>()
-                              .addToCart(widget.product, widget.isHomeScreen);
-
-                          setState(() {});
+                              .addToCart(widget.product, widget.isHomeScreen, widget.screen);
                         }
                       },
                       child: Row(

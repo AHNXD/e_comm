@@ -86,10 +86,10 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget build(BuildContext context) {
     return BlocListener<CartCubit, CartState>(
       listener: (context, state) {
-        if (state is AddToCartState) {
+        if (state is AddToCartFromCatState) {
           CustomSnackBar.showMessage(
               context, 'add_product_done'.tr(context), Colors.green);
-        } else if (state is AlreadyInCartState) {
+        } else if (state is AlreadyInCartFromCatState) {
           CustomSnackBar.showMessage(
               context, 'product_in_cart'.tr(context), Colors.grey);
         }
@@ -134,7 +134,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                   ProductCardWidget(
                                     isHomeScreen: false,
                                     product: product,
-                                    addToCartPaddingButton: 3.w,
+                                    addToCartPaddingButton: 3.w,screen:"cat"
                                   ));
                         case SearchFilterProductsStatus.init:
                           return CategoriesGrid(categoryId: widget.cData.id!);
@@ -206,7 +206,7 @@ class CategoriesGrid extends StatelessWidget {
                 itemBuilder: (context, product) => ProductCardWidget(
                       isHomeScreen: false,
                       product: product,
-                      addToCartPaddingButton: 3.w,
+                      addToCartPaddingButton: 3.w,screen:"cat"
                     ));
           case GetProductsByCatIdStatus.error:
             return MyErrorWidget(

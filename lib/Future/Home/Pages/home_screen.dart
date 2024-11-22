@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
               if (state is AddedTocartFromHomeScreen) {
                 CustomSnackBar.showMessage(
                     context, 'add_product_done'.tr(context), Colors.green);
-              } else if (state is AlreadyInCartState) {
+              } else if (state is AlreadyInCartFromHomeState) {
                 CustomSnackBar.showMessage(
                     context, 'product_in_cart'.tr(context), Colors.grey);
               }
@@ -206,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             child: ProductCardWidget(
                                                 isHomeScreen: true,
                                                 product: state
-                                                    .offersProducts[index]),
+                                                    .offersProducts[index],screen:"home"),
                                           ),
                                         );
                                 },

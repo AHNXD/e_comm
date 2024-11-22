@@ -51,10 +51,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     context.read<GetFavoriteBloc>().add(GetAllFavoriteEvent());
     return BlocListener<CartCubit, CartState>(
       listener: (context, state) {
-        if (state is AddToCartState) {
+        if (state is AddToCartFromFavState) {
           CustomSnackBar.showMessage(
               context, 'add_product_done'.tr(context), Colors.green);
-        } else if (state is AlreadyInCartState) {
+        } else if (state is AlreadyInCartFromFavState) {
           CustomSnackBar.showMessage(
               context, 'product_in_cart'.tr(context), Colors.grey);
         }
@@ -102,6 +102,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                           isHomeScreen: false,
                           product: favoriteProduct,
                           addToCartPaddingButton: 3.w,
+                          screen:"fav"
                         );
                       },
                     ),
