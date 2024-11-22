@@ -10,7 +10,6 @@ import 'package:e_comm/Utils/app_localizations.dart';
 import '../Cubits/cartCubit/cart.bloc.dart';
 import '../Widgets/custom_circular_progress_indicator.dart';
 import '../Widgets/custom_snak_bar.dart';
-import '../Widgets/scroll_top_button.dart';
 import '../models/catigories_model.dart';
 import '/Future/Home/Widgets/product_Screen/top_oval_widget.dart';
 import '/Utils/colors.dart';
@@ -97,9 +96,6 @@ class _ProductScreenState extends State<ProductScreen> {
       },
       child: Scaffold(
         backgroundColor: AppColors.backgroundColor,
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton:
-            ScrollToTopButton(scrollController: scrollController),
         body: Column(
           children: [
             TopOvalWidget(
