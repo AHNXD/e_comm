@@ -100,77 +100,84 @@ class _ProductScreenState extends State<ProductScreen> {
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton:
             ScrollToTopButton(scrollController: scrollController),
-        body: SingleChildScrollView(
-          controller: scrollController,
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              TopOvalWidget(
-                  isNotHome: widget.isNotHome,
-                  firstText: widget.cData.name!,
-                  parentId: widget.cData.id!,
-                  children: widget.cData.children ?? []),
-              BlocBuilder<SearchFilterPoductsBloc, SearchFilterPoductsState>(
-                builder: (context, state) {
-                  switch (state.status) {
-                    case SearchFilterProductsStatus.loading:
-                      return const Center(
-                          child: CustomCircularProgressIndicator());
-                    case SearchFilterProductsStatus.error:
-                      return MyErrorWidget(
-                          msg: state.errorMsg, onPressed: () {});
-                    case SearchFilterProductsStatus.success:
-                      if (state.products.isEmpty) {
-                        return Center(
-                          child: Text(
-                            "there_are_no_results_found".tr(context),
-                          ),
-                        );
+        body: Column(
+          children: [
+            TopOvalWidget(
+                isNotHome: widget.isNotHome,
+                firstText: widget.cData.name!,
+                parentId: widget.cData.id!,
+                children: widget.cData.children ?? []),
+            Expanded(
+              child: ListView(
+                controller: scrollController,
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+                children: [
+                  BlocBuilder<SearchFilterPoductsBloc,
+                      SearchFilterPoductsState>(
+                    builder: (context, state) {
+                      switch (state.status) {
+                        case SearchFilterProductsStatus.loading:
+                          return const Center(
+                              child: CustomCircularProgressIndicator());
+                        case SearchFilterProductsStatus.error:
+                          return MyErrorWidget(
+                              msg: state.errorMsg, onPressed: () {});
+                        case SearchFilterProductsStatus.success:
+                          if (state.products.isEmpty) {
+                            return Center(
+                              child: Text(
+                                "there_are_no_results_found".tr(context),
+                              ),
+                            );
+                          }
+                          return CustomLazyLoadGridView(
+                              items: state.products,
+                              hasReachedMax: state.hasReachedMax,
+                              itemBuilder: (context, product) =>
+                                  ProductCardWidget(
+                                    isHomeScreen: false,
+                                    product: product,
+                                    addToCartPaddingButton: 3.w,
+                                  ));
+                        case SearchFilterProductsStatus.init:
+                          return CategoriesGrid(categoryId: widget.cData.id!);
                       }
-                      return CustomLazyLoadGridView(
-                          items: state.products,
-                          hasReachedMax: state.hasReachedMax,
-                          itemBuilder: (context, product) => ProductCardWidget(
-                                isHomeScreen: false,
-                                product: product,
-                                addToCartPaddingButton: 3.w,
-                              ));
-                    case SearchFilterProductsStatus.init:
-                      return CategoriesGrid(categoryId: widget.cData.id!);
-                  }
-                },
-              )
-              // BlocBuilder<SearchProductByCategoryIdCubit,
-              //     SearchProductByCategoryIdState>(
-              //   builder: (context, state) {
-              //     if (state is SearchProductByCategoryIdError) {
-              //       return MyErrorWidget(
-              //           msg: state.message, onPressed: () {});
-              //     } else if (state is SearchProductByCategoryIdLoading) {
-              //       return const Center(
-              //         child: CircularProgressIndicator(
-              //           color: AppColors.buttonCategoryColor,
-              //         ),
-              //       );
-              //     } else if (state is SearchProductByCategoryIdNotFound) {
-              //       return Center(
-              //         child: Text(
-              //           "there_are_no_results_found".tr(context),
-              //         ),
-              //       );
-              //     } else if (state is SearchProductByCategoryIdSuccess) {
-              //       return CustomGridVeiw(
-              //         products: state.products,
-              //         physics: const NeverScrollableScrollPhysics(),
-              //         shrinkWrap: true,
-              //       );
-              //     } else {
-              //       return CategoriesGrid(categoryId: widget.cData.id!);
-              //     }
-              //   },
-              // )
-            ],
-          ),
+                    },
+                  ),
+                ],
+              ),
+            )
+            // BlocBuilder<SearchProductByCategoryIdCubit,
+            //     SearchProductByCategoryIdState>(
+            //   builder: (context, state) {
+            //     if (state is SearchProductByCategoryIdError) {
+            //       return MyErrorWidget(
+            //           msg: state.message, onPressed: () {});
+            //     } else if (state is SearchProductByCategoryIdLoading) {
+            //       return const Center(
+            //         child: CircularProgressIndicator(
+            //           color: AppColors.buttonCategoryColor,
+            //         ),
+            //       );
+            //     } else if (state is SearchProductByCategoryIdNotFound) {
+            //       return Center(
+            //         child: Text(
+            //           "there_are_no_results_found".tr(context),
+            //         ),
+            //       );
+            //     } else if (state is SearchProductByCategoryIdSuccess) {
+            //       return CustomGridVeiw(
+            //         products: state.products,
+            //         physics: const NeverScrollableScrollPhysics(),
+            //         shrinkWrap: true,
+            //       );
+            //     } else {
+            //       return CategoriesGrid(categoryId: widget.cData.id!);
+            //     }
+            //   },
+            // )
+          ],
         ),
       ),
     );

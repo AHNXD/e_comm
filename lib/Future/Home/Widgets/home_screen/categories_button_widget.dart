@@ -35,7 +35,7 @@ class _CategoriesButtonWidgetState extends State<CategoriesButtonWidget> {
             animationDuration: const Duration(seconds: 2),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(9.w)),
-            color: index == 0 ? const Color.fromARGB(255, 251, 254, 255) : null,
+            color: index == 0 ? AppColors.navBarColor : Colors.white,
             onPressed: () async {
               if (index != 0) {
                 //context.read<GetProductsCubit>().getProductsByCategory();
@@ -61,10 +61,6 @@ class _CategoriesButtonWidgetState extends State<CategoriesButtonWidget> {
                   index == 0
                       ? widget.firstText
                       : widget.children[index - 1].name!,
-                  style: TextStyle(
-                      color: index == 0
-                          ? AppColors.textButtonColors
-                          : Colors.white),
                 ),
                 const SizedBox(width: 8),
                 if (index != 0 && widget.children[index - 1].isOffer != null)

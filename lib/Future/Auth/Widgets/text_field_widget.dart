@@ -11,6 +11,7 @@ class TextFieldWidget extends StatefulWidget {
     required this.controller,
     this.validatorFun,
     this.keyboardType,
+    this.onChange,
   });
   final String text;
   final bool isPassword;
@@ -19,7 +20,7 @@ class TextFieldWidget extends StatefulWidget {
   final String? Function(String?)? validatorFun;
   final Color? borderColor;
   final TextInputType? keyboardType;
-
+  final void Function(String?)? onChange;
   @override
   State<TextFieldWidget> createState() => _TextFieldWidgetState();
 }
@@ -58,6 +59,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 1.h),
       child: TextFormField(
+        onChanged: widget.onChange,
         keyboardType: widget.keyboardType,
         textInputAction: TextInputAction.next,
         validator: widget.validatorFun,

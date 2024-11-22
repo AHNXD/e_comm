@@ -218,13 +218,15 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text(
-                            "add_to_cart".tr(context),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
+                          Expanded(
+                            child: Text(
+                              "add_to_cart".tr(context),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 9.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                           Icon(

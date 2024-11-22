@@ -147,5 +147,6 @@
     "delete_product_msg" : "Are you sure you want to delete the product?",
     "products_num" : "Number of products",
     "req_number": "Phone number is required",
-    "invaled_number": "Invalid phone number format"
+    "invaled_number": "Invalid phone number format",
+    "cancel" : "cancel"
 }
