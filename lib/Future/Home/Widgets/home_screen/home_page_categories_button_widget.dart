@@ -151,7 +151,7 @@ class _CategoriesButtonWidgetState
                                             state.categories[index].files?[0]
                                                         .path !=
                                                     null
-                                                ? Urls.storageProducts +
+                                                ? Urls.storageCategories +
                                                     state.categories[index]
                                                         .files![0].name!
                                                 : state.categories[index]
