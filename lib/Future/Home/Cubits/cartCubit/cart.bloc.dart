@@ -26,7 +26,7 @@ class CartCubit extends Cubit<CartState> {
           emit(AlreadyInCartFromFavState());
           break;
         case "cat":
-          emit(AlreadyInCartFromCatState());
+          emit(AlreadyInCartFromHomeState());
           break;
         case "search":
           emit(AlreadyInCartFromSearchState());
@@ -47,7 +47,7 @@ class CartCubit extends Cubit<CartState> {
           emit(AddToCartFromFavState());
           break;
         case "cat":
-          emit(AddToCartFromCatState());
+          emit(AddedTocartFromHomeScreen());
           break;
         case "search":
           emit(AddToCartFromSearchState());

@@ -114,7 +114,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                           radius: 15.sp,
                           backgroundColor: Colors.red,
                           child: Text(
-                            "${(1 - (double.tryParse(widget.product.offers!.priceAfterOffer!)! / double.tryParse(widget.product.offers!.priceAfterOffer!)!)) * 100}%",
+                            "${((double.tryParse(widget.product.offers!.priceDiscount!)! / double.tryParse(widget.product.sellingPrice!)!) * 100).toStringAsFixed(0)} %",
                             style: TextStyle(
                                 fontSize: 9.sp,
                                 color: Colors.white,
@@ -210,9 +210,8 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                           CustomSnackBar.showMessage(
                               context, "select_size".tr(context), Colors.red);
                         } else {
-                          context
-                              .read<CartCubit>()
-                              .addToCart(widget.product, widget.isHomeScreen, widget.screen);
+                          context.read<CartCubit>().addToCart(widget.product,
+                              widget.isHomeScreen, widget.screen);
                         }
                       },
                       child: Row(

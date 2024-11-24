@@ -172,7 +172,7 @@ class _DetailPageState extends State<DetailPage> {
                                         radius: 18.sp,
                                         backgroundColor: Colors.red,
                                         child: Text(
-                                          "${(1 - (double.tryParse(widget.product.offers!.priceAfterOffer!)! / double.tryParse(widget.product.offers!.priceAfterOffer!)!)) * 100}%",
+                                          "${((double.tryParse(widget.product.offers!.priceDiscount!)! / double.tryParse(widget.product.sellingPrice!)!) * 100).toStringAsFixed(0)} %",
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold),

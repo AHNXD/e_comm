@@ -84,97 +84,85 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CartCubit, CartState>(
-      listener: (context, state) {
-        if (state is AddToCartFromCatState) {
-          CustomSnackBar.showMessage(
-              context, 'add_product_done'.tr(context), Colors.green);
-        } else if (state is AlreadyInCartFromCatState) {
-          CustomSnackBar.showMessage(
-              context, 'product_in_cart'.tr(context), Colors.grey);
-        }
-      },
-      child: Scaffold(
-        backgroundColor: AppColors.backgroundColor,
-        body: Column(
-          children: [
-            TopOvalWidget(
-                isNotHome: widget.isNotHome,
-                firstText: widget.cData.name!,
-                parentId: widget.cData.id!,
-                children: widget.cData.children ?? []),
-            Expanded(
-              child: ListView(
-                controller: scrollController,
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                children: [
-                  BlocBuilder<SearchFilterPoductsBloc,
-                      SearchFilterPoductsState>(
-                    builder: (context, state) {
-                      switch (state.status) {
-                        case SearchFilterProductsStatus.loading:
-                          return const Center(
-                              child: CustomCircularProgressIndicator());
-                        case SearchFilterProductsStatus.error:
-                          return MyErrorWidget(
-                              msg: state.errorMsg, onPressed: () {});
-                        case SearchFilterProductsStatus.success:
-                          if (state.products.isEmpty) {
-                            return Center(
-                              child: Text(
-                                "there_are_no_results_found".tr(context),
-                              ),
-                            );
-                          }
-                          return CustomLazyLoadGridView(
-                              items: state.products,
-                              hasReachedMax: state.hasReachedMax,
-                              itemBuilder: (context, product) =>
-                                  ProductCardWidget(
+    return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
+      body: Column(
+        children: [
+          TopOvalWidget(
+              isNotHome: widget.isNotHome,
+              firstText: widget.cData.name!,
+              parentId: widget.cData.id!,
+              children: widget.cData.children ?? []),
+          Expanded(
+            child: ListView(
+              controller: scrollController,
+              shrinkWrap: true,
+              physics: BouncingScrollPhysics(),
+              children: [
+                BlocBuilder<SearchFilterPoductsBloc, SearchFilterPoductsState>(
+                  builder: (context, state) {
+                    switch (state.status) {
+                      case SearchFilterProductsStatus.loading:
+                        return const Center(
+                            child: CustomCircularProgressIndicator());
+                      case SearchFilterProductsStatus.error:
+                        return MyErrorWidget(
+                            msg: state.errorMsg, onPressed: () {});
+                      case SearchFilterProductsStatus.success:
+                        if (state.products.isEmpty) {
+                          return Center(
+                            child: Text(
+                              "there_are_no_results_found".tr(context),
+                            ),
+                          );
+                        }
+                        return CustomLazyLoadGridView(
+                            items: state.products,
+                            hasReachedMax: state.hasReachedMax,
+                            itemBuilder: (context, product) =>
+                                ProductCardWidget(
                                     isHomeScreen: false,
                                     product: product,
-                                    addToCartPaddingButton: 3.w,screen:"cat"
-                                  ));
-                        case SearchFilterProductsStatus.init:
-                          return CategoriesGrid(categoryId: widget.cData.id!);
-                      }
-                    },
-                  ),
-                ],
-              ),
-            )
-            // BlocBuilder<SearchProductByCategoryIdCubit,
-            //     SearchProductByCategoryIdState>(
-            //   builder: (context, state) {
-            //     if (state is SearchProductByCategoryIdError) {
-            //       return MyErrorWidget(
-            //           msg: state.message, onPressed: () {});
-            //     } else if (state is SearchProductByCategoryIdLoading) {
-            //       return const Center(
-            //         child: CircularProgressIndicator(
-            //           color: AppColors.buttonCategoryColor,
-            //         ),
-            //       );
-            //     } else if (state is SearchProductByCategoryIdNotFound) {
-            //       return Center(
-            //         child: Text(
-            //           "there_are_no_results_found".tr(context),
-            //         ),
-            //       );
-            //     } else if (state is SearchProductByCategoryIdSuccess) {
-            //       return CustomGridVeiw(
-            //         products: state.products,
-            //         physics: const NeverScrollableScrollPhysics(),
-            //         shrinkWrap: true,
-            //       );
-            //     } else {
-            //       return CategoriesGrid(categoryId: widget.cData.id!);
-            //     }
-            //   },
-            // )
-          ],
-        ),
+                                    addToCartPaddingButton: 3.w,
+                                    screen: "cat"));
+                      case SearchFilterProductsStatus.init:
+                        return CategoriesGrid(categoryId: widget.cData.id!);
+                    }
+                  },
+                ),
+              ],
+            ),
+          )
+          // BlocBuilder<SearchProductByCategoryIdCubit,
+          //     SearchProductByCategoryIdState>(
+          //   builder: (context, state) {
+          //     if (state is SearchProductByCategoryIdError) {
+          //       return MyErrorWidget(
+          //           msg: state.message, onPressed: () {});
+          //     } else if (state is SearchProductByCategoryIdLoading) {
+          //       return const Center(
+          //         child: CircularProgressIndicator(
+          //           color: AppColors.buttonCategoryColor,
+          //         ),
+          //       );
+          //     } else if (state is SearchProductByCategoryIdNotFound) {
+          //       return Center(
+          //         child: Text(
+          //           "there_are_no_results_found".tr(context),
+          //         ),
+          //       );
+          //     } else if (state is SearchProductByCategoryIdSuccess) {
+          //       return CustomGridVeiw(
+          //         products: state.products,
+          //         physics: const NeverScrollableScrollPhysics(),
+          //         shrinkWrap: true,
+          //       );
+          //     } else {
+          //       return CategoriesGrid(categoryId: widget.cData.id!);
+          //     }
+          //   },
+          // )
+        ],
       ),
     );
   }
@@ -204,10 +192,10 @@ class CategoriesGrid extends StatelessWidget {
                 items: state.products,
                 hasReachedMax: state.hasReachedMax,
                 itemBuilder: (context, product) => ProductCardWidget(
-                      isHomeScreen: false,
-                      product: product,
-                      addToCartPaddingButton: 3.w,screen:"cat"
-                    ));
+                    isHomeScreen: false,
+                    product: product,
+                    addToCartPaddingButton: 3.w,
+                    screen: "cat"));
           case GetProductsByCatIdStatus.error:
             return MyErrorWidget(
                 msg: state.errorMsg,

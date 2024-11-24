@@ -39,7 +39,7 @@ class PrudoctDaitlesCart extends StatelessWidget {
             radius: 16.sp,
             backgroundColor: Colors.red,
             child: Text(
-              "${(1 - (double.tryParse(product.offers!.priceAfterOffer!)! / double.tryParse(product.offers!.priceAfterOffer!)!)) * 100}%",
+              "${((double.tryParse(product.offers!.priceDiscount!)! / double.tryParse(product.sellingPrice!)!) * 100).toStringAsFixed(0)} %",
               style: TextStyle(
                   fontSize: 10.sp,
                   color: Colors.white,
