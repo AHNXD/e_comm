@@ -1,15 +1,12 @@
 import 'package:e_comm/Future/Home/Blocs/get_offers/get_offers_bloc.dart';
-import 'package:e_comm/Future/Home/Blocs/get_products_by_cat_id/get_products_by_cat_id_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
 import 'package:e_comm/Future/Home/Widgets/custom_lazy_load_grid_view.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
-import 'package:e_comm/Future/Home/Widgets/home_screen/appbar_widget.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-import '../Blocs/get_favorite/get_favorite_bloc.dart';
 import '../Widgets/custom_circular_progress_indicator.dart';
 import '../Widgets/custom_snak_bar.dart';
 import '../Widgets/home_screen/product_card_widget.dart';

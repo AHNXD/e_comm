@@ -61,7 +61,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             );
           }
           if (state is ResetPasswordErrorState) {
-            CustomSnackBar.showMessage(context, state.message!, Colors.red);
+            CustomSnackBar.showMessage(context, state.message, Colors.red);
             
           }
         },
