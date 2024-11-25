@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:e_comm/Apis/Network.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:e_comm/Future/Home/models/product_model.dart';
@@ -13,8 +14,15 @@ part 'cart.state.dart';
 class CartCubit extends Cubit<CartState> {
   CartCubit() : super(EmptyCartState());
   List<MainProduct> pcw = <MainProduct>[];
-  void addToCart(MainProduct p, bool isHomeScreen, String screen) {
-    if (pcw.any((element) => element.id == p.id)) {
+
+  void addToCart({
+    required MainProduct p,
+    required String screen,
+    bool size = false,
+  }) async {
+    if (pcw.any((element) => size
+        ? (element.id == p.id && element.selectedSize == p.selectedSize)
+        : element.id == p.id)) {
       switch (screen) {
         case "home":
           emit(AlreadyInCartFromHomeState());
@@ -35,75 +43,72 @@ class CartCubit extends Cubit<CartState> {
           emit(AlreadyInCartState());
       }
     } else {
-      pcw.add(p);
-      switch (screen) {
-        case "home":
-          emit(AddedTocartFromHomeScreen());
-          break;
-        case "product":
-          emit(AddToCartState());
-          break;
-        case "fav":
-          emit(AddToCartFromFavState());
-          break;
-        case "cat":
-          emit(AddedTocartFromHomeScreen());
-          break;
-        case "search":
-          emit(AddToCartFromSearchState());
-          break;
-        default:
-          emit(AddToCartState());
+      try {
+        await Network.postData(url: Urls.addToCart, data: {
+          "id": p.id,
+          "quantity": p.userQuantity,
+          "size": p.selectedSize
+        }).then((value) {
+          if (value.statusCode == 200 || value.statusCode == 201) {
+            if (value.data["status"]) {
+              switch (screen) {
+                case "home":
+                  emit(AddedTocartFromHomeScreen());
+                  break;
+                case "product":
+                  emit(AddToCartState());
+                  break;
+                case "fav":
+                  emit(AddToCartFromFavState());
+                  break;
+                case "cat":
+                  emit(AddedTocartFromHomeScreen());
+                  break;
+                case "search":
+                  emit(AddToCartFromSearchState());
+                  break;
+                default:
+                  emit(AddToCartState());
+              }
+              refreshCartOnLanguageChange();
+            } else {
+              emit(CartErrorState(errorMessage: value.data["msg"]));
+            }
+          }
+        });
+      } catch (error) {
+        if (error is DioException) {
+          emit(
+            CartErrorState(
+              errorMessage: exceptionsHandle(error: error),
+            ),
+          );
+        } else {
+          emit(CartErrorState(errorMessage: error.toString()));
+        }
       }
-    }
-  }
-
-  void addToCartWithSize(MainProduct p, String size) {
-    bool productWithSameSize = false;
-    for (var product in pcw) {
-      if (product.id == p.id && product.selectedSize == size) {
-        productWithSameSize = true;
-        emit(AlreadyInCartState());
-        break;
-      }
-    }
-    if (!productWithSameSize) {
-      MainProduct newProduct = MainProduct(
-          id: p.id,
-          name: p.name,
-          categoryId: p.categoryId,
-          descrption: p.descrption,
-          files: p.files,
-          sellingPrice: p.sellingPrice,
-          sizes: p.sizes,
-          selectedSize: size,
-          isOffer: p.isOffer,
-          offers: p.offers);
-
-      pcw.add(newProduct);
-      emit(AddToCartState());
     }
   }
 
   Future<void> refreshCartOnLanguageChange() async {
     emit(CartLoadingState());
     try {
-      List<int> productIds = pcw.map((product) => product.id!).toList();
-      List<int> quantities =
-          pcw.map((product) => product.userQuantity).toList();
-      List<String?> selectedSizs =
-          pcw.map((product) => product.selectedSize).toList();
-      List<MainProduct> updatedProducts = await Future.wait(
-        productIds.map((id) => getProductById(id)).toList(),
-      );
-
-      for (int i = 0; i < updatedProducts.length; i++) {
-        updatedProducts[i].userQuantity = quantities[i];
-        updatedProducts[i].selectedSize = selectedSizs[i];
-      }
-      pcw = updatedProducts;
-
-      emit(CartRefreshState(loadedporduct: updatedProducts));
+      await Network.getData(url: Urls.getCart).then((value) {
+        if (value.statusCode == 200 || value.statusCode == 201) {
+          if (value.data["status"]) {
+            pcw.clear();
+            for (var data in value.data["data"]) {
+              MainProduct p = MainProduct.fromJson(data["product"]);
+              p.userQuantity = data["quantity"];
+              p.selectedSize = data["size"];
+              pcw.add(p);
+            }
+            emit(GetCartSuccessfulState());
+          } else {
+            emit(CartErrorState(errorMessage: value.data["msg"]));
+          }
+        }
+      });
     } catch (error) {
       if (error is DioException) {
         emit(
@@ -117,24 +122,93 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  Future<MainProduct> getProductById(int id) async {
-    final response =
-        await Network.getData(url: "${Urls.getProduct}/${id.toString()}");
-    return MainProduct.fromJson(response.data['data']);
-  }
-
-  void increaseQuantity(MainProduct product) {
+  void increaseQuantity(MainProduct product) async {
     product.userQuantity++;
-    emit(AddToCartState());
+    try {
+      await Network.postData(url: Urls.updateCart, data: {
+        "id": product.id,
+        "quantity": product.userQuantity,
+        "size": product.selectedSize
+      }).then((value) {
+        if (value.statusCode == 200 || value.statusCode == 201) {
+          if (value.data["status"]) {
+            emit(AddToCartState());
+          } else {
+            product.userQuantity--;
+            emit(CartErrorState(errorMessage: value.data["msg"]));
+          }
+        }
+      });
+    } catch (error) {
+      product.userQuantity--;
+      if (error is DioException) {
+        emit(
+          CartErrorState(
+            errorMessage: exceptionsHandle(error: error),
+          ),
+        );
+      } else {
+        emit(CartErrorState(errorMessage: error.toString()));
+      }
+    }
   }
 
-  void decreaseQuantity(MainProduct product) {
+  void decreaseQuantity(MainProduct product) async {
     product.userQuantity--;
-    emit(AddToCartState());
+    try {
+      await Network.postData(url: Urls.updateCart, data: {
+        "id": product.id,
+        "quantity": product.userQuantity,
+        "size": product.selectedSize
+      }).then((value) {
+        if (value.statusCode == 200 || value.statusCode == 201) {
+          if (value.data["status"]) {
+            emit(AddToCartState());
+          } else {
+            product.userQuantity++;
+            emit(CartErrorState(errorMessage: value.data["msg"]));
+          }
+        }
+      });
+    } catch (error) {
+      product.userQuantity++;
+      if (error is DioException) {
+        emit(
+          CartErrorState(
+            errorMessage: exceptionsHandle(error: error),
+          ),
+        );
+      } else {
+        emit(CartErrorState(errorMessage: error.toString()));
+      }
+    }
   }
 
-  void removeformTheCart(MainProduct p) {
-    pcw.remove(p);
-    emit(RemvoeFromCartState(porducts: pcw));
+  void removeformTheCart(MainProduct p) async {
+    try {
+      await Network.postData(url: Urls.addToCart, data: {
+        "id": p.id,
+        "quantity": p.userQuantity,
+        "size": p.selectedSize
+      }).then((value) {
+        if (value.statusCode == 200 || value.statusCode == 201) {
+          if (value.data["status"]) {
+            refreshCartOnLanguageChange();
+          } else {
+            emit(CartErrorState(errorMessage: value.data["msg"]));
+          }
+        }
+      });
+    } catch (error) {
+      if (error is DioException) {
+        emit(
+          CartErrorState(
+            errorMessage: exceptionsHandle(error: error),
+          ),
+        );
+      } else {
+        emit(CartErrorState(errorMessage: error.toString()));
+      }
+    }
   }
 }

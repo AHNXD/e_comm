@@ -4,6 +4,7 @@ import 'package:e_comm/Future/Auth/Widgets/my_button_widget.dart';
 import 'package:e_comm/Future/Auth/Widgets/text_field_widget.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Pages/navbar_screen.dart';
+import 'package:e_comm/Future/Home/Widgets/custom_snak_bar.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/back_widget.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
@@ -39,35 +40,16 @@ class LoginScreen extends StatelessWidget {
       body: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is LoginSuccessfulState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  content: Container(
-                    padding: EdgeInsets.symmetric(vertical: 1.h),
-                    decoration: BoxDecoration(
-                        color: Colors.green[400],
-                        borderRadius: BorderRadius.circular(2.w)),
-                    margin: EdgeInsets.symmetric(horizontal: 0.1.w),
-                    child: Text(
-                      "login_success".tr(context),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  duration: const Duration(seconds: 2)),
-            );
+            CustomSnackBar.showMessage(
+                context, "login_success".tr(context), Colors.green);
+
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (builder) {
               return const NavBarPage();
             }));
           }
           if (state is LoginErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  backgroundColor: Colors.red,
-                  content: Text(state.message),
-                  duration: const Duration(seconds: 2)),
-            );
+            CustomSnackBar.showMessage(context, state.message, Colors.red);
           }
         },
         builder: (context, state) {

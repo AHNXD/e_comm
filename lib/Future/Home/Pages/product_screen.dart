@@ -7,9 +7,9 @@ import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/product_card_widget.dart';
 
 import 'package:e_comm/Utils/app_localizations.dart';
-import '../Cubits/cartCubit/cart.bloc.dart';
+
 import '../Widgets/custom_circular_progress_indicator.dart';
-import '../Widgets/custom_snak_bar.dart';
+
 import '../models/catigories_model.dart';
 import '/Future/Home/Widgets/product_Screen/top_oval_widget.dart';
 import '/Utils/colors.dart';
@@ -133,35 +133,6 @@ class _ProductScreenState extends State<ProductScreen> {
               ],
             ),
           )
-          // BlocBuilder<SearchProductByCategoryIdCubit,
-          //     SearchProductByCategoryIdState>(
-          //   builder: (context, state) {
-          //     if (state is SearchProductByCategoryIdError) {
-          //       return MyErrorWidget(
-          //           msg: state.message, onPressed: () {});
-          //     } else if (state is SearchProductByCategoryIdLoading) {
-          //       return const Center(
-          //         child: CircularProgressIndicator(
-          //           color: AppColors.buttonCategoryColor,
-          //         ),
-          //       );
-          //     } else if (state is SearchProductByCategoryIdNotFound) {
-          //       return Center(
-          //         child: Text(
-          //           "there_are_no_results_found".tr(context),
-          //         ),
-          //       );
-          //     } else if (state is SearchProductByCategoryIdSuccess) {
-          //       return CustomGridVeiw(
-          //         products: state.products,
-          //         physics: const NeverScrollableScrollPhysics(),
-          //         shrinkWrap: true,
-          //       );
-          //     } else {
-          //       return CategoriesGrid(categoryId: widget.cData.id!);
-          //     }
-          //   },
-          // )
         ],
       ),
     );
@@ -208,29 +179,5 @@ class CategoriesGrid extends StatelessWidget {
         }
       },
     );
-    // return BlocBuilder<GetPorductByIdCubit, GetPorductByIdState>(
-    //   builder: (context, state) {
-    //     if (state is GetPorductByIdError) {
-    //       return MyErrorWidget(
-    //           msg: state.msg,
-    //           onPressed: () {
-    //             context
-    //                 .read<G>()
-    //                 .getProductsByCategory(categoryId);
-    //           });
-    //     } else if (state is GetPorductByIdLoading) {
-    //       return const Center(
-    //         child: CircularProgressIndicator(),
-    //       );
-    //     } else if (state is GetPorductByIdSuccess) {
-    //       return CustomGridVeiw(
-    //         products: state.products,
-    //         physics: const NeverScrollableScrollPhysics(),
-    //         shrinkWrap: true,
-    //       );
-    //     }
-    //     return const SizedBox();
-    //   },
-    // );
   }
 }

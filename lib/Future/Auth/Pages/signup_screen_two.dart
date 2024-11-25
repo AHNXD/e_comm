@@ -2,6 +2,7 @@ import 'package:e_comm/Future/Auth/Pages/login_screen.dart';
 import 'package:e_comm/Future/Auth/Widgets/my_button_widget.dart';
 import 'package:e_comm/Future/Auth/Widgets/text_field_widget.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
+import 'package:e_comm/Future/Home/Widgets/custom_snak_bar.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/back_widget.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
@@ -37,33 +38,7 @@ class SignupScreenTow extends StatelessWidget {
       body: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is RegisterSuccessfulState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  content: Container(
-                    padding: EdgeInsets.symmetric(vertical: 1.h),
-                    decoration: BoxDecoration(
-                        color: Colors.green[400],
-                        borderRadius: BorderRadius.circular(2.w)),
-                    margin: EdgeInsets.symmetric(horizontal: 0.1.w),
-                    child: Text(
-                      state.msg!,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  duration: const Duration(seconds: 5)),
-            );
-            // Navigator.of(context).pushAndRemoveUntil(
-            //   MaterialPageRoute(builder: (builder) {
-            //     return VerificationScreen(
-            //       prevScreen: "signUp".tr(context),
-            //       prvEmail:
-            //           context.read<AuthCubit>().emailController.text.trim(),
-            //     );
-            //   }),
-            //   (route) => false,
-            // );
+            CustomSnackBar.showMessage(context, state.msg!, Colors.green);
 
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (builder) {
@@ -71,20 +46,10 @@ class SignupScreenTow extends StatelessWidget {
             }));
           }
           if (state is RegisterErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  backgroundColor: Colors.red,
-                  content: Text(state.message),
-                  duration: const Duration(seconds: 2)),
-            );
+            CustomSnackBar.showMessage(context, state.message, Colors.red);
           }
           if (state is RegisterErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  backgroundColor: Colors.red,
-                  content: Text(state.message),
-                  duration: const Duration(seconds: 5)),
-            );
+            CustomSnackBar.showMessage(context, state.message, Colors.red);
           }
         },
         builder: (context, state) {
@@ -157,9 +122,8 @@ class SignupScreenTow extends StatelessWidget {
                                   .read<AuthCubit>()
                                   .passwordController
                                   .text) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content:
-                                    Text("confirm_password_msg".tr(context))));
+                            CustomSnackBar.showMessage(context,
+                                "confirm_password_msg".tr(context), Colors.red);
                           }
                         })
               ],

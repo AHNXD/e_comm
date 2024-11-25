@@ -1,4 +1,3 @@
-import 'package:e_comm/Future/Home/Blocs/get_favorite/get_favorite_bloc.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/functions.dart';
 
@@ -63,50 +62,32 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  BlocBuilder<GetFavoriteBloc, GetFavoriteState>(
-                    builder: (context, stateOne) {
-                      return BlocBuilder<FavoriteCubit, FavoriteState>(
-                        builder: (context, state) {
-                          return IconButton(
-                              onPressed: () async {
-                                widget.product.isFavorite = await context
-                                    .read<FavoriteCubit>()
-                                    .addAndDelFavoriteProducts(
-                                      widget.product.id!,
-                                    );
-                                // context
-                                //     .read<GetFavoriteBloc>()
-                                //     .add(RestPagination());
-                                // context
-                                //     .read<GetFavoriteBloc>()
-                                //     .add(GetAllFavoriteEvent());
-                                if (!widget.product.isFavorite)
-                                  stateOne.favoriteProducts.removeWhere(
-                                      (p) => p.id == widget.product.id);
-                                else {
-                                  stateOne.favoriteProducts.add(widget.product);
-                                }
-                                setState(() {
-                                  massege(
-                                      context,
-                                      widget.product.isFavorite
-                                          ? "added_fav".tr(context)
-                                          : "removed_fav".tr(context),
-                                      Colors.green);
-                                });
-                              },
-                              icon: Icon(
-                                stateOne.favoriteProducts
-                                        .any((p) => p.id == widget.product.id)
-                                    ? Icons.favorite
-                                    : Icons.favorite_border_outlined,
-                                color: stateOne.favoriteProducts
-                                        .any((p) => p.id == widget.product.id)
-                                    ? AppColors.textTitleAppBarColor
-                                    : Colors.black,
-                              ));
-                        },
-                      );
+                  BlocBuilder<FavoriteCubit, FavoriteState>(
+                    builder: (context, state) {
+                      return IconButton(
+                          onPressed: () async {
+                            widget.product.isFav = await context
+                                .read<FavoriteCubit>()
+                                .addAndDelFavoriteProducts(
+                                  widget.product.id!,
+                                );
+                            setState(() {
+                              massege(
+                                  context,
+                                  widget.product.isFav!
+                                      ? "added_fav".tr(context)
+                                      : "removed_fav".tr(context),
+                                  Colors.green);
+                            });
+                          },
+                          icon: Icon(
+                            widget.product.isFav!
+                                ? Icons.favorite
+                                : Icons.favorite_border_outlined,
+                            color: widget.product.isFav!
+                                ? AppColors.textTitleAppBarColor
+                                : Colors.black,
+                          ));
                     },
                   ),
                   widget.product.isOffer!
@@ -210,8 +191,8 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                           CustomSnackBar.showMessage(
                               context, "select_size".tr(context), Colors.red);
                         } else {
-                          context.read<CartCubit>().addToCart(widget.product,
-                              widget.isHomeScreen, widget.screen);
+                          context.read<CartCubit>().addToCart(
+                              p: widget.product, screen: widget.screen);
                         }
                       },
                       child: Row(

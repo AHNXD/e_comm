@@ -51,7 +51,7 @@ class _OffersWidgetState extends State<OffersWidget> {
                   builder: (context, state) {
                     return IconButton(
                         onPressed: () async {
-                          widget.data.isFavorite = await context
+                          widget.data.isFav = await context
                               .read<FavoriteCubit>()
                               .addAndDelFavoriteProducts(
                                 widget.data.id!,
@@ -59,17 +59,17 @@ class _OffersWidgetState extends State<OffersWidget> {
                           setState(() {
                             massege(
                                 context,
-                                widget.data.isFavorite
+                                widget.data.isFav!
                                     ? "added_fav".tr(context)
                                     : "removed_fav".tr(context),
                                 Colors.green);
                           });
                         },
                         icon: Icon(
-                          widget.data.isFavorite
+                          widget.data.isFav!
                               ? Icons.favorite
                               : Icons.favorite_border_outlined,
-                          color: widget.data.isFavorite
+                          color: widget.data.isFav!
                               ? AppColors.textTitleAppBarColor
                               : Colors.black,
                         ));

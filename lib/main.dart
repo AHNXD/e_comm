@@ -86,10 +86,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => LocaleCubit()..getSaveLanguage()),
           BlocProvider(create: (_) => AuthCubit()..checkToken()),
-          BlocProvider(create: (_) => GetCatigoriesCubit()),
-          BlocProvider(create: (_) => GetProductsCubit()),
-          BlocProvider(create: (_) => FavoriteCubit()),
-          BlocProvider(create: (_) => RangeSliderCubit()),
+          BlocProvider(create: (_) => GetUserCubit()..getUserProfile()),
           BlocProvider(
               create: (_) => GetMyOrdersBloc()..add(GetAllMyOrdersEvent())),
           BlocProvider(
@@ -98,7 +95,18 @@ class MyApp extends StatelessWidget {
               create: (_) => GetOffersBloc()..add(GetAllOffersEvent())),
           BlocProvider(
               create: (_) => GetCategoriesBloc()..add(GetAllCategoriesEvent())),
-          BlocProvider(create: (_) => CartCubit()),
+          BlocProvider(
+              create: (_) => CartCubit()..refreshCartOnLanguageChange()),
+          BlocProvider(
+            create: (_) => GetPrintSizesCubit()..getPrintSizes(),
+          ),
+          BlocProvider(
+              create: (_) =>
+                  GetLatestProductsBloc()..add(GetAllLatestProductsEvent())),
+          BlocProvider(create: (_) => GetCatigoriesCubit()),
+          BlocProvider(create: (_) => GetProductsCubit()),
+          BlocProvider(create: (_) => FavoriteCubit()),
+          BlocProvider(create: (_) => RangeSliderCubit()),
           BlocProvider(create: (_) => CompairProductsCubit()),
           BlocProvider(create: (_) => PostOrdersCubit()),
           BlocProvider(create: (_) => GetProductsByCatIdBloc()),
@@ -107,17 +115,11 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => ContactUsCubit()),
           BlocProvider(
               create: (_) =>
-                  GetLatestProductsBloc()..add(GetAllLatestProductsEvent())),
-          BlocProvider(
-              create: (_) =>
                   PagesScreenCubit()..changedScreen(AppScreen.home, context)),
           BlocProvider(create: (_) => SearchProductsBloc()),
           BlocProvider(create: (_) => SellProductCubit()),
           BlocProvider(create: (_) => PrintImageCubit()),
           BlocProvider(create: (_) => AllProductsByAllCategoryCubit()),
-          BlocProvider(
-            create: (_) => GetPrintSizesCubit()..getPrintSizes(),
-          ),
           BlocProvider(
             create: (_) => GetMinMaxCubit(),
           ),
@@ -125,7 +127,6 @@ class MyApp extends StatelessWidget {
             create: (_) => SearchFilterPoductsBloc(),
           ),
           BlocProvider(create: (_) => MangeSearchFilterProductsCubit()),
-          BlocProvider(create: (_) => GetUserCubit()..getUserProfile()),
           BlocProvider(create: (_) => EditProfileCubit()),
           BlocProvider(create: (_) => DeleteProfileCubit()),
           BlocProvider(create: (_) => CancelFilterButtonCubit())

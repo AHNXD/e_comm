@@ -41,11 +41,12 @@ class MainProduct {
   String? descrption;
   int userQuantity = 1;
   String? selectedSize;
-  bool isFavorite = false;
   List<Files>? files;
   List<String>? sizes;
   bool? isOffer;
   Offers? offers;
+  bool? inCart;
+  bool? isFav;
 
   MainProduct(
       {this.id,
@@ -57,7 +58,9 @@ class MainProduct {
       this.sizes,
       this.selectedSize,
       this.isOffer,
-      this.offers});
+      this.offers,
+      this.inCart,
+      this.isFav});
 
   MainProduct.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -65,6 +68,8 @@ class MainProduct {
     categoryId = json['category_id'];
     sellingPrice = json['new_selling_price'];
     descrption = json['descrption'];
+    isFav = json['IsFav'];
+    inCart = json['InCart'];
     if (json['IsOffer'] != null) {
       isOffer = json['IsOffer'];
     } else {
@@ -88,6 +93,8 @@ class MainProduct {
     data['new_selling_price'] = sellingPrice;
     data['descrption'] = descrption;
     data['IsOffer'] = isOffer;
+    data['IsFav'] = isFav;
+    data['InCart'] = inCart;
     if (files != null) {
       data['files'] = files!.map((v) => v.toJson()).toList();
     }

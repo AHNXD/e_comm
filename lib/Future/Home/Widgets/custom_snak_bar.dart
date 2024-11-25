@@ -21,7 +21,7 @@ class CustomSnackBar {
             style: const TextStyle(color: Colors.white),
           ),
         ),
-        duration: const Duration(seconds: 1),
+        duration: const Duration(seconds: 2),
       ),
     );
   }

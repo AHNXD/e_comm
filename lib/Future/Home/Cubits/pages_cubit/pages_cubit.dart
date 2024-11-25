@@ -7,7 +7,7 @@ import 'package:e_comm/Future/Home/Pages/favorite_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../Utils/enums.dart';
-import '../../Pages/cart_screen1.dart';
+import '../../Pages/cart_screen.dart';
 import '../../Pages/home_screen.dart';
 
 part 'pages_state.dart';

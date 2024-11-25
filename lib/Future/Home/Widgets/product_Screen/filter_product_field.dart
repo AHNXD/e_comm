@@ -1,3 +1,4 @@
+import 'package:e_comm/Future/Home/Widgets/custom_snak_bar.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -117,14 +118,8 @@ class FilterProductField extends StatelessWidget {
           //     .filterProductByPrice(
           //         minPrice, maxPrice, cateogryId);
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text(
-                  "invalid_price_range".tr(context),
-                  style: const TextStyle(color: Colors.white),
-                ),
-                backgroundColor: Colors.red),
-          );
+          CustomSnackBar.showMessage(
+              context, "invalid_price_range".tr(context), Colors.red);
         }
       } else if (minPrice != null && maxPrice == null) {
         startFilter(context, minPrice, double.tryParse(maxP)!);

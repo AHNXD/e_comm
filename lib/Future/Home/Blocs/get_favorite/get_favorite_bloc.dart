@@ -24,7 +24,7 @@ class GetFavoriteBloc extends Bloc<GetFavoriteEvent, GetFavoriteState> {
               FavoriteModel favoritesProducts =
                   FavoriteModel.fromJson(response.data);
               for (int i = 0; i < favoritesProducts.data!.length; i++) {
-                favoritesProducts.data![i].isFavorite = true;
+                favoritesProducts.data![i].isFav = true;
               }
 
               return favoritesProducts.data!.isEmpty
@@ -47,7 +47,7 @@ class GetFavoriteBloc extends Bloc<GetFavoriteEvent, GetFavoriteState> {
               FavoriteModel favoritesProducts =
                   FavoriteModel.fromJson(response.data);
               for (int i = 0; i < favoritesProducts.data!.length; i++) {
-                favoritesProducts.data![i].isFavorite = true;
+                favoritesProducts.data![i].isFav = true;
               }
               favoritesProducts.data!.isEmpty
                   ? emit(state.copyWith(hasReachedMax: true))

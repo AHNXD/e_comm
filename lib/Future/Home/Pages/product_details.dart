@@ -274,14 +274,16 @@ class _DetailPageState extends State<DetailPage> {
                               CustomSnackBar.showMessage(context,
                                   "select_size".tr(context), Colors.red);
                             } else {
-                              context.read<CartCubit>().addToCartWithSize(
-                                  widget.product,
-                                  widget.product.sizes![selectedIndex!]);
+                              widget.product.selectedSize =
+                                  widget.product.sizes![selectedIndex!];
+                              context.read<CartCubit>().addToCart(
+                                  p: widget.product,
+                                  screen: "product",
+                                  size: true);
                             }
                           } else {
-                            context
-                                .read<CartCubit>()
-                                .addToCart(widget.product, false, "product");
+                            context.read<CartCubit>().addToCart(
+                                p: widget.product, screen: "product");
 
                             setState(() {});
                           }
@@ -380,54 +382,40 @@ class _DetailPageState extends State<DetailPage> {
           const Spacer(),
 
           BlocBuilder<GetFavoriteBloc, GetFavoriteState>(
-            builder: (context, stateOne) {
-              return BlocBuilder<GetFavoriteBloc, GetFavoriteState>(
-                builder: (context, state) {
-                  return InkWell(
-                    onTap: () async {
-                      bool result = await context
-                          .read<FavoriteCubit>()
-                          .addAndDelFavoriteProducts(widget.product.id!);
-                      setState(() {
-                        widget.product.isFavorite = result;
-                      });
-                      if (!result)
-                        stateOne.favoriteProducts
-                            .removeWhere((p) => p.id == widget.product.id);
-                      else {
-                        stateOne.favoriteProducts.add(widget.product);
-                      }
-                      massege(
-                          context,
-                          result
-                              ? "added_fav".tr(context)
-                              : "removed_fav".tr(context),
-                          Colors.green);
-                    },
-                    child: Material(
-                      color: Colors.white.withOpacity(0.21),
-                      borderRadius: BorderRadius.circular(10),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          alignment: Alignment.center,
-                          child: Icon(
-                            stateOne.favoriteProducts
-                                    .any((p) => p.id == widget.product.id)
-                                ? Icons.favorite
-                                : Icons.favorite_border_outlined,
-                            color: stateOne.favoriteProducts
-                                    .any((p) => p.id == widget.product.id)
-                                ? Colors.white
-                                : Colors.white,
-                          ),
-                        ),
+            builder: (context, state) {
+              return InkWell(
+                onTap: () async {
+                  widget.product.isFav = await context
+                      .read<FavoriteCubit>()
+                      .addAndDelFavoriteProducts(widget.product.id!);
+                  setState(() {});
+
+                  massege(
+                      context,
+                      widget.product.isFav!
+                          ? "added_fav".tr(context)
+                          : "removed_fav".tr(context),
+                      Colors.green);
+                },
+                child: Material(
+                  color: Colors.white.withOpacity(0.21),
+                  borderRadius: BorderRadius.circular(10),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      alignment: Alignment.center,
+                      child: Icon(
+                        widget.product.isFav!
+                            ? Icons.favorite
+                            : Icons.favorite_border_outlined,
+                        color:
+                            widget.product.isFav! ? Colors.white : Colors.white,
                       ),
                     ),
-                  );
-                },
+                  ),
+                ),
               );
             },
           )

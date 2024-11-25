@@ -1,28 +1,13 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
 import 'package:e_comm/Future/Home/models/order_information.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
-import 'package:e_comm/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 import '../Future/Auth/Widgets/text_field_widget.dart';
 import '../Future/Home/Cubits/postOrders/post_orders_cubit.dart';
-
-void showSuccessSnackBar({required String message}) {
-  ScaffoldMessenger.of(scaffoldKey.currentState!.context).showSnackBar(SnackBar(
-    behavior: SnackBarBehavior.floating,
-    margin: EdgeInsets.symmetric(
-      horizontal: 3.w,
-    ),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2.w)),
-    backgroundColor: Colors.green,
-    duration: const Duration(seconds: 3),
-    content: Text(message),
-  ));
-}
 
 void massege(BuildContext context, String error, Color c) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -35,43 +20,6 @@ void massege(BuildContext context, String error, Color c) {
     content: Center(child: Text(error)),
     duration: const Duration(seconds: 2),
   ));
-}
-
-void showErrorSnackBar({required String message}) {
-  ScaffoldMessenger.of(scaffoldKey.currentState!.context).showSnackBar(SnackBar(
-    behavior: SnackBarBehavior.floating,
-    margin: EdgeInsets.symmetric(
-      horizontal: 3.w,
-    ),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2.w)),
-    backgroundColor: Colors.red,
-    duration: const Duration(seconds: 2),
-    content: Text(message),
-  ));
-}
-
-List<int> getListOfProductsId(BuildContext context) {
-  List<int> ids = <int>[];
-  context.read<CartCubit>().pcw.forEach((product) {
-    ids.add(product.id!);
-  });
-  return ids;
-}
-
-List<int> getListOfProductsQuantity(BuildContext context) {
-  List<int> quantity = <int>[];
-  context.read<CartCubit>().pcw.forEach((product) {
-    quantity.add(product.userQuantity);
-  });
-  return quantity;
-}
-
-List<String?> getListOfProductsSizes(BuildContext context) {
-  List<String?> sizes = <String?>[];
-  context.read<CartCubit>().pcw.forEach((product) {
-    sizes.add(product.selectedSize);
-  });
-  return sizes;
 }
 
 void showAwesomeDialogForAskCode(
