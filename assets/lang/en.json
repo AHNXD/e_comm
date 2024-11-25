@@ -148,5 +148,7 @@
     "products_num" : "Number of products",
     "req_number": "Phone number is required",
     "invaled_number": "Invalid phone number format",
-    "cancel" : "cancel"
+    "cancel" : "cancel",
+    "offers_screen_title" : "All Offers",
+    "no_offers" : "There are no offers yet."
 }

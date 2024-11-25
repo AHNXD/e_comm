@@ -4,6 +4,7 @@ import 'package:e_comm/Future/Home/Blocs/get_latest_products/get_latest_products
 import 'package:e_comm/Future/Home/Blocs/get_offers/get_offers_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/delete_profile/delete_profile_cubit.dart';
+import 'package:e_comm/Future/Home/Pages/all_offers_screen.dart';
 //import 'package:e_comm/Future/Home/Cubits/get_latest_products/get_latest_products_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/product_card_widget.dart';
@@ -141,15 +142,33 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const HomePageCategoriesButtonWidget(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "offers".tr(context),
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                        color: AppColors.textTitleAppBarColor),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "offers".tr(context),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                            color: AppColors.textTitleAppBarColor),
+                      ),
+                    ),
+                    TextButton(
+                        child: Text(
+                          "see_all".tr(context),
+                          style: TextStyle(
+                              color: AppColors.seeAllTextButtonColor,
+                              fontSize: 12.sp),
+                        ),
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (builder) {
+                            return AllOffersScreen();
+                          }));
+                        })
+                  ],
                 ),
                 BlocBuilder<GetOffersBloc, GetOffersState>(
                     builder: (context, state) {
@@ -205,8 +224,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                           child: SizedBox(
                                             child: ProductCardWidget(
                                                 isHomeScreen: true,
-                                                product: state
-                                                    .offersProducts[index],screen:"home"),
+                                                product:
+                                                    state.offersProducts[index],
+                                                screen: "home"),
                                           ),
                                         );
                                 },
