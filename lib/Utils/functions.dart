@@ -36,6 +36,7 @@ void showAwesomeDialogForAskCode(
     title: 'cobon_code_title'.tr(context),
     desc: 'cobon_code_msg'.tr(context),
     btnCancelOnPress: () {
+      order.code = "";
       context.read<PostOrdersCubit>().sendOrder(order);
     },
     btnOkOnPress: () async {
@@ -53,6 +54,7 @@ void showAwesomeDialogForAskCode(
         title: 'cobon_code_title'.tr(context),
         desc: 'cobon_code_msg'.tr(context),
         btnOkOnPress: () {
+          order.code = codeController.text.trim();
           context.read<PostOrdersCubit>().sendOrder(order);
         },
       ).show();

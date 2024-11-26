@@ -98,7 +98,7 @@ class _CartInformationState extends State<CartInformation> {
 
     noteController.dispose();
 
-    // codeController.dispose();
+    codeController.dispose();
 
     super.dispose();
   }

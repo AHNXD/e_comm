@@ -11,29 +11,33 @@ part 'post_orders_state.dart';
 class PostOrdersCubit extends Cubit<PostOrdersState> {
   PostOrdersCubit() : super(PostOrdersInitial());
 
-  void sendOrder(OrderInformation order) {
+  void sendOrder(OrderInformation order) async {
     emit(PostOrdersLoadingState());
+
     try {
-      Network.postData(url: Urls.storeOrder, data: order.toJson())
-          .then((value) {
-        if (value.statusCode == 200 || value.statusCode == 201) {
-          if (value.data['status']) {
-            emit(PostOrdersSuccessfulState());
-          } else {
-            PostOrdersErrorState(value.data['msg'].toString());
-          }
+      final response =
+          await Network.postData(url: Urls.storeOrder, data: order.toJson());
+
+      // Handle successful response (200 or 201)
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final responseData = response.data;
+        if (responseData['status'] as bool) {
+          emit(PostOrdersSuccessfulState());
+        } else {
+          final errorMessage = responseData['msg'];
+          emit(PostOrdersErrorState(errorMessage));
         }
-      });
-    } catch (error) {
-      if (error is DioException) {
-        emit(
-          PostOrdersErrorState(
-            exceptionsHandle(error: error),
-          ),
-        );
       } else {
-        PostOrdersErrorState(error.toString());
+        // Handle non-200/201 response codes
+        final errorMessage = response.data['msg'];
+        emit(PostOrdersErrorState(errorMessage));
       }
+    } on DioException catch (error) {
+      // Handle Dio-specific errors
+      emit(PostOrdersErrorState(exceptionsHandle(error: error)));
+    } catch (error) {
+      // Handle other exceptions
+      emit(PostOrdersErrorState(error.toString()));
     }
   }
 
