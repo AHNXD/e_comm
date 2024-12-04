@@ -117,13 +117,6 @@ class SignupScreenTow extends StatelessWidget {
                                       .text) {
                             context.read<AuthCubit>().createAccount(
                                 gender: context.read<AuthCubit>().genderState);
-                          } else if (confirmPasswordController.text !=
-                              context
-                                  .read<AuthCubit>()
-                                  .passwordController
-                                  .text) {
-                            CustomSnackBar.showMessage(context,
-                                "confirm_password_msg".tr(context), Colors.red);
                           }
                         })
               ],

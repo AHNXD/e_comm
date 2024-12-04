@@ -8,6 +8,7 @@ import 'package:e_comm/Future/Home/Pages/all_offers_screen.dart';
 //import 'package:e_comm/Future/Home/Cubits/get_latest_products/get_latest_products_cubit.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/product_card_widget.dart';
+import 'package:e_comm/Future/Home/models/product_model.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 
 import '../Widgets/custom_circular_progress_indicator.dart';
@@ -91,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is LogoutSuccessState) {
+          context.read<CartCubit>().pcw = <MainProduct>[];
           CustomSnackBar.showMessage(context, state.message, Colors.green);
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (builder) {

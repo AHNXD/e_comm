@@ -99,11 +99,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       items: state.favoriteProducts,
                       itemBuilder: (context, favoriteProduct) {
                         return ProductCardWidget(
-                          isHomeScreen: false,
-                          product: favoriteProduct,
-                          addToCartPaddingButton: 3.w,
-                          screen:"fav"
-                        );
+                            isHomeScreen: false,
+                            product: favoriteProduct,
+                            addToCartPaddingButton: 3.w,
+                            screen: "fav");
                       },
                     ),
                   ],
