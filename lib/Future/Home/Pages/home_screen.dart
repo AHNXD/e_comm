@@ -1,11 +1,13 @@
 import 'package:e_comm/Future/Auth/Pages/login_screen.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
+import 'package:e_comm/Future/Home/Blocs/get_categories/get_categories_bloc.dart';
 import 'package:e_comm/Future/Home/Blocs/get_latest_products/get_latest_products_bloc.dart';
 import 'package:e_comm/Future/Home/Blocs/get_offers/get_offers_bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
 import 'package:e_comm/Future/Home/Cubits/delete_profile/delete_profile_cubit.dart';
 import 'package:e_comm/Future/Home/Pages/all_offers_screen.dart';
 //import 'package:e_comm/Future/Home/Cubits/get_latest_products/get_latest_products_cubit.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:e_comm/Future/Home/Widgets/home_screen/product_card_widget.dart';
 import 'package:e_comm/Future/Home/models/product_model.dart';
@@ -35,6 +37,22 @@ class _HomeScreenState extends State<HomeScreen> {
   final _scrollControllerOffers = ScrollController();
   final _scrollControllerCategories = ScrollController();
   final sc = ScrollController();
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+  void _onRefresh() async {
+    context.read<GetCategoriesBloc>().add(ResetPaginationCategoriesEvent());
+    context.read<GetCategoriesBloc>().add(GetAllCategoriesEvent());
+    context
+        .read<GetLatestProductsBloc>()
+        .add(ResetPaginationAllLatestProductsEvent());
+    context.read<GetLatestProductsBloc>().add(GetAllLatestProductsEvent());
+    context.read<GetOffersBloc>().add(ResetPaginationAllOffersEvent());
+    context.read<GetOffersBloc>().add(GetAllOffersEvent());
+
+    if (mounted) setState(() {});
+    _refreshController.refreshCompleted();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -57,6 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ..removeListener(_onScrollCategories)
       ..dispose();
 
+    _refreshController.dispose();
     super.dispose();
   }
 
@@ -103,15 +122,14 @@ class _HomeScreenState extends State<HomeScreen> {
       child: BlocListener<DeleteProfileCubit, DeleteProfileState>(
         listener: (context, state) {
           if (state is DeleteProfileSuccess) {
-            CustomSnackBar.showMessage(context, state.msg, Colors.red);
+            CustomSnackBar.showMessage(context, state.msg, Colors.green);
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (builder) {
               return LoginScreen();
             }));
+          } else if (state is DeleteProfileError) {
+            CustomSnackBar.showMessage(context, state.msg, Colors.red);
           }
-          // } else if (state is DeleteProfileError) {
-          //   CustomSnackBar.showMessage(context, state.msg, Colors.red);
-          // }
         },
         child: Scaffold(
           appBar: PreferredSize(
@@ -129,144 +147,149 @@ class _HomeScreenState extends State<HomeScreen> {
                     context, 'product_in_cart'.tr(context), Colors.grey);
               }
             },
-            child: ListView(
-              shrinkWrap: true,
-              controller: _scrollController,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "categoris".tr(context),
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                        color: AppColors.textTitleAppBarColor),
-                  ),
-                ),
-                const HomePageCategoriesButtonWidget(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "offers".tr(context),
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                            color: AppColors.textTitleAppBarColor),
-                      ),
+            child: SmartRefresher(
+              controller: _refreshController,
+              onRefresh: _onRefresh,
+              child: ListView(
+                shrinkWrap: true,
+                controller: _scrollController,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "categoris".tr(context),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                          color: AppColors.textTitleAppBarColor),
                     ),
-                    TextButton(
+                  ),
+                  const HomePageCategoriesButtonWidget(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          "see_all".tr(context),
-                          style: TextStyle(
-                              color: AppColors.seeAllTextButtonColor,
-                              fontSize: 12.sp),
-                        ),
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (builder) {
-                            return AllOffersScreen();
-                          }));
-                        })
-                  ],
-                ),
-                BlocBuilder<GetOffersBloc, GetOffersState>(
-                    builder: (context, state) {
-                  switch (state.status) {
-                    case GetOffersStatus.loading:
-                      return const Center(
-                        child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: CustomCircularProgressIndicator()),
-                      );
-                    case GetOffersStatus.success:
-                      if (state.offersProducts.isEmpty) {
-                        return Center(
-                          child: Text(
-                            "offers_empty_msg".tr(context),
-                            style: const TextStyle(
+                          "offers".tr(context),
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold,
-                            ),
+                              fontSize: 30,
+                              color: AppColors.textTitleAppBarColor),
+                        ),
+                      ),
+                      TextButton(
+                          child: Text(
+                            "see_all".tr(context),
+                            style: TextStyle(
+                                color: AppColors.seeAllTextButtonColor,
+                                fontSize: 12.sp),
                           ),
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (builder) {
+                              return AllOffersScreen();
+                            }));
+                          })
+                    ],
+                  ),
+                  BlocBuilder<GetOffersBloc, GetOffersState>(
+                      builder: (context, state) {
+                    switch (state.status) {
+                      case GetOffersStatus.loading:
+                        return const Center(
+                          child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: CustomCircularProgressIndicator()),
                         );
-                      }
-                      return SizedBox(
-                        height: 430,
-                        width: double.infinity,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 420,
-                              width: double.infinity,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                controller: _scrollControllerOffers,
-                                itemCount: state.hasReachedMax
-                                    ? state.offersProducts.length
-                                    : state.offersProducts.length + 1,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return index >= state.offersProducts.length
-                                      ? const Center(
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 8),
-                                            child: SizedBox(
-                                                height: 30,
-                                                width: 30,
-                                                child:
-                                                    CustomCircularProgressIndicator()),
-                                          ),
-                                        )
-                                      : Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 16),
-                                          child: SizedBox(
-                                            child: ProductCardWidget(
-                                                isHomeScreen: true,
-                                                product:
-                                                    state.offersProducts[index],
-                                                screen: "home"),
-                                          ),
-                                        );
-                                },
+                      case GetOffersStatus.success:
+                        if (state.offersProducts.isEmpty) {
+                          return Center(
+                            child: Text(
+                              "offers_empty_msg".tr(context),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ],
-                        ),
-                      );
-                    case GetOffersStatus.error:
-                      return Center(
-                          child: MyErrorWidget(
-                        msg: state.errorMsg,
-                        onPressed: () {
-                          context
-                              .read<GetOffersBloc>()
-                              .add(ResetPaginationAllOffersEvent());
-                          context
-                              .read<GetOffersBloc>()
-                              .add(GetAllOffersEvent());
-                        },
-                      ));
-                  }
-                }),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "latest_products".tr(context),
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                        color: AppColors.textTitleAppBarColor),
+                          );
+                        }
+                        return SizedBox(
+                          height: 430,
+                          width: double.infinity,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 420,
+                                width: double.infinity,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  controller: _scrollControllerOffers,
+                                  itemCount: state.hasReachedMax
+                                      ? state.offersProducts.length
+                                      : state.offersProducts.length + 1,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return index >= state.offersProducts.length
+                                        ? const Center(
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 8),
+                                              child: SizedBox(
+                                                  height: 30,
+                                                  width: 30,
+                                                  child:
+                                                      CustomCircularProgressIndicator()),
+                                            ),
+                                          )
+                                        : Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16),
+                                            child: SizedBox(
+                                              child: ProductCardWidget(
+                                                  isHomeScreen: true,
+                                                  product: state
+                                                      .offersProducts[index],
+                                                  screen: "home"),
+                                            ),
+                                          );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      case GetOffersStatus.error:
+                        return Center(
+                            child: MyErrorWidget(
+                          msg: state.errorMsg,
+                          onPressed: () {
+                            context
+                                .read<GetOffersBloc>()
+                                .add(ResetPaginationAllOffersEvent());
+                            context
+                                .read<GetOffersBloc>()
+                                .add(GetAllOffersEvent());
+                          },
+                        ));
+                    }
+                  }),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "latest_products".tr(context),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                          color: AppColors.textTitleAppBarColor),
+                    ),
                   ),
-                ),
-                LastestProductAndTitle(controller: _scrollController),
-                SizedBox(
-                  height: 2.h,
-                )
-              ],
+                  LastestProductAndTitle(controller: _scrollController),
+                  SizedBox(
+                    height: 2.h,
+                  )
+                ],
+              ),
             ),
           ),
         ),
