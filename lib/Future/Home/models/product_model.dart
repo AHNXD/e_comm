@@ -39,6 +39,7 @@ class MainProduct {
   int? categoryId;
   String? sellingPrice;
   String? descrption;
+  String? companyName;
   int userQuantity = 1;
   String? selectedSize;
   List<Files>? files;
@@ -54,6 +55,7 @@ class MainProduct {
       this.categoryId,
       this.sellingPrice,
       this.descrption,
+      this.companyName,
       this.files,
       this.sizes,
       this.selectedSize,
@@ -68,6 +70,7 @@ class MainProduct {
     categoryId = json['category_id'];
     sellingPrice = json['new_selling_price'];
     descrption = json['descrption'];
+    companyName = json['company_name'] ?? "";
     isFav = json['IsFav'];
     inCart = json['InCart'];
     if (json['IsOffer'] != null) {
@@ -95,6 +98,7 @@ class MainProduct {
     data['IsOffer'] = isOffer;
     data['IsFav'] = isFav;
     data['InCart'] = inCart;
+    data['company_name'] = companyName;
     if (files != null) {
       data['files'] = files!.map((v) => v.toJson()).toList();
     }

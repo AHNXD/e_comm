@@ -3,8 +3,8 @@
 class Urls {
   // static const String ip = "192.168.43.3:8000";
   // static const String ip = "192.168.1.12:8000";
-  // static const String ip = "192.168.1.6:8000";
-  static const String ip = "192.168.7.120:8000";
+  static const String ip = "192.168.1.8:8000";
+  // static const String ip = "192.168.7.120:8000";
   // static const String ip = "alzeinstore.sy";
 
   static const String baseUrl = "http://$ip/api/";

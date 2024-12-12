@@ -9,7 +9,7 @@ import 'package:e_comm/Utils/images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
+import 'package:photo_view/photo_view.dart';
 import '../Cubits/cartCubit/cart.bloc.dart';
 import '../Cubits/favoriteCubit/favorite_cubit.dart';
 import '../Widgets/custom_snak_bar.dart';
@@ -124,6 +124,14 @@ class _DetailPageState extends State<DetailPage> {
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
                                     fontSize: 34),
+                              ),
+                            ),
+                            Center(
+                              child: Text(
+                                widget.product.companyName!,
+                                maxLines: 1,
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 15),
                               ),
                             ),
                             // For price
@@ -339,13 +347,23 @@ class _DetailPageState extends State<DetailPage> {
           ],
           borderRadius: BorderRadius.circular(250),
         ),
-        child: CircleAvatar(
-            radius: 25.w,
-            backgroundImage: NetworkImage(
-              file.path != null
-                  ? Urls.storageProducts + file.name!
-                  : file.name!,
-            )),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FullScreenImageViewer(file: file),
+              ),
+            );
+          },
+          child: CircleAvatar(
+              radius: 25.w,
+              backgroundImage: NetworkImage(
+                file.path != null
+                    ? Urls.storageProducts + file.name!
+                    : file.name!,
+              )),
+        ),
       ),
     );
   }
@@ -424,4 +442,23 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 }
+
 // design is completed
+class FullScreenImageViewer extends StatelessWidget {
+  final Files file;
+
+  FullScreenImageViewer({required this.file});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: PhotoView(
+          imageProvider: NetworkImage(
+            file.path != null ? Urls.storageProducts + file.name! : file.name!,
+          ),
+        ),
+      ),
+    );
+  }
+}

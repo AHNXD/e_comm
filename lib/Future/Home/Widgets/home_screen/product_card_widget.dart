@@ -121,6 +121,12 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                   color: AppColors.textButtonColors,
                   fontSize: 13.sp,
                 )),
+            Text(widget.product.companyName!,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textButtonColors,
+                  fontSize: 8.sp,
+                )),
             const Spacer(),
             if (widget.product.isOffer! == false)
               Center(
