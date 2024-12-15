@@ -2,6 +2,7 @@ import 'package:e_comm/Future/Home/Pages/order_details_screen.dart';
 import 'package:e_comm/Future/Home/models/my_orders_information.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
+import 'package:e_comm/Utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -72,7 +73,7 @@ class HistoryCardItem extends StatelessWidget {
                 ),
                 OrderInfoTextCardWidget(
                   title: "order_total_price".tr(context),
-                  body: order.total?.toString() ?? "",
+                  body: formatter.format(double.parse(order.total!).toInt()),
                 ),
                 OrderInfoTextCardWidget(
                   title: "products_num".tr(context),

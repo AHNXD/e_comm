@@ -178,19 +178,23 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: AppColors.textTitleAppBarColor),
                         ),
                       ),
-                      TextButton(
-                          child: Text(
-                            "see_all".tr(context),
-                            style: TextStyle(
-                                color: AppColors.seeAllTextButtonColor,
-                                fontSize: 12.sp),
-                          ),
-                          onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (builder) {
-                              return AllOffersScreen();
-                            }));
-                          })
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 2.h, horizontal: 3.w),
+                        child: TextButton(
+                            child: Text(
+                              "see_all".tr(context),
+                              style: TextStyle(
+                                  color: AppColors.seeAllTextButtonColor,
+                                  fontSize: 12.sp),
+                            ),
+                            onPressed: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (builder) {
+                                return AllOffersScreen();
+                              }));
+                            }),
+                      )
                     ],
                   ),
                   BlocBuilder<GetOffersBloc, GetOffersState>(

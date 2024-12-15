@@ -3,6 +3,7 @@ import 'package:e_comm/Future/Home/Widgets/order_details_screen/OrderTileWidget.
 import 'package:e_comm/Future/Home/models/my_orders_information.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
+import 'package:e_comm/Utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -72,7 +73,7 @@ class OrderDetailsScreen extends StatelessWidget {
             ),
             OrderInfoTextWidget(
               title: "order_total_price".tr(context),
-              body: order.total?.toString() ?? "",
+              body: formatter.format(double.parse(order.total!).toInt()),
               icon: Icons.monetization_on_rounded,
             ),
             OrderInfoTextWidget(
@@ -100,11 +101,11 @@ class OrderDetailsScreen extends StatelessWidget {
                       }));
                     },
                     child: OrderTileWidget(
-                      size: order.details![index].size,
-                      product: order.details![index].product!,
-                      price: order.details![index].price,
-                      qty: order.details![index].quantity
-                    ),
+                        size: order.details![index].size,
+                        product: order.details![index].product!,
+                        price: formatter.format(
+                            double.parse(order.details![index].price!).toInt()),
+                        qty: order.details![index].quantity),
                   ),
                 );
               },
