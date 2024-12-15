@@ -17,6 +17,7 @@ import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
 import 'package:e_comm/Utils/constants.dart';
 import 'package:e_comm/Utils/functions.dart';
+import 'package:e_comm/Utils/images.dart';
 import 'package:e_comm/Utils/services/save.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,23 +57,10 @@ class DrawerWidget extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              // Container(
-              //   // height: 140.sp,
-              //   // width: 50.sp,
-              //   margin: EdgeInsets.symmetric(horizontal: 15.w),
-              //   decoration: BoxDecoration(
-              //     color: Colors.white,
-              //     border: Border.all(width: 5),
-              //     borderRadius: BorderRadius.circular(100),
-              //   ),
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(16.0),
-              //     child: Image.asset(
-              //       AppImagesAssets.logoNoBg,
-              //       fit: BoxFit.fill,
-              //     ),
-              //   ),
-              // ),
+              Image.asset(
+                AppImagesAssets.logoNoBg,
+                height: 20.h,
+              ),
               const Divider(
                 thickness: 2,
                 color: AppColors.buttonCategoryColor,
@@ -183,6 +171,10 @@ class DrawerWidget extends StatelessWidget {
                       verticalHieght: 1.h,
                       horizontalWidth: 2.w,
                       color: AppColors.buttonCategoryColor),
+              const Divider(
+                thickness: 2,
+                color: AppColors.buttonCategoryColor,
+              ),
               MyButtonWidget(
                   text: "delete_account".tr(context),
                   onPressed: () {
