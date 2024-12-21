@@ -15,7 +15,6 @@ import '../../Auth/Widgets/my_button_widget.dart';
 import '../../Auth/Widgets/phone_field_widget.dart';
 import '../../Auth/Widgets/text_field_widget.dart';
 import '../Cubits/edit_profile/edit_profile_cubit.dart';
-import '../Widgets/custom_circular_progress_indicator.dart';
 import '../Widgets/custom_snak_bar.dart';
 
 class EditeProfile extends StatefulWidget {
@@ -84,25 +83,27 @@ class _EditeProfileState extends State<EditeProfile> {
                 fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ),
-        body: SingleChildScrollView(
-          child: BlocBuilder<GetUserCubit, GetUserState>(
-            builder: (context, state) {
-              if (state is GetUserErorre) {
-                return MyErrorWidget(
+        body: BlocBuilder<GetUserCubit, GetUserState>(
+          builder: (context, state) {
+            if (state is GetUserErorre) {
+              return Center(
+                child: MyErrorWidget(
                     msg: state.msg,
-                    onPressed: context.read<GetUserCubit>().getUserProfile);
-              } else if (state is GetUserSuccess) {
-                gender ??= state.userProfile.gender;
-                firstNameController.text = state.userProfile.firstName!;
-                lastNameController.text = state.userProfile.lastName!;
-                emailController.text = state.userProfile.email!;
-                addressController.text = state.userProfile.address!;
-                phoneController.changeNationalNumber(state.userProfile.phone);
+                    onPressed: context.read<GetUserCubit>().getUserProfile),
+              );
+            } else if (state is GetUserSuccess) {
+              gender ??= state.userProfile.gender;
+              firstNameController.text = state.userProfile.firstName!;
+              lastNameController.text = state.userProfile.lastName!;
+              emailController.text = state.userProfile.email!;
+              addressController.text = state.userProfile.address!;
+              phoneController.changeNationalNumber(state.userProfile.phone);
 
-                return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
-                  child: Form(
-                    key: key1,
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
+                child: Form(
+                  key: key1,
+                  child: SingleChildScrollView(
                     child: Column(
                       children: [
                         TextFieldWidget(
@@ -171,15 +172,17 @@ class _EditeProfileState extends State<EditeProfile> {
                       ],
                     ),
                   ),
-                );
-              }
-              return const Center(
-                child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: CustomCircularProgressIndicator()),
+                ),
               );
-            },
-          ),
+            }
+            return Center(
+              child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: CircularProgressIndicator(
+                    color: AppColors.primaryColors,
+                  )),
+            );
+          },
         ),
       ),
     );
