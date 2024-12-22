@@ -116,6 +116,8 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                 // height: 10.h,
               ),
             Text(widget.product.name!,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   color: AppColors.textButtonColors,

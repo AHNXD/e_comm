@@ -62,7 +62,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           }
           if (state is ResetPasswordErrorState) {
             CustomSnackBar.showMessage(context, state.message, Colors.red);
-            
           }
         },
         builder: (context, state) {
@@ -90,18 +89,21 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     duration: const Duration(microseconds: 1700),
                     child: SizedBox(
                       height: 7.5.h,
-                      child: OtpTextField(
-                        onSubmit: (valu) {
-                          setState(() {
-                            value = valu;
-                            print(value);
-                          });
-                        },
-                        borderColor: AppColors.buttonCategoryColor,
-                        fieldWidth: 15.w,
-                        showFieldAsBox: true,
-                        numberOfFields: 5,
-                        borderRadius: BorderRadius.circular(5.w),
+                      child: Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: OtpTextField(
+                          onSubmit: (valu) {
+                            setState(() {
+                              value = valu;
+                              print(value);
+                            });
+                          },
+                          borderColor: AppColors.buttonCategoryColor,
+                          fieldWidth: 15.w,
+                          showFieldAsBox: true,
+                          numberOfFields: 5,
+                          borderRadius: BorderRadius.circular(5.w),
+                        ),
                       ),
                     )),
                 SizedBox(

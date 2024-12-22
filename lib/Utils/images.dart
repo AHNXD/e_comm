@@ -10,7 +10,7 @@ class AppImagesAssets {
   static const String favorite = "assets/icons/favorite.svg";
   static const String stropery = "assets/images/stropery.svg";
   static const String orange = "assets/images/orange.png";
-  static const String logo = "assets/images/Global_Co_logo.png";
-  static const String logoNoBg =
-      "assets/images/Global_Co_logo_Without_Background.png";
+  // static const String logo = "assets/images/Global_Co_logo.png";
+  static const String logo = "assets/images/Zein-transformed.png";
+  static const String logoNoBg = "assets/images/zein_store.png";
 }
