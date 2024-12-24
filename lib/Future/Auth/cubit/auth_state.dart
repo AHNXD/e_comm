@@ -62,6 +62,10 @@ final class IsNotVaildToken extends AuthState {}
 
 final class TokenLoadingState extends AuthState {}
 
+final class IsFirstUseTrue extends AuthState {}
+
+final class IsFirstUseFalse extends AuthState {}
+
 final class TokenErrorState extends AuthState {
   final String message;
   TokenErrorState(this.message);

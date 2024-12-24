@@ -150,5 +150,9 @@
     "invaled_number": "Invalid phone number format",
     "cancel" : "cancel",
     "offers_screen_title" : "All Offers",
-    "no_offers" : "There are no offers yet."
+    "no_offers" : "There are no offers yet.",
+    "title_conditions": "Terms of Service",
+    "privacyPolicy": "Privacy Policy",
+    "condition_description": "Thank you for using our app. We are committed to protecting your privacy and personal data. This policy explains how we collect, use and protect your data when you use our app.",
+    "agree_terms": "I agree to the Terms and Conditions."
 }

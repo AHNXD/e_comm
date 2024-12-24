@@ -1,5 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages, unnecessary_import, avoid_print
 
+import 'package:e_comm/Utils/services/save.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:e_comm/Apis/ExceptionsHandle.dart';
@@ -183,6 +184,18 @@ class AuthCubit extends Cubit<AuthState> {
       } else {
         ResetPasswordErrorState(error.toString());
       }
+    }
+  }
+
+  void checkFirstUse() async {
+    bool? terms = await SaveService.retrieveBool("terms");
+    if (terms == null) {
+      emit(IsFirstUseTrue());
+    } else if (!terms) {
+      emit(IsFirstUseTrue());
+    } else {
+      emit(IsFirstUseFalse());
+      checkToken();
     }
   }
 

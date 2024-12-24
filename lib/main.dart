@@ -10,6 +10,7 @@ import 'package:e_comm/Future/Home/Cubits/delete_profile/delete_profile_cubit.da
 import 'package:e_comm/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/get_user/get_user_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/mange_search_filter_products/mange_search_filter_products_cubit.dart';
+import 'package:e_comm/conditions.dart';
 import 'package:e_comm/splashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -85,7 +86,7 @@ class MyApp extends StatelessWidget {
       builder: (context, orientation, deviceType) => MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => LocaleCubit()..getSaveLanguage()),
-          BlocProvider(create: (_) => AuthCubit()..checkToken()),
+          BlocProvider(create: (_) => AuthCubit()..checkFirstUse()),
           BlocProvider(create: (_) => GetUserCubit()..getUserProfile()),
           BlocProvider(
               create: (_) => GetMyOrdersBloc()..add(GetAllMyOrdersEvent())),

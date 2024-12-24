@@ -355,7 +355,7 @@ class _LastestProductAndTitleState extends State<LastestProductAndTitle> {
                           CarouselSliderWidget(
                             list: productCardList(
                                 true, state.latestProducts[index].products!),
-                            height: 425,
+                            height: 440,
                           ),
                         ],
                       );

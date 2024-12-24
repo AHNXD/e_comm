@@ -2,6 +2,7 @@ import 'package:e_comm/Future/Auth/Pages/login_screen.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Pages/navbar_screen.dart';
 import 'package:e_comm/Utils/images.dart';
+import 'package:e_comm/conditions.dart';
 // import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,6 +48,11 @@ class _SplashScreenState extends State<SplashScreen>
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (builder) {
               return const NavBarPage();
+            }));
+          } else if (state is IsFirstUseTrue) {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (builder) {
+              return ConditionsScreen();
             }));
           } else if (state is IsNotVaildToken) {
             Navigator.pushReplacement(context,

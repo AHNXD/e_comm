@@ -116,6 +116,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                 // height: 10.h,
               ),
             Text(widget.product.name!,
+                textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
