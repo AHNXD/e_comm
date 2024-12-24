@@ -52,7 +52,9 @@ class _SplashScreenState extends State<SplashScreen>
           } else if (state is IsFirstUseTrue) {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (builder) {
-              return ConditionsScreen();
+              return ConditionsScreen(
+                home: false,
+              );
             }));
           } else if (state is IsNotVaildToken) {
             Navigator.pushReplacement(context,

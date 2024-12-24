@@ -19,6 +19,7 @@ import 'package:e_comm/Utils/constants.dart';
 import 'package:e_comm/Utils/functions.dart';
 import 'package:e_comm/Utils/images.dart';
 import 'package:e_comm/Utils/services/save.dart';
+import 'package:e_comm/conditions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -79,6 +80,16 @@ class DrawerWidget extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const AboutUsScreen()));
+                  },
+                  verticalHieght: 1.h,
+                  horizontalWidth: 2.w,
+                  color: AppColors.buttonCategoryColor),
+              MyButtonWidget(
+                  text: "title_conditions".tr(context),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            const ConditionsScreen(home: true)));
                   },
                   verticalHieght: 1.h,
                   horizontalWidth: 2.w,
