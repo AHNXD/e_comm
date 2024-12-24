@@ -1,7 +1,10 @@
 import 'package:e_comm/Future/Auth/Pages/login_screen.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
+import 'package:e_comm/Future/Home/Cubits/locale/locale_cubit.dart';
+import 'package:e_comm/Future/Home/Pages/about_us_screen.dart';
 import 'package:e_comm/Future/Home/Pages/navbar_screen.dart';
 import 'package:e_comm/Utils/images.dart';
+import 'package:e_comm/Utils/services/save.dart';
 import 'package:e_comm/conditions.dart';
 // import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:flutter/material.dart';
@@ -50,12 +53,12 @@ class _SplashScreenState extends State<SplashScreen>
               return const NavBarPage();
             }));
           } else if (state is IsFirstUseTrue) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (builder) {
-              return ConditionsScreen(
-                home: false,
-              );
-            }));
+            // Navigator.pushReplacement(context,
+            //     MaterialPageRoute(builder: (builder) {
+            //   return ConditionsScreen(
+            //     home: false,
+            //   );
+            // }));
           } else if (state is IsNotVaildToken) {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (builder) {
@@ -94,7 +97,35 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
               ),
               const Spacer(flex: 1),
-              const Center(child: CustomCircularProgressIndicator()),
+              state is IsFirstUseTrue
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              context.read<LocaleCubit>().changeLanguage("en");
+                              Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (builder) {
+                                return ConditionsScreen(
+                                  home: false,
+                                );
+                              }));
+                            },
+                            child: Text("English")),
+                        ElevatedButton(
+                            onPressed: () {
+                              context.read<LocaleCubit>().changeLanguage("ar");
+                              Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (builder) {
+                                return ConditionsScreen(
+                                  home: false,
+                                );
+                              }));
+                            },
+                            child: Text("العربية"))
+                      ],
+                    )
+                  : const Center(child: CustomCircularProgressIndicator()),
               const Spacer(flex: 2),
             ],
           ),

@@ -3,6 +3,7 @@ import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Pages/navbar_screen.dart';
 import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:e_comm/Utils/colors.dart';
+import 'package:e_comm/Utils/constants.dart';
 import 'package:e_comm/Utils/images.dart';
 import 'package:e_comm/Utils/services/save.dart';
 import 'package:e_comm/terms.dart';
@@ -19,10 +20,17 @@ class ConditionsScreen extends StatefulWidget {
 
 class _ConditionsScreenState extends State<ConditionsScreen> {
   bool isChecked = false;
+  late List terms;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     // Determine the terms to use based on locale
-    final terms = SaveService.retrieve("LOCALE") == "ar" ? termsAR : termsEN;
+    final terms = lang == "ar" ? termsAR : termsEN;
 
     return Scaffold(
         appBar: AppBar(
