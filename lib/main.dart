@@ -10,7 +10,6 @@ import 'package:e_comm/Future/Home/Cubits/delete_profile/delete_profile_cubit.da
 import 'package:e_comm/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/get_user/get_user_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/mange_search_filter_products/mange_search_filter_products_cubit.dart';
-import 'package:e_comm/conditions.dart';
 import 'package:e_comm/splashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

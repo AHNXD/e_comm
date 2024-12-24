@@ -1,10 +1,8 @@
 import 'package:e_comm/Future/Auth/Pages/login_screen.dart';
 import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/locale/locale_cubit.dart';
-import 'package:e_comm/Future/Home/Pages/about_us_screen.dart';
 import 'package:e_comm/Future/Home/Pages/navbar_screen.dart';
 import 'package:e_comm/Utils/images.dart';
-import 'package:e_comm/Utils/services/save.dart';
 import 'package:e_comm/conditions.dart';
 // import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:flutter/material.dart';
