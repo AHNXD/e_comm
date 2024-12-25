@@ -1,8 +1,8 @@
-import 'package:zein_store/Future/Home/Cubits/cartCubit/cart.bloc.dart';
-import 'package:zein_store/Future/Home/Pages/navbar_screen.dart';
-import 'package:zein_store/Future/Home/Widgets/custom_snak_bar.dart';
-import 'package:zein_store/Future/Home/models/order_information.dart';
-import 'package:zein_store/Utils/app_localizations.dart';
+import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
+import 'package:e_comm/Future/Home/Pages/navbar_screen.dart';
+import 'package:e_comm/Future/Home/Widgets/custom_snak_bar.dart';
+import 'package:e_comm/Future/Home/models/order_information.dart';
+import 'package:e_comm/Utils/app_localizations.dart';
 import '../Cubits/get_user/get_user_cubit.dart';
 import '/Future/Auth/Widgets/my_button_widget.dart';
 import '/Future/Auth/Widgets/phone_field_widget.dart';

@@ -1,6 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:zein_store/Utils/app_localizations.dart';
+import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:sizer/sizer.dart';

@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:zein_store/Apis/Network.dart';
+import 'package:e_comm/Apis/Network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:zein_store/Future/Home/models/product_model.dart';
+import 'package:e_comm/Future/Home/models/product_model.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../Apis/ExceptionsHandle.dart';

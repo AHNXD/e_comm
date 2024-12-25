@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:zein_store/Apis/ExceptionsHandle.dart';
-import 'package:zein_store/Apis/Network.dart';
-import 'package:zein_store/Apis/Urls.dart';
+import 'package:e_comm/Apis/ExceptionsHandle.dart';
+import 'package:e_comm/Apis/Network.dart';
+import 'package:e_comm/Apis/Urls.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zein_store/Future/Home/models/latest_products.dart';
+import 'package:e_comm/Future/Home/models/latest_products.dart';
 import 'package:meta/meta.dart';
 
 part 'get_latest_products_state.dart';

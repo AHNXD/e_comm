@@ -1,12 +1,12 @@
 // ignore_for_file: depend_on_referenced_packages, unnecessary_import, avoid_print
 
-import 'package:zein_store/Utils/services/save.dart';
+import 'package:e_comm/Utils/services/save.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:zein_store/Apis/ExceptionsHandle.dart';
-import 'package:zein_store/Apis/Network.dart';
-import 'package:zein_store/Apis/Urls.dart';
-import 'package:zein_store/Utils/SharedPreferences/SharedPreferencesHelper.dart';
+import 'package:e_comm/Apis/ExceptionsHandle.dart';
+import 'package:e_comm/Apis/Network.dart';
+import 'package:e_comm/Apis/Urls.dart';
+import 'package:e_comm/Utils/SharedPreferences/SharedPreferencesHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:phone_form_field/phone_form_field.dart';

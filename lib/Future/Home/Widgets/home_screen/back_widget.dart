@@ -1,8 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:zein_store/Future/Home/Pages/navbar_screen.dart';
-import 'package:zein_store/Utils/colors.dart';
-import 'package:zein_store/Utils/images.dart';
+import 'package:e_comm/Future/Home/Pages/navbar_screen.dart';
+import 'package:e_comm/Utils/colors.dart';
+import 'package:e_comm/Utils/images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';

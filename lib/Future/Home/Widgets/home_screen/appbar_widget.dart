@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-import 'package:zein_store/Utils/app_localizations.dart';
-import 'package:zein_store/Utils/constants.dart';
-import 'package:zein_store/main.dart';
+import 'package:e_comm/Utils/app_localizations.dart';
+import 'package:e_comm/Utils/constants.dart';
+import 'package:e_comm/main.dart';
 
 import '../../Pages/search_product_screen.dart';
 import '/Utils/colors.dart';

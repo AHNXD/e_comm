@@ -1,5 +1,5 @@
-import 'package:zein_store/Future/Home/Cubits/get_print_sizes_cubit/get_print_sizes_cubit.dart';
-import 'package:zein_store/Utils/app_localizations.dart';
+import 'package:e_comm/Future/Home/Cubits/get_print_sizes_cubit/get_print_sizes_cubit.dart';
+import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_form_field/phone_form_field.dart';

@@ -1,5 +1,5 @@
-import 'package:zein_store/Utils/app_localizations.dart';
-import 'package:zein_store/Utils/functions.dart';
+import 'package:e_comm/Utils/app_localizations.dart';
+import 'package:e_comm/Utils/functions.dart';
 
 import '../../Cubits/cartCubit/cart.bloc.dart';
 import '../custom_snak_bar.dart';

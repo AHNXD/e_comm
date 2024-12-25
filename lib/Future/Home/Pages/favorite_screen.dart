@@ -1,8 +1,8 @@
-import 'package:zein_store/Future/Home/Cubits/cartCubit/cart.bloc.dart';
-import 'package:zein_store/Future/Home/Widgets/custom_lazy_load_grid_view.dart';
-import 'package:zein_store/Future/Home/Widgets/error_widget.dart';
-import 'package:zein_store/Future/Home/Widgets/home_screen/appbar_widget.dart';
-import 'package:zein_store/Utils/app_localizations.dart';
+import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
+import 'package:e_comm/Future/Home/Widgets/custom_lazy_load_grid_view.dart';
+import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
+import 'package:e_comm/Future/Home/Widgets/home_screen/appbar_widget.dart';
+import 'package:e_comm/Utils/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';

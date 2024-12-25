@@ -1,6 +1,6 @@
-// import 'package:zein_store/Future/Home/Widgets/Compair_Screen/search_dropdown_widget.dart';
-// import 'package:zein_store/Future/Home/Widgets/home_screen/back_widget.dart';
-// import 'package:zein_store/Utils/functions.dart';
+// import 'package:e_comm/Future/Home/Widgets/Compair_Screen/search_dropdown_widget.dart';
+// import 'package:e_comm/Future/Home/Widgets/home_screen/back_widget.dart';
+// import 'package:e_comm/Utils/functions.dart';
 
 // import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';

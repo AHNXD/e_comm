@@ -1,4 +1,4 @@
-import 'package:zein_store/Utils/images.dart';
+import 'package:e_comm/Utils/images.dart';
 import 'package:flutter/material.dart';
 
 class LogoCircleAvatarWidget extends StatelessWidget {

@@ -1,4 +1,4 @@
-package com.example.zein_store
+package com.example.e_comm
 
 import io.flutter.embedding.android.FlutterActivity
 

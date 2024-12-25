@@ -1,10 +1,10 @@
-import 'package:zein_store/Future/Auth/Pages/login_screen.dart';
-import 'package:zein_store/Utils/app_localizations.dart';
-import 'package:zein_store/Utils/colors.dart';
-import 'package:zein_store/Utils/constants.dart';
-import 'package:zein_store/Utils/images.dart';
-import 'package:zein_store/Utils/services/save.dart';
-import 'package:zein_store/terms.dart';
+import 'package:e_comm/Future/Auth/Pages/login_screen.dart';
+import 'package:e_comm/Utils/app_localizations.dart';
+import 'package:e_comm/Utils/colors.dart';
+import 'package:e_comm/Utils/constants.dart';
+import 'package:e_comm/Utils/images.dart';
+import 'package:e_comm/Utils/services/save.dart';
+import 'package:e_comm/terms.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 

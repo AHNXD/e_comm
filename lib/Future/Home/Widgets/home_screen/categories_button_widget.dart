@@ -1,8 +1,8 @@
 // ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables
 
-import 'package:zein_store/Future/Home/Pages/product_screen.dart';
-import 'package:zein_store/Future/Home/models/catigories_model.dart';
-import 'package:zein_store/Utils/colors.dart';
+import 'package:e_comm/Future/Home/Pages/product_screen.dart';
+import 'package:e_comm/Future/Home/models/catigories_model.dart';
+import 'package:e_comm/Utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';

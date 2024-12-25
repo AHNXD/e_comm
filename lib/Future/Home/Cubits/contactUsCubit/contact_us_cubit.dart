@@ -1,10 +1,10 @@
-import 'package:zein_store/Future/Home/models/contactUs_model.dart';
-import 'package:zein_store/Utils/constants.dart';
+import 'package:e_comm/Future/Home/models/contactUs_model.dart';
+import 'package:e_comm/Utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:zein_store/Apis/ExceptionsHandle.dart';
-import 'package:zein_store/Apis/Network.dart';
-import 'package:zein_store/Apis/Urls.dart';
+import 'package:e_comm/Apis/ExceptionsHandle.dart';
+import 'package:e_comm/Apis/Network.dart';
+import 'package:e_comm/Apis/Urls.dart';
 import 'package:meta/meta.dart';
 
 part 'contact_us_state.dart';

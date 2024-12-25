@@ -4,8 +4,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
-import 'package:zein_store/Utils/SharedPreferences/SharedPreferencesHelper.dart';
-import 'package:zein_store/Utils/constants.dart';
+import 'package:e_comm/Utils/SharedPreferences/SharedPreferencesHelper.dart';
+import 'package:e_comm/Utils/constants.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class Network {
