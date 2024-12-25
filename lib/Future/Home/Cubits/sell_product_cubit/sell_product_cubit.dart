@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:e_comm/Future/Home/models/sell_product_model.dart';
-import 'package:e_comm/Utils/constants.dart';
+import 'package:zein_store/Future/Home/models/sell_product_model.dart';
+import 'package:zein_store/Utils/constants.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../Apis/ExceptionsHandle.dart';

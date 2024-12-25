@@ -1,6 +1,6 @@
-import 'package:e_comm/Future/Home/Cubits/getProducts/get_products_cubit.dart';
-import 'package:e_comm/Future/Home/models/product_model.dart';
-import 'package:e_comm/main.dart';
+import 'package:zein_store/Future/Home/Cubits/getProducts/get_products_cubit.dart';
+import 'package:zein_store/Future/Home/models/product_model.dart';
+import 'package:zein_store/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 

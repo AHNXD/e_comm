@@ -1,7 +1,7 @@
-import 'package:e_comm/Future/Home/Widgets/home_screen/offers_widget.dart';
-import 'package:e_comm/Future/Home/Widgets/home_screen/product_card_widget.dart';
+import 'package:zein_store/Future/Home/Widgets/home_screen/offers_widget.dart';
+import 'package:zein_store/Future/Home/Widgets/home_screen/product_card_widget.dart';
 
-import 'package:e_comm/Future/Home/models/product_model.dart';
+import 'package:zein_store/Future/Home/models/product_model.dart';
 import 'package:flutter/material.dart';
 
 List<Widget> offersList(List<MainProduct> data) {

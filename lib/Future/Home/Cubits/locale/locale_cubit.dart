@@ -1,6 +1,6 @@
-import 'package:e_comm/Utils/constants.dart';
+import 'package:zein_store/Utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:e_comm/Utils/services/save.dart';
+import 'package:zein_store/Utils/services/save.dart';
 import 'package:flutter/material.dart';
 
 part 'locale_state.dart';

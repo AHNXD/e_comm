@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dio/dio.dart';
-import 'package:e_comm/Apis/ExceptionsHandle.dart';
-import 'package:e_comm/Apis/Network.dart';
-import 'package:e_comm/Apis/Urls.dart';
-import 'package:e_comm/Future/Home/models/product_model.dart';
+import 'package:zein_store/Apis/ExceptionsHandle.dart';
+import 'package:zein_store/Apis/Network.dart';
+import 'package:zein_store/Apis/Urls.dart';
+import 'package:zein_store/Future/Home/models/product_model.dart';
 import 'package:equatable/equatable.dart';
 
 part 'get_offers_event.dart';

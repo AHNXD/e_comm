@@ -1,5 +1,5 @@
-import 'package:e_comm/Utils/constants.dart';
-import 'package:e_comm/Utils/enums.dart';
+import 'package:zein_store/Utils/constants.dart';
+import 'package:zein_store/Utils/enums.dart';
 
 String? validation(String? text, ValidationState v) {
   switch (v) {

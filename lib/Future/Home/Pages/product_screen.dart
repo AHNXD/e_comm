@@ -1,12 +1,12 @@
-import 'package:e_comm/Future/Home/Blocs/get_products_by_cat_id/get_products_by_cat_id_bloc.dart';
-import 'package:e_comm/Future/Home/Blocs/search_filter_products/search_filter_poducts_bloc.dart';
-import 'package:e_comm/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
-import 'package:e_comm/Future/Home/Cubits/mange_search_filter_products/mange_search_filter_products_cubit.dart';
-import 'package:e_comm/Future/Home/Widgets/custom_lazy_load_grid_view.dart';
-import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
-import 'package:e_comm/Future/Home/Widgets/home_screen/product_card_widget.dart';
+import 'package:zein_store/Future/Home/Blocs/get_products_by_cat_id/get_products_by_cat_id_bloc.dart';
+import 'package:zein_store/Future/Home/Blocs/search_filter_products/search_filter_poducts_bloc.dart';
+import 'package:zein_store/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
+import 'package:zein_store/Future/Home/Cubits/mange_search_filter_products/mange_search_filter_products_cubit.dart';
+import 'package:zein_store/Future/Home/Widgets/custom_lazy_load_grid_view.dart';
+import 'package:zein_store/Future/Home/Widgets/error_widget.dart';
+import 'package:zein_store/Future/Home/Widgets/home_screen/product_card_widget.dart';
 
-import 'package:e_comm/Utils/app_localizations.dart';
+import 'package:zein_store/Utils/app_localizations.dart';
 
 import '../Widgets/custom_circular_progress_indicator.dart';
 
