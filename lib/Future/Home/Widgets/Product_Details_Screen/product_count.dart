@@ -1,5 +1,5 @@
-import 'package:e_comm/Utils/colors.dart';
-import 'package:e_comm/Utils/images.dart';
+import 'package:zein_store/Utils/colors.dart';
+import 'package:zein_store/Utils/images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';

@@ -1,4 +1,4 @@
-// import 'package:e_comm/Utils/app_localizations.dart';
+// import 'package:zein_store/Utils/app_localizations.dart';
 // import '../../Cubits/cartCubit/cart.bloc.dart';
 // import '/Future/Home/Cubits/favoriteCubit/favorite_cubit.dart';
 // import '/Apis/Urls.dart';

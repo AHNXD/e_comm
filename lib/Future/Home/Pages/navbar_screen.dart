@@ -1,4 +1,4 @@
-import 'package:e_comm/Future/Home/Cubits/cartCubit/cart.bloc.dart';
+import 'package:zein_store/Future/Home/Cubits/cartCubit/cart.bloc.dart';
 
 import '../../../Utils/colors.dart';
 import '../Cubits/pages_cubit/pages_cubit.dart';

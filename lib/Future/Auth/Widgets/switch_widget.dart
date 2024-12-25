@@ -1,5 +1,5 @@
-// import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
-// import 'package:e_comm/Utils/colors.dart';
+// import 'package:zein_store/Future/Auth/cubit/auth_cubit.dart';
+// import 'package:zein_store/Utils/colors.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:load_switch/load_switch.dart';

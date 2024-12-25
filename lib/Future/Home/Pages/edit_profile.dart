@@ -1,8 +1,8 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:e_comm/Future/Home/Cubits/get_user/get_user_cubit.dart';
-import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
-import 'package:e_comm/Future/Home/models/user_model.dart';
-import 'package:e_comm/Utils/app_localizations.dart';
+import 'package:zein_store/Future/Home/Cubits/get_user/get_user_cubit.dart';
+import 'package:zein_store/Future/Home/Widgets/error_widget.dart';
+import 'package:zein_store/Future/Home/models/user_model.dart';
+import 'package:zein_store/Utils/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_form_field/phone_form_field.dart';

@@ -1,4 +1,4 @@
-# e_comm
+# zein_store
 
 A new Flutter project.
 

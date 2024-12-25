@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:e_comm/Apis/Network.dart';
-import 'package:e_comm/Apis/Urls.dart';
-import 'package:e_comm/Future/Home/models/print_size_model.dart';
+import 'package:zein_store/Apis/Network.dart';
+import 'package:zein_store/Apis/Urls.dart';
+import 'package:zein_store/Future/Home/models/print_size_model.dart';
 import 'package:meta/meta.dart';
 
 part 'get_print_sizes_state.dart';

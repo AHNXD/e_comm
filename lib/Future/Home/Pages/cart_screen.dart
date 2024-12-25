@@ -1,7 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
-import 'package:e_comm/Future/Home/Widgets/home_screen/appbar_widget.dart';
-import 'package:e_comm/Utils/app_localizations.dart';
+import 'package:zein_store/Future/Home/Widgets/error_widget.dart';
+import 'package:zein_store/Future/Home/Widgets/home_screen/appbar_widget.dart';
+import 'package:zein_store/Utils/app_localizations.dart';
 import 'package:sizer/sizer.dart';
 import '../../../Utils/colors.dart';
 import '../Widgets/custom_circular_progress_indicator.dart';

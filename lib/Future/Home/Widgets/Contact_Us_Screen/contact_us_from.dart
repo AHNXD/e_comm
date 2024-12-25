@@ -1,4 +1,4 @@
-import 'package:e_comm/Utils/app_localizations.dart';
+import 'package:zein_store/Utils/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../Utils/enums.dart';

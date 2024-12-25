@@ -1,4 +1,4 @@
-import 'package:e_comm/Utils/colors.dart';
+import 'package:zein_store/Utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomCircularProgressIndicator extends StatelessWidget {

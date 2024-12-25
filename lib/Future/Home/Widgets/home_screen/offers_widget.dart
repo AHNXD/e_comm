@@ -1,10 +1,10 @@
-import 'package:e_comm/Apis/Urls.dart';
-import 'package:e_comm/Future/Home/Cubits/favoriteCubit/favorite_cubit.dart';
-import 'package:e_comm/Future/Home/Pages/product_details.dart';
-import 'package:e_comm/Future/Home/models/product_model.dart';
-import 'package:e_comm/Utils/app_localizations.dart';
-import 'package:e_comm/Utils/colors.dart';
-import 'package:e_comm/Utils/functions.dart';
+import 'package:zein_store/Apis/Urls.dart';
+import 'package:zein_store/Future/Home/Cubits/favoriteCubit/favorite_cubit.dart';
+import 'package:zein_store/Future/Home/Pages/product_details.dart';
+import 'package:zein_store/Future/Home/models/product_model.dart';
+import 'package:zein_store/Utils/app_localizations.dart';
+import 'package:zein_store/Utils/colors.dart';
+import 'package:zein_store/Utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
