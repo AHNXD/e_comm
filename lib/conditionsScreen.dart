@@ -17,8 +17,6 @@ class ConditionsScreen extends StatefulWidget {
 
 class _ConditionsScreenState extends State<ConditionsScreen> {
   bool isChecked = false;
-  late List terms;
-
   @override
   void initState() {
     super.initState();
@@ -26,9 +24,6 @@ class _ConditionsScreenState extends State<ConditionsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Determine the terms to use based on locale
-    final terms = lang == "ar" ? termsAR : termsEN;
-
     return Scaffold(
         appBar: AppBar(
             foregroundColor: Colors.white,
@@ -43,7 +38,7 @@ class _ConditionsScreenState extends State<ConditionsScreen> {
                 ))),
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: ListView(
               children: [
                 Center(
@@ -52,7 +47,7 @@ class _ConditionsScreenState extends State<ConditionsScreen> {
                     height: 20.h,
                   ),
                 ),
-                Text('conditio n_description'.tr(context)),
+                Text('condition_description'.tr(context)),
                 Expanded(
                   child: ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
@@ -65,7 +60,7 @@ class _ConditionsScreenState extends State<ConditionsScreen> {
                         children: [
                           // Render the main term title
                           Text(
-                            term['title'] ?? '',
+                            term['title'][lang] ?? '',
                             style: TextStyle(
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,
@@ -84,27 +79,51 @@ class _ConditionsScreenState extends State<ConditionsScreen> {
                                 children: [
                                   // Render the sub-term title
                                   Text(
-                                    subTerm["title"] ?? '',
+                                    subTerm["title"][lang] ?? '',
                                     style: TextStyle(
                                       fontSize: 11.sp,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                  const SizedBox(height: 4),
+                                  if (subTerm["bio"][lang] != '')
+                                    const SizedBox(height: 4),
                                   // Render the sub-term description
-                                  if (subTerm["bio"] != "")
+                                  if (subTerm["bio"][lang] != '')
                                     Text(
-                                      subTerm["bio"] ?? '',
+                                      subTerm["bio"][lang] ?? '',
                                       style: TextStyle(fontSize: 10.sp),
                                     ),
                                   const SizedBox(height: 8),
                                   // Render any conditions under the sub-term
                                   if (subTerm["body"] is List)
                                     ...subTerm["body"].map<Widget>((cond) {
-                                      return Text(
-                                        textAlign: TextAlign.justify,
-                                        "- $cond",
-                                        style: TextStyle(fontSize: 8.sp),
+                                      return Padding(
+                                        padding: EdgeInsets.only(
+                                            left: lang == "ar" ? 0 : 24,
+                                            right: lang == "ar" ? 24 : 0,
+                                            top: 4,
+                                            bottom: 4),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Icon(
+                                              Icons.circle,
+                                              color:
+                                                  AppColors.buttonCategoryColor,
+                                              size: 12.sp,
+                                            ),
+                                            SizedBox(width: 4),
+                                            Expanded(
+                                              child: Text(
+                                                "${cond[lang]}",
+                                                textAlign: TextAlign.justify,
+                                                style:
+                                                    TextStyle(fontSize: 8.sp),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       );
                                     }).toList(),
                                   const SizedBox(height: 8),

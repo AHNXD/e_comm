@@ -3,7 +3,7 @@ import 'package:e_comm/Future/Auth/cubit/auth_cubit.dart';
 import 'package:e_comm/Future/Home/Cubits/locale/locale_cubit.dart';
 import 'package:e_comm/Future/Home/Pages/navbar_screen.dart';
 import 'package:e_comm/Utils/images.dart';
-import 'package:e_comm/conditions.dart';
+import 'package:e_comm/conditionsScreen.dart';
 // import 'package:e_comm/Future/Home/Widgets/error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -109,7 +109,10 @@ class _SplashScreenState extends State<SplashScreen>
                                 );
                               }));
                             },
-                            child: Text("English")),
+                            child: Text(
+                              "English",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
                         ElevatedButton(
                             onPressed: () {
                               context.read<LocaleCubit>().changeLanguage("ar");
@@ -120,7 +123,10 @@ class _SplashScreenState extends State<SplashScreen>
                                 );
                               }));
                             },
-                            child: Text("العربية"))
+                            child: Text(
+                              "العربية",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ))
                       ],
                     )
                   : const Center(child: CustomCircularProgressIndicator()),
