@@ -48,93 +48,90 @@ class _ConditionsScreenState extends State<ConditionsScreen> {
                   ),
                 ),
                 Text('condition_description'.tr(context)),
-                Expanded(
-                  child: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: terms.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final term = terms[index];
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Render the main term title
-                          Text(
-                            term['title'][lang] ?? '',
-                            style: TextStyle(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.primaryColors),
-                          ),
-                          const SizedBox(height: 8),
-                          // Render nested sub-terms
-                          ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: term["body"]?.length ?? 0,
-                            itemBuilder: (BuildContext context, int subIndex) {
-                              final subTerm = term["body"][subIndex];
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // Render the sub-term title
-                                  Text(
-                                    subTerm["title"][lang] ?? '',
-                                    style: TextStyle(
-                                      fontSize: 11.sp,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: terms.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final term = terms[index];
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Render the main term title
+                        Text(
+                          term['title'][lang] ?? '',
+                          style: TextStyle(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primaryColors),
+                        ),
+                        const SizedBox(height: 8),
+                        // Render nested sub-terms
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: term["body"]?.length ?? 0,
+                          itemBuilder: (BuildContext context, int subIndex) {
+                            final subTerm = term["body"][subIndex];
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Render the sub-term title
+                                Text(
+                                  subTerm["title"][lang] ?? '',
+                                  style: TextStyle(
+                                    fontSize: 11.sp,
+                                    fontWeight: FontWeight.w600,
                                   ),
-                                  if (subTerm["bio"][lang] != '')
-                                    const SizedBox(height: 4),
-                                  // Render the sub-term description
-                                  if (subTerm["bio"][lang] != '')
-                                    Text(
-                                      subTerm["bio"][lang] ?? '',
-                                      style: TextStyle(fontSize: 10.sp),
-                                    ),
-                                  const SizedBox(height: 8),
-                                  // Render any conditions under the sub-term
-                                  if (subTerm["body"] is List)
-                                    ...subTerm["body"].map<Widget>((cond) {
-                                      return Padding(
-                                        padding: EdgeInsets.only(
-                                            left: lang == "ar" ? 0 : 24,
-                                            right: lang == "ar" ? 24 : 0,
-                                            top: 4,
-                                            bottom: 4),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Icon(
-                                              Icons.circle,
-                                              color:
-                                                  AppColors.buttonCategoryColor,
-                                              size: 12.sp,
+                                ),
+                                if (subTerm["bio"][lang] != '')
+                                  const SizedBox(height: 4),
+                                // Render the sub-term description
+                                if (subTerm["bio"][lang] != '')
+                                  Text(
+                                    subTerm["bio"][lang] ?? '',
+                                    style: TextStyle(fontSize: 10.sp),
+                                  ),
+                                const SizedBox(height: 8),
+                                // Render any conditions under the sub-term
+                                if (subTerm["body"] is List)
+                                  ...subTerm["body"].map<Widget>((cond) {
+                                    return Padding(
+                                      padding: EdgeInsets.only(
+                                          left: lang == "ar" ? 0 : 24,
+                                          right: lang == "ar" ? 24 : 0,
+                                          top: 4,
+                                          bottom: 4),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Icon(
+                                            Icons.circle,
+                                            color:
+                                                AppColors.buttonCategoryColor,
+                                            size: 12.sp,
+                                          ),
+                                          SizedBox(width: 4),
+                                          Expanded(
+                                            child: Text(
+                                              "${cond[lang]}",
+                                              textAlign: TextAlign.justify,
+                                              style: TextStyle(fontSize: 8.sp),
                                             ),
-                                            SizedBox(width: 4),
-                                            Expanded(
-                                              child: Text(
-                                                "${cond[lang]}",
-                                                textAlign: TextAlign.justify,
-                                                style:
-                                                    TextStyle(fontSize: 8.sp),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }).toList(),
-                                  const SizedBox(height: 8),
-                                ],
-                              );
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                const SizedBox(height: 8),
+                              ],
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  },
                 ),
                 if (!widget.home)
                   Column(
@@ -170,7 +167,10 @@ class _ConditionsScreenState extends State<ConditionsScreen> {
                           style: ElevatedButton.styleFrom(
                             minimumSize:
                                 Size(double.infinity, 50), // Full-width button
-                          ))
+                          )),
+                      SizedBox(
+                        height: 16,
+                      )
                     ],
                   )
               ],
