@@ -118,6 +118,7 @@ class _DetailPageState extends State<DetailPage> {
                             // For name
                             Center(
                               child: Text(
+                                textAlign: TextAlign.center,
                                 widget.product.name!,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -199,6 +200,7 @@ class _DetailPageState extends State<DetailPage> {
                   ),
 
                   Text(
+                    textAlign: TextAlign.justify,
                     widget.product.descrption!,
                     style: const TextStyle(fontSize: 16, color: Colors.black54),
                   ),
@@ -210,12 +212,12 @@ class _DetailPageState extends State<DetailPage> {
                       widget.product.sizes!.isNotEmpty)
                     Row(
                       children: [
-                        const Text(
-                          'Sizes: ',
+                        Text(
+                          "${'sizes'.tr(context)}:",
                           style: TextStyle(
                             fontSize: 17,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryColors,
                           ),
                         ),
                         const SizedBox(width: 8),

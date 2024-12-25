@@ -34,7 +34,7 @@ class OrderTileWidget extends StatelessWidget {
           ),
           if (size != null && size != "NULL" && size!.isNotEmpty)
             Text(
-              "size: $size",
+              "${'size'.tr(context)}: $size",
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey.shade400,

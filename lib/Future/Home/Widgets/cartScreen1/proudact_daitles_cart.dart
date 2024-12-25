@@ -1,3 +1,5 @@
+import 'package:e_comm/Utils/app_localizations.dart';
+import 'package:e_comm/conditionsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -16,8 +18,10 @@ class PrudoctDaitlesCart extends StatelessWidget {
     return Column(
       children: [
         Text(
+          maxLines: 2,
           product.name!,
           style: TextStyle(
+            overflow: TextOverflow.ellipsis,
             fontSize: 12.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -27,7 +31,7 @@ class PrudoctDaitlesCart extends StatelessWidget {
             product.selectedSize != "NULL" &&
             product.selectedSize!.isNotEmpty)
           Text(
-            "size: ${product.selectedSize}",
+            "${'size'.tr(context)}: ${product.selectedSize}",
             style: TextStyle(
               fontSize: 11.sp,
               color: Colors.grey.shade600,

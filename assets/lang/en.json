@@ -154,5 +154,7 @@
     "title_conditions": "Terms of Service",
     "privacyPolicy": "Privacy Policy",
     "condition_description": "Thank you for using our app. We are committed to protecting your privacy and personal data. This policy explains how we collect, use and protect your data when you use our app.",
-    "agree_terms": "I agree to the Terms and Conditions."
+    "agree_terms": "I agree to the Terms and Conditions.",
+    "sizes": "Sizes",
+    "size": "Size"
 }
