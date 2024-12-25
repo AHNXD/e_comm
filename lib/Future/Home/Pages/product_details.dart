@@ -117,14 +117,12 @@ class _DetailPageState extends State<DetailPage> {
                           children: [
                             // For name
                             Center(
-                              child: Expanded(
-                                child: Text(
-                                  widget.product.name!,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                      fontSize: 34),
-                                ),
+                              child: Text(
+                                widget.product.name!,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 34),
                               ),
                             ),
                             Center(
