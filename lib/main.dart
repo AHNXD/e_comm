@@ -47,8 +47,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppSharedPreferences.init();
   await Network.init();
-  // AppSharedPreferences.saveToken(
-  //     "96|BdyqtuKyMt7rXbHxGsCZ7PJq4NWvb2tmA3BPA70aee914310");
   debugPrint("token is ${AppSharedPreferences.getToken}");
 
   runApp(const MyApp());
@@ -155,12 +153,11 @@ class MyApp extends StatelessWidget {
                   return supportedLocales.first;
                 },
                 debugShowCheckedModeBanner: false,
-                title: 'E-Commerce',
+                title: 'Zein Store',
                 theme: ThemeData(
                   fontFamily: "cocon-next-arabic",
                   colorScheme:
                       ColorScheme.fromSeed(seedColor: AppColors.primaryColors),
-                  // useMaterial3: true,
                 ),
                 home: const SplashScreen());
           },
