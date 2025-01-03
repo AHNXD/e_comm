@@ -39,7 +39,7 @@ class SignupScreenTow extends StatelessWidget {
         listener: (context, state) {
           if (state is RegisterSuccessfulState) {
             CustomSnackBar.showMessage(context, state.msg!, Colors.green);
-
+            Navigator.pop(context);
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (builder) {
               return LoginScreen();
