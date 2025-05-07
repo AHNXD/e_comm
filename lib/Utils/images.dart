@@ -11,6 +11,6 @@ class AppImagesAssets {
   static const String stropery = "assets/images/stropery.svg";
   static const String orange = "assets/images/orange.png";
   // static const String logo = "assets/images/Global_Co_logo.png";
-  static const String logo = "assets/images/Zein-transformed.png";
-  static const String logoNoBg = "assets/images/zein_store.png";
+  static const String logo = "assets/images/syring-transformed.png";
+  static const String logoNoBg = "assets/images/syring.png";
 }

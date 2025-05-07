@@ -1,5 +1,9 @@
 import 'package:zein_store/Apis/Urls.dart';
 import 'package:zein_store/Future/Home/Blocs/get_categories/get_categories_bloc.dart';
+import 'package:zein_store/Future/Home/Blocs/get_products_by_cat_id/get_products_by_cat_id_bloc.dart';
+import 'package:zein_store/Future/Home/Blocs/search_filter_products/search_filter_poducts_bloc.dart';
+import 'package:zein_store/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
+import 'package:zein_store/Future/Home/Cubits/mange_search_filter_products/mange_search_filter_products_cubit.dart';
 import 'package:zein_store/Future/Home/Pages/product_screen.dart';
 import 'package:zein_store/Future/Home/Widgets/error_widget.dart';
 import 'package:zein_store/Utils/colors.dart';
@@ -89,9 +93,35 @@ class _CategoriesButtonWidgetState
                               onTap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (builder) {
-                                  return ProductScreen(
-                                    isNotHome: false,
-                                    cData: state.categories[index],
+                                  return MultiBlocProvider(
+                                    providers: [
+                                      BlocProvider<GetProductsByCatIdBloc>(
+                                        create: (_) => GetProductsByCatIdBloc()
+                                          ..add(ResetPagination())
+                                          ..add(GetAllPoductsByCatIdEvent(
+                                              categoryID:
+                                                  state.categories[index].id!)),
+                                      ),
+                                      BlocProvider<
+                                          MangeSearchFilterProductsCubit>(
+                                        create: (_) =>
+                                            MangeSearchFilterProductsCubit(),
+                                      ),
+                                      BlocProvider<GetMinMaxCubit>(
+                                        create: (_) => GetMinMaxCubit()
+                                          ..getMinMax(
+                                              state.categories[index].id),
+                                      ),
+                                      BlocProvider<SearchFilterPoductsBloc>(
+                                        create: (_) => SearchFilterPoductsBloc()
+                                          ..add(ResetSearchFilterToInit()),
+                                      ),
+                                    ],
+                                    child: ProductScreen(
+                                      key: ValueKey(state.categories[index].id),
+                                      isNotHome: false,
+                                      cData: state.categories[index],
+                                    ),
                                   );
                                 }));
                               },

@@ -32,7 +32,7 @@ class Network {
         error: true,
         request: true,
         compact: true,
-        maxWidth: 10000));
+        maxWidth: 50));
 
     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (HttpClient client) {

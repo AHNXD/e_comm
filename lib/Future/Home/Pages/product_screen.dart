@@ -1,6 +1,5 @@
 import 'package:zein_store/Future/Home/Blocs/get_products_by_cat_id/get_products_by_cat_id_bloc.dart';
 import 'package:zein_store/Future/Home/Blocs/search_filter_products/search_filter_poducts_bloc.dart';
-import 'package:zein_store/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
 import 'package:zein_store/Future/Home/Cubits/mange_search_filter_products/mange_search_filter_products_cubit.dart';
 import 'package:zein_store/Future/Home/Widgets/custom_lazy_load_grid_view.dart';
 import 'package:zein_store/Future/Home/Widgets/error_widget.dart';
@@ -34,15 +33,16 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   void initState() {
     scrollController = ScrollController();
-    //context.read<GetPorductByIdCubit>().getProductsByCategory(widget.cData.id!);
-    context.read<GetProductsByCatIdBloc>().add(ResetPagination());
-    context
-        .read<GetProductsByCatIdBloc>()
-        .add(GetAllPoductsByCatIdEvent(categoryID: widget.cData.id!));
-    context.read<GetMinMaxCubit>().getMinMax(widget.cData.id);
-    context.read<SearchFilterPoductsBloc>().add(ResetSearchFilterToInit());
-    context.read<MangeSearchFilterProductsCubit>().isSearchProducts = false;
-    context.read<MangeSearchFilterProductsCubit>().isFilterProducts = false;
+
+    // context.read<GetProductsByCatIdBloc>().add(ResetPagination());
+    // context
+    //     .read<GetProductsByCatIdBloc>()
+    //     .add(GetAllPoductsByCatIdEvent(categoryID: widget.cData.id!));
+    // context.read<MangeSearchFilterProductsCubit>().isSearchProducts = false;
+    // context.read<MangeSearchFilterProductsCubit>().isFilterProducts = false;
+    // context.read<GetMinMaxCubit>().getMinMax(widget.cData.id);
+    // context.read<SearchFilterPoductsBloc>().add(ResetSearchFilterToInit());
+
     scrollController.addListener(_onScroll);
     super.initState();
   }
