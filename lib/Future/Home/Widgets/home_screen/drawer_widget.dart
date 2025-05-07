@@ -9,6 +9,7 @@ import 'package:zein_store/Future/Home/Cubits/delete_profile/delete_profile_cubi
 import 'package:zein_store/Future/Home/Pages/about_us_screen.dart';
 import 'package:zein_store/Future/Home/Pages/edit_profile.dart';
 import 'package:zein_store/Future/Home/Pages/maintenance_order.dart';
+import 'package:zein_store/Future/Home/Pages/order_prodcut_screen.dart';
 import 'package:zein_store/Future/Home/Pages/print_image.dart';
 import 'package:zein_store/Future/Home/Pages/sell_prodact.dart';
 import 'package:zein_store/Future/Home/Cubits/locale/locale_cubit.dart';
@@ -103,6 +104,15 @@ class DrawerWidget extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const SellProdact()));
+                  },
+                  verticalHieght: 1.h,
+                  horizontalWidth: 2.w,
+                  color: AppColors.buttonCategoryColor),
+              MyButtonWidget(
+                  text: "order_product".tr(context),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const OrderProduct()));
                   },
                   verticalHieght: 1.h,
                   horizontalWidth: 2.w,

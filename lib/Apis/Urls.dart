@@ -10,7 +10,7 @@ class Urls {
   // static const String baseUrl = "http://$ip/api/";
   // static const String storageProducts = "http://$ip/uploads/products/";
   // static const String storageCategories = "http://$ip/uploads/categories/";
-  static const String baseUrl = "https://$ip/";
+  static const String baseUrl = "https://$ip/api/";
   static const String storageProducts = "https://$ip/uploads/products/";
   static const String storageCategories = "https://$ip/uploads/categories/";
   static const String logInApi = "${baseUrl}login";
@@ -56,4 +56,5 @@ class Urls {
   static const String updateCart = "${baseUrl}update/cart";
   static const String getCart = "${baseUrl}get/cart";
   static const String addToCart = "${baseUrl}store/cart";
+  static const String orderProduct = "${baseUrl}custom-orders";
 }

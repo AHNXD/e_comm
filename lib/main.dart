@@ -10,6 +10,7 @@ import 'package:zein_store/Future/Home/Cubits/delete_profile/delete_profile_cubi
 import 'package:zein_store/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
 import 'package:zein_store/Future/Home/Cubits/get_user/get_user_cubit.dart';
 import 'package:zein_store/Future/Home/Cubits/mange_search_filter_products/mange_search_filter_products_cubit.dart';
+import 'package:zein_store/Future/Home/Cubits/order_product/order_product_cubit.dart';
 import 'package:zein_store/splashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -127,7 +128,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => MangeSearchFilterProductsCubit()),
           BlocProvider(create: (_) => EditProfileCubit()),
           BlocProvider(create: (_) => DeleteProfileCubit()),
-          BlocProvider(create: (_) => CancelFilterButtonCubit())
+          BlocProvider(create: (_) => CancelFilterButtonCubit()),
+          BlocProvider(create: (_) => OrderProductCubit())
         ],
         child: BlocBuilder<LocaleCubit, ChangeLocaleState>(
           builder: (context, state) {
