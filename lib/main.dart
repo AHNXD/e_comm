@@ -155,7 +155,7 @@ class MyApp extends StatelessWidget {
                   return supportedLocales.first;
                 },
                 debugShowCheckedModeBanner: false,
-                title: 'Zein Store',
+                title: 'Syring',
                 theme: ThemeData(
                   fontFamily: "cocon-next-arabic",
                   colorScheme:
