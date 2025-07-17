@@ -5,7 +5,7 @@ class Urls {
   // static const String ip = "192.168.1.12:8000";
   // static const String ip = "192.168.1.129:8000";
   // static const String ip = "192.168.7.120:8000";
-  static const String ip = "abdalzein.tawwasyshop.store";
+  static const String ip = "alzeinstore.sy";
 
   // static const String baseUrl = "http://$ip/api/";
   // static const String storageProducts = "http://$ip/uploads/products/";
