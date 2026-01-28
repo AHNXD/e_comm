@@ -1,23 +1,20 @@
 import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
-
+import 'package:zein_store/Future/Auth/Widgets/my_button_widget.dart';
+import 'package:zein_store/Future/Home/Cubits/get_user/get_user_cubit.dart';
+import 'package:zein_store/Future/Home/Cubits/print_image_cubit/print_image_cubit.dart';
+import 'package:zein_store/Future/Home/Widgets/custom_snak_bar.dart';
+import 'package:zein_store/Future/Home/Widgets/print_image/print_image_form.dart';
+import 'package:zein_store/Future/Home/models/print_image_model.dart';
 import 'package:zein_store/Utils/app_localizations.dart';
+import 'package:zein_store/Utils/colors.dart';
+import 'package:zein_store/Utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:sizer/sizer.dart';
-
-import '../../../Utils/colors.dart';
-import '../../../Utils/constants.dart';
-
-import '../../Auth/Widgets/my_button_widget.dart';
-import '../Cubits/get_user/get_user_cubit.dart';
-import '../Cubits/print_image_cubit/print_image_cubit.dart';
-import '../Widgets/custom_snak_bar.dart';
-import '../Widgets/print_image/print_image_form.dart';
-import '../models/print_image_model.dart';
 
 class PrintImageScreen extends StatefulWidget {
   const PrintImageScreen({super.key});
@@ -39,30 +36,38 @@ class _PrintImageState extends State<PrintImageScreen> {
   final GlobalKey<FormState> key1 = GlobalKey<FormState>();
   File? productImage;
   bool imageUploaded = false;
+
   @override
   void initState() {
-    firstNameController = TextEditingController(
-        text: context.read<GetUserCubit>().userProfile != null
-            ? context.read<GetUserCubit>().userProfile!.firstName
-            : "");
-    lastNameController = TextEditingController(
-        text: context.read<GetUserCubit>().userProfile != null
-            ? context.read<GetUserCubit>().userProfile!.lastName
-            : "");
+    super.initState();
+    final userProfile = context.read<GetUserCubit>().userProfile;
+
+    firstNameController =
+        TextEditingController(text: userProfile?.firstName ?? "");
+    lastNameController =
+        TextEditingController(text: userProfile?.lastName ?? "");
     provinceController = TextEditingController();
     regionController = TextEditingController();
-    addressController = TextEditingController(
-        text: context.read<GetUserCubit>().userProfile != null
-            ? context.read<GetUserCubit>().userProfile!.address
-            : "");
+    addressController = TextEditingController(text: userProfile?.address ?? "");
 
     phoneController = PhoneController(
         initialValue: const PhoneNumber(isoCode: IsoCode.SY, nsn: ""));
 
     quantityController = TextEditingController();
-
     printSizeIdController = TextEditingController();
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    firstNameController.dispose();
+    lastNameController.dispose();
+    provinceController.dispose();
+    regionController.dispose();
+    quantityController.dispose();
+    addressController.dispose();
+    phoneController.dispose();
+    printSizeIdController.dispose();
+    super.dispose();
   }
 
   Future<void> submit() async {
@@ -80,6 +85,9 @@ class _PrintImageState extends State<PrintImageScreen> {
           return;
         }
 
+        // Unfocus
+        FocusScope.of(context).unfocus();
+
         final PrintImageModel printOrder = PrintImageModel(
           firstName: firstNameController.text,
           lastName: lastNameController.text,
@@ -93,7 +101,8 @@ class _PrintImageState extends State<PrintImageScreen> {
           image: productImage,
         );
 
-        context.read<PrintImageCubit>().sendPrintImageOrder(printOrder);
+        // Show confirmation dialog before sending
+        showConfirmationDialog(printOrder);
       } else {
         CustomSnackBar.showMessage(
           context,
@@ -108,20 +117,6 @@ class _PrintImageState extends State<PrintImageScreen> {
         Colors.red,
       );
     }
-  }
-
-  void showAwesomeDialog({required String message}) async {
-    await AwesomeDialog(
-      descTextStyle: TextStyle(fontSize: 15.sp),
-      btnOkText: "ok".tr(context),
-      context: context,
-      dialogType: DialogType.success,
-      animType: AnimType.scale,
-      title: message,
-      btnOkOnPress: () {
-        Navigator.of(context).pop();
-      },
-    ).show();
   }
 
   Future<void> pickImage() async {
@@ -149,119 +144,212 @@ class _PrintImageState extends State<PrintImageScreen> {
     }
   }
 
-  @override
-  void dispose() {
-    firstNameController.dispose();
-    lastNameController.dispose();
-    provinceController.dispose();
-    regionController.dispose();
-    quantityController.dispose();
-    addressController.dispose();
-    phoneController.dispose();
-    printSizeIdController.dispose();
-    super.dispose();
+  // --- Dialogs ---
+
+  void showConfirmationDialog(PrintImageModel printOrder) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.question,
+      animType: AnimType.bottomSlide,
+      title: "confirm_product".tr(context), // Use appropriate key
+      desc: "Are you sure you want to submit this print request?",
+      btnOkText: "yes".tr(context),
+      btnCancelText: "no".tr(context),
+      btnOkOnPress: () {
+        context.read<PrintImageCubit>().sendPrintImageOrder(printOrder);
+      },
+      btnCancelOnPress: () {},
+      btnOkColor: AppColors.primaryColors,
+      btnCancelColor: Colors.grey,
+    ).show();
+  }
+
+  void showSuccessDialog({required String message}) async {
+    await AwesomeDialog(
+      descTextStyle: TextStyle(fontSize: 12.sp),
+      btnOkText: "ok".tr(context),
+      context: context,
+      dialogType: DialogType.success,
+      animType: AnimType.scale,
+      title: "Success",
+      desc: message,
+      btnOkOnPress: () {
+        Navigator.of(context).pop();
+      },
+    ).show();
   }
 
   @override
   Widget build(BuildContext context) {
-    phoneController.changeNationalNumber(
-        context.read<GetUserCubit>().userProfile != null
-            ? context.read<GetUserCubit>().userProfile!.phone
-            : "");
-    return BlocListener<PrintImageCubit, PrintImageState>(
-      listener: (context, state) {
-        if (state is PrintImageSuccess) {
-          showAwesomeDialog(message: state.msg);
-          key1.currentState!.reset();
-          setState(() {
-            imageUploaded = false;
-            productImage = null;
-          });
-        } else if (state is PrintImageError) {
-          CustomSnackBar.showMessage(
-            context,
-            state.error,
-            Colors.red,
-          );
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          foregroundColor: Colors.white,
-          scrolledUnderElevation: 0,
-          backgroundColor: AppColors.primaryColors,
-          centerTitle: true,
-          title: Text(
-            'print_image_order_btn'.tr(context),
-            style: const TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.white),
-          ),
+    // Keep user phone update logic if needed
+    final userProfile = context.read<GetUserCubit>().userProfile;
+    if (userProfile != null) {
+      phoneController.changeNationalNumber(userProfile.phone);
+    }
+
+    return Scaffold(
+      backgroundColor: const Color(0xFFF9F9F9),
+      appBar: AppBar(
+        foregroundColor: Colors.black87,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          'print_image_order_btn'.tr(context),
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: AppColors.textTitleAppBarColor,
+              fontSize: 14.sp),
         ),
-        body: ListView(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 3.h),
-              child: Text(
-                "sell_product_hint".tr(context),
-                style: TextStyle(fontSize: 12.sp, color: Colors.black),
-              ),
-            ),
-            PrintImageForm(
-              key1: key1,
-              addressController: addressController,
-              firstNameController: firstNameController,
-              lastNameController: lastNameController,
-              phoneController: phoneController,
-              printSizeIdController: printSizeIdController,
-              provinceController: provinceController,
-              quantityController: quantityController,
-              regionController: regionController,
-            ),
-            GestureDetector(
-              onTap: pickImage,
-              child: Container(
-                margin: const EdgeInsets.all(25),
-                height: 75,
+      ),
+      body: BlocListener<PrintImageCubit, PrintImageState>(
+        listener: (context, state) {
+          if (state is PrintImageSuccess) {
+            showSuccessDialog(message: state.msg);
+            key1.currentState!.reset();
+            setState(() {
+              imageUploaded = false;
+              productImage = null;
+            });
+          } else if (state is PrintImageError) {
+            CustomSnackBar.showMessage(
+              context,
+              state.error,
+              Colors.red,
+            );
+          }
+        },
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // --- 1. Info Banner ---
+              Container(
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 234, 240, 255),
-                    borderRadius: BorderRadius.circular(15)),
+                  color: AppColors.primaryColors.withOpacity(0.08),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                      color: AppColors.primaryColors.withOpacity(0.2)),
+                ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(
-                      'upload_img'.tr(context),
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16),
+                    Icon(Icons.print_rounded, color: AppColors.primaryColors),
+                    SizedBox(width: 3.w),
+                    Expanded(
+                      child: Text(
+                        "sell_product_hint".tr(
+                            context), // Reuse generic hint or create specific
+                        style: TextStyle(
+                            fontSize: 10.sp,
+                            color: AppColors.primaryColors,
+                            height: 1.4),
+                      ),
                     ),
-                    const Icon(
-                      Icons.file_upload_outlined,
-                      size: 27,
-                      color: Colors.black,
-                    )
                   ],
                 ),
               ),
-            ),
-            if (imageUploaded && productImage != null)
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 2.w),
-                child: Stack(
+
+              SizedBox(height: 3.h),
+
+              // --- 2. Print Details Form ---
+
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      )
+                    ]),
+                child: PrintImageForm(
+                  key1: key1,
+                  addressController: addressController,
+                  firstNameController: firstNameController,
+                  lastNameController: lastNameController,
+                  phoneController: phoneController,
+                  printSizeIdController: printSizeIdController,
+                  provinceController: provinceController,
+                  quantityController: quantityController,
+                  regionController: regionController,
+                ),
+              ),
+
+              SizedBox(height: 3.h),
+
+              // --- 3. Image Upload Section ---
+
+              if (!imageUploaded)
+                GestureDetector(
+                  onTap: pickImage,
+                  child: Container(
+                    height: 150,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: Colors.grey.shade300,
+                        width: 2,
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryColors.withOpacity(0.1),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.add_photo_alternate_outlined,
+                            size: 24.sp,
+                            color: AppColors.primaryColors,
+                          ),
+                        ),
+                        SizedBox(height: 1.5.h),
+                        Text(
+                          'upload_img'.tr(context),
+                          style: TextStyle(
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.w600,
+                              fontSize: 11.sp),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              else
+                Stack(
                   children: [
                     Container(
+                      height: 250,
                       width: double.infinity,
-                      height: 150,
                       decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(15)),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.grey.shade200),
                           image: DecorationImage(
-                              image: FileImage(productImage!),
-                              fit: BoxFit.cover)),
+                            image: FileImage(productImage!),
+                            fit: BoxFit.cover,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4))
+                          ]),
                     ),
+                    // Delete Button
                     Positioned(
-                      right: 0,
-                      top: 0,
+                      top: 10,
+                      right: 10,
                       child: GestureDetector(
                         onTap: () {
                           setState(() {
@@ -270,47 +358,39 @@ class _PrintImageState extends State<PrintImageScreen> {
                           });
                         },
                         child: Container(
+                          padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Colors.red.withOpacity(0.7),
-                            shape: BoxShape.circle,
-                          ),
+                              color: Colors.white.withOpacity(0.9),
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 5)
+                              ]),
                           child: const Icon(
-                            Icons.close,
+                            Icons.close_rounded,
+                            color: Colors.red,
                             size: 20,
-                            color: Colors.white,
                           ),
                         ),
                       ),
                     ),
                   ],
                 ),
+
+              SizedBox(height: 5.h),
+
+              // --- 4. Submit Button ---
+              MyButtonWidget(
+                color: AppColors.buttonCategoryColor,
+                text: 'print_img'.tr(context),
+                icon: Icons.print_rounded,
+                onPressed: submit,
               ),
 
-            MyButtonWidget(
-              color: AppColors.buttonCategoryColor,
-              verticalHieght: 2.h,
-              text: 'print_img'.tr(context),
-              onPressed: submit,
-              horizontalWidth: 8.w,
-            )
-            // Container(
-            //   margin: const EdgeInsets.all(15),
-            //   decoration: BoxDecoration(
-            //       color: AppColors.primaryColors,
-            //       borderRadius: BorderRadius.circular(10)),
-            //   height: 75,
-            //   child: TextButton(
-            //     onPressed: submit,
-            //     child: Text(
-            //       'print_img'.tr(context),
-            //       style: const TextStyle(
-            //           color: Colors.white,
-            //           fontWeight: FontWeight.w500,
-            //           fontSize: 20),
-            //     ),
-            //   ),
-            // ),
-          ],
+              SizedBox(height: 3.h),
+            ],
+          ),
         ),
       ),
     );

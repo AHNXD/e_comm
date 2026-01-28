@@ -23,10 +23,22 @@ class TitleCardWidget extends StatelessWidget {
                 fontSize: 18.sp),
           ),
           TextButton(
-              child: Text(
-                "see_all".tr(context),
-                style: TextStyle(
-                    color: AppColors.seeAllTextButtonColor, fontSize: 12.sp),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color:
+                      AppColors.primaryColors[50], // Very light tint of primary
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  "see_all".tr(context),
+                  style: TextStyle(
+                    color: AppColors.seeAllTextButtonColor,
+                    fontSize: 10.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
               onPressed: () {
                 if (cData.id != 0) {

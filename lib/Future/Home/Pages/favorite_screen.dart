@@ -20,35 +20,38 @@ class FavoriteScreen extends StatefulWidget {
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
   late ScrollController scrollController;
+
   @override
   void initState() {
+    super.initState();
     context.read<GetFavoriteBloc>().add(RestPagination());
     context.read<GetFavoriteBloc>().add(GetAllFavoriteEvent());
     scrollController = ScrollController();
     scrollController.addListener(_onScroll);
-    super.initState();
   }
 
   void _onScroll() {
-    final currentScroll = scrollController.offset;
-    final maxScroll = scrollController.position.maxScrollExtent;
+    if (scrollController.hasClients) {
+      final currentScroll = scrollController.offset;
+      final maxScroll = scrollController.position.maxScrollExtent;
 
-    if (currentScroll >= (maxScroll * 0.9)) {
-      context.read<GetFavoriteBloc>().add(GetAllFavoriteEvent());
+      if (currentScroll >= (maxScroll * 0.9)) {
+        context.read<GetFavoriteBloc>().add(GetAllFavoriteEvent());
+      }
     }
   }
 
   @override
   void dispose() {
-    scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
+    scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    context.read<GetFavoriteBloc>().add(GetAllFavoriteEvent());
+    // Note: Removed the duplicate GetAllFavoriteEvent() call here.
+    // It is already called in initState. Calling it in build causes loops.
+
     return BlocListener<CartCubit, CartState>(
       listener: (context, state) {
         if (state is AddToCartFromFavState) {
@@ -60,6 +63,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         }
       },
       child: Scaffold(
+        backgroundColor:
+            const Color(0xFFF9F9F9), // Light background to make cards pop
         appBar: PreferredSize(
           preferredSize: Size(double.infinity, 8.h),
           child: AppBarWidget(
@@ -85,23 +90,36 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               case GetFavoriteStatus.success:
                 if (state.favoriteProducts.isEmpty) {
                   return Center(
-                    child: Text(
-                      "fav_body_msg".tr(context),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.favorite_border,
+                            size: 40.sp, color: Colors.grey[300]),
+                        SizedBox(height: 2.h),
+                        Text(
+                          "fav_body_msg".tr(context),
+                          style: TextStyle(
+                              color: Colors.grey[500], fontSize: 12.sp),
+                        ),
+                      ],
                     ),
                   );
                 }
                 return ListView(
                   controller: scrollController,
                   physics: const BouncingScrollPhysics(),
+                  padding: EdgeInsets.only(bottom: 5.h), // Bottom padding
                   children: [
                     CustomLazyLoadGridView(
                       hasReachedMax: state.hasReachedMax,
                       items: state.favoriteProducts,
+                      // Optional: Adjust aspect ratio manually here if needed.
+                      // 0.62 is the default in the widget now, which fits the new card.
+                      childAspectRatio: 0.62,
                       itemBuilder: (context, favoriteProduct) {
                         return ProductCardWidget(
                             isHomeScreen: false,
                             product: favoriteProduct,
-                            addToCartPaddingButton: 3.w,
                             screen: "fav");
                       },
                     ),

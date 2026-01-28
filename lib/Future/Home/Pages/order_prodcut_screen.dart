@@ -35,6 +35,7 @@ class _OrderProductState extends State<OrderProduct> {
 
   @override
   void initState() {
+    super.initState();
     final userProfile = context.read<GetUserCubit>().userProfile;
 
     firstNameController = TextEditingController(
@@ -46,7 +47,7 @@ class _OrderProductState extends State<OrderProduct> {
     );
 
     phoneController = PhoneController(
-      initialValue: PhoneNumber(
+      initialValue: const PhoneNumber(
         isoCode: IsoCode.SY,
         nsn: "",
       ),
@@ -54,9 +55,19 @@ class _OrderProductState extends State<OrderProduct> {
 
     descriptionController = TextEditingController();
     notesController = TextEditingController();
-
-    super.initState();
   }
+
+  @override
+  void dispose() {
+    firstNameController.dispose();
+    lastNameController.dispose();
+    phoneController.dispose();
+    descriptionController.dispose();
+    notesController.dispose();
+    super.dispose();
+  }
+
+  // --- Logic ---
 
   Future<void> pickImage() async {
     try {
@@ -85,6 +96,9 @@ class _OrderProductState extends State<OrderProduct> {
 
   void submitOrder() {
     if (formKey.currentState!.validate()) {
+      // Unfocus keyboard
+      FocusScope.of(context).unfocus();
+
       final orderModel = OrderProductModel(
           firstNameController.text,
           lastNameController.text,
@@ -96,10 +110,13 @@ class _OrderProductState extends State<OrderProduct> {
     }
   }
 
+  // --- Dialogs ---
+
   void showAwesomeDialogForConfirm({required OrderProductModel ordermodel}) {
     AwesomeDialog(
       context: context,
-      dialogType: DialogType.infoReverse,
+      dialogType: DialogType.question,
+      animType: AnimType.bottomSlide,
       title: "confirm_product".tr(context),
       btnOkText: "yes".tr(context),
       btnCancelText: "no".tr(context),
@@ -107,17 +124,20 @@ class _OrderProductState extends State<OrderProduct> {
         context.read<OrderProductCubit>().sendOrder(ordermodel);
       },
       btnCancelOnPress: () {},
+      btnOkColor: AppColors.primaryColors,
+      btnCancelColor: Colors.grey,
     ).show();
   }
 
-  void showAwesomeDialog({required String message}) async {
+  void showSuccessDialog({required String message}) async {
     await AwesomeDialog(
-      descTextStyle: TextStyle(fontSize: 15.sp),
+      descTextStyle: TextStyle(fontSize: 12.sp),
       btnOkText: "ok".tr(context),
       context: context,
       dialogType: DialogType.success,
       animType: AnimType.scale,
-      title: message,
+      title: "success".tr(context),
+      desc: message,
       btnOkOnPress: () {
         Navigator.of(context).pop();
       },
@@ -125,30 +145,25 @@ class _OrderProductState extends State<OrderProduct> {
   }
 
   @override
-  void dispose() {
-    firstNameController.dispose();
-    lastNameController.dispose();
-    phoneController.dispose();
-    descriptionController.dispose();
-    notesController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    phoneController.changeNationalNumber(
-        context.read<GetUserCubit>().userProfile != null
-            ? context.read<GetUserCubit>().userProfile!.phone
-            : "");
+    // Keep existing logic for updating phone if profile loads late
+    final userProfile = context.read<GetUserCubit>().userProfile;
+    if (userProfile != null) {
+      phoneController.changeNationalNumber(userProfile.phone);
+    }
+
     return BlocListener<OrderProductCubit, OrderProductState>(
       listener: (context, state) {
         if (state is OrderProductSuccess) {
-          showAwesomeDialog(message: state.msg);
+          showSuccessDialog(message: state.msg);
           formKey.currentState!.reset();
           setState(() {
             imageUploaded = false;
             orderImage = null;
           });
+          // Clear text manually if needed
+          descriptionController.clear();
+          notesController.clear();
         } else if (state is OrderProductError) {
           CustomSnackBar.showMessage(
             context,
@@ -158,99 +173,205 @@ class _OrderProductState extends State<OrderProduct> {
         }
       },
       child: Scaffold(
+        backgroundColor: const Color(0xFFF9F9F9),
         appBar: AppBar(
-          title: Text('order_product'.tr(context)),
-          foregroundColor: Colors.white,
-          backgroundColor: AppColors.primaryColors,
+          foregroundColor: Colors.black87,
+          backgroundColor: Colors.white,
+          elevation: 0,
           centerTitle: true,
+          title: Text(
+            'order_product'.tr(context),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: AppColors.textTitleAppBarColor,
+              fontSize: 14.sp,
+            ),
+          ),
         ),
-        body: ListView(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 3.h),
-              child: Text(
-                "sell_product_hint".tr(context),
-                style: TextStyle(fontSize: 12.sp, color: Colors.black),
+        body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // --- 1. Info Banner ---
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColors.primaryColors.withOpacity(0.08),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                      color: AppColors.primaryColors.withOpacity(0.2)),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.lightbulb_outline,
+                        color: AppColors.primaryColors),
+                    SizedBox(width: 3.w),
+                    Expanded(
+                      child: Text(
+                        "sell_product_hint".tr(context),
+                        style: TextStyle(
+                            fontSize: 10.sp,
+                            color: AppColors.primaryColors,
+                            height: 1.4),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            OrderProductForm(
-              formKey: formKey,
-              firstNameController: firstNameController,
-              lastNameController: lastNameController,
-              phoneController: phoneController,
-              descriptionController: descriptionController,
-              notesController: notesController,
-            ),
-            _buildImageUploadSection(),
-            if (imageUploaded && orderImage != null)
-              _buildUploadedImagePreview(),
-            MyButtonWidget(
-              text: 'submit'.tr(context),
-              onPressed: submitOrder,
-              color: AppColors.primaryColors,
-              verticalHieght: 2.h,
-              horizontalWidth: 8.w,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
-  Widget _buildImageUploadSection() {
-    return GestureDetector(
-      onTap: pickImage,
-      child: Container(
-        margin: EdgeInsets.all(4.w),
-        padding: EdgeInsets.symmetric(vertical: 2.h),
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 234, 240, 255),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              'upload_photo_info'.tr(context),
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16),
-            ),
-            Icon(
-              Icons.file_upload_outlined,
-              color: AppColors.textButtonColors,
-              size: 27,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+              SizedBox(height: 3.h),
 
-  Widget _buildUploadedImagePreview() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-      child: Stack(
-        alignment: Alignment.topRight,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Image.file(
-              orderImage!,
-              width: double.infinity,
-              height: 30.h,
-              fit: BoxFit.cover,
-            ),
+              // --- 2. Request Details Form ---
+
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      )
+                    ]),
+                child: OrderProductForm(
+                  formKey: formKey,
+                  firstNameController: firstNameController,
+                  lastNameController: lastNameController,
+                  phoneController: phoneController,
+                  descriptionController: descriptionController,
+                  notesController: notesController,
+                ),
+              ),
+
+              SizedBox(height: 3.h),
+
+              // --- 3. Image Reference Section ---
+
+              if (!imageUploaded)
+                GestureDetector(
+                  onTap: pickImage,
+                  child: Container(
+                    height: 150,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: Colors.grey.shade300,
+                        width: 2,
+                        // Add Dotted styling visually or assume solid for standard
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryColors.withOpacity(0.1),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.add_photo_alternate_outlined,
+                            size: 24.sp,
+                            color: AppColors.primaryColors,
+                          ),
+                        ),
+                        SizedBox(height: 1.5.h),
+                        Text(
+                          'upload_photo_info'.tr(context),
+                          style: TextStyle(
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.w600,
+                              fontSize: 11.sp),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              else
+                Stack(
+                  children: [
+                    Container(
+                      height: 220,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.grey.shade200),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.file(
+                          orderImage!,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    // Gradient Overlay
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.black.withOpacity(0.05),
+                                Colors.transparent,
+                              ]),
+                        ),
+                      ),
+                    ),
+                    // Delete Button
+                    Positioned(
+                      top: 10,
+                      right: 10,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            orderImage = null;
+                            imageUploaded = false;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.9),
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 5)
+                              ]),
+                          child: const Icon(
+                            Icons.close_rounded,
+                            color: Colors.red,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+              SizedBox(height: 5.h),
+
+              // --- 4. Submit Button ---
+              MyButtonWidget(
+                text: 'submit'.tr(context),
+                icon: Icons.check_circle_outline_rounded,
+                color: AppColors.primaryColors,
+                onPressed: submitOrder,
+              ),
+
+              SizedBox(height: 2.h),
+            ],
           ),
-          IconButton(
-            icon: Icon(Icons.close, color: Colors.red),
-            onPressed: () => setState(() {
-              orderImage = null;
-              imageUploaded = false;
-            }),
-          ),
-        ],
+        ),
       ),
     );
   }

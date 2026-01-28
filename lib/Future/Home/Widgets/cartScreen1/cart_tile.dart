@@ -9,7 +9,6 @@ import 'package:sizer/sizer.dart';
 import '../../../../Apis/Urls.dart';
 import '../../models/product_model.dart';
 import '../cached_network_image.dart';
-import 'proudact_daitles_cart.dart';
 import 'qauntity_button.dart';
 
 class CartTile extends StatelessWidget {
@@ -28,98 +27,178 @@ class CartTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isOffer = product.isOffer ?? false;
+
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (builder) {
-          return DetailPage(product: product);
-        }));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (_) => DetailPage(product: product)));
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
-        padding: EdgeInsets.all(1.h),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-                color: AppColors.primaryColors[400]!,
-                blurRadius: 15,
-                offset: const Offset(0, 4))
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 15,
+              offset: const Offset(0, 5),
+            )
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+            // --- 1. Product Image ---
+            Stack(
               children: [
-                MyCachedNetworkImage(
-                  height: 10.h,
-                  width: 35.w,
-                  imageUrl: product.files![0].path != null
-                      ? Urls.storageProducts + product.files![0].name!
-                      : product.files![0].name!,
-                ),
-                Expanded(
-                  child: PrudoctDaitlesCart(
-                    product: product,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Container(
+                    color: const Color(
+                        0xFFF5F5F7), // Light grey background for image
+                    height: 100, // Fixed size
+                    width: 100,
+                    child: (product.files != null && product.files!.isNotEmpty)
+                        ? MyCachedNetworkImage(
+                            imageUrl: product.files![0].path != null
+                                ? Urls.storageProducts + product.files![0].name!
+                                : product.files![0].name!,
+                            width: 12.h,
+                            height: 30.w,
+                          )
+                        : Icon(Icons.image_not_supported,
+                            color: Colors.grey[300]),
                   ),
                 ),
+                // Discount Badge on Image
+                if (isOffer)
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 4),
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          bottomRight: Radius.circular(15),
+                        ),
+                      ),
+                      child: Text(
+                        "SAVE".tr(context), // Or calculation
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 7.sp,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
               ],
             ),
-            SizedBox(height: 1.5.h),
-            if (product.isOffer! == false)
-              Text(
-                "${formatter.format(double.tryParse(product.sellingPrice!)! * product.userQuantity)} ${"sp".tr(context)}",
-                style: TextStyle(
-                    color: AppColors.textButtonColors,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w900),
-              ),
-            if (product.isOffer!)
-              Column(
+
+            SizedBox(width: 3.w),
+
+            // --- 2. Details Column ---
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "${formatter.format(double.parse(product.sellingPrice!).toInt())} ${"sp".tr(context)}",
-                    style: TextStyle(
-                        color: AppColors.textButtonColors,
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w900,
-                        decoration: TextDecoration.lineThrough),
+                  // Title and Delete Row
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          product.name ?? "Unknown Product",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 11.sp,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.textTitleAppBarColor,
+                              height: 1.2),
+                        ),
+                      ),
+                      // Delete Icon (Small and subtle)
+                      InkWell(
+                        onTap: deleteProduct,
+                        child: Icon(Ionicons.trash_outline,
+                            color: Colors.red[300], size: 18),
+                      )
+                    ],
                   ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Text(
-                    "${formatter.format(double.tryParse(product.offers!.priceAfterOffer!)! * product.userQuantity)} ${"sp".tr(context)}",
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w900,
+
+                  SizedBox(height: 0.5.h),
+
+                  // Size Tag
+                  if (product.selectedSize != null &&
+                      product.selectedSize!.isNotEmpty &&
+                      product.selectedSize != "NULL")
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        "${'size'.tr(context)}: ${product.selectedSize}",
+                        style:
+                            TextStyle(fontSize: 8.sp, color: Colors.grey[600]),
+                      ),
                     ),
+
+                  SizedBox(height: 1.h),
+
+                  // Price Row
+                  Row(
+                    children: [
+                      if (isOffer) ...[
+                        Text(
+                          formatter.format(
+                              double.tryParse(product.sellingPrice!)! *
+                                  product.userQuantity),
+                          style: TextStyle(
+                            color: Colors.grey[400],
+                            decoration: TextDecoration.lineThrough,
+                            fontSize: 9.sp,
+                          ),
+                        ),
+                        SizedBox(width: 2.w),
+                      ],
+                      Text(
+                        "${formatter.format(double.tryParse(isOffer ? product.offers!.priceAfterOffer! : product.sellingPrice!)! * product.userQuantity)} ${"sp".tr(context)}",
+                        style: TextStyle(
+                          color: isOffer
+                              ? const Color(0xFFDD2476)
+                              : AppColors.textButtonColors,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            SizedBox(height: 1.5.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            ),
+
+            // --- 3. Quantity Column (Right Side) ---
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const SizedBox(
+                    height: 35), // Push down slightly to align with bottom
                 QauntityButton(
-                  onRemove: onRemove,
                   product: product,
                   onAdd: onAdd,
-                ),
-                IconButton(
-                  onPressed: deleteProduct,
-                  icon: const Icon(
-                    Ionicons.trash_outline,
-                    color: Colors.red,
-                    size: 20,
-                  ),
+                  onRemove: onRemove,
                 ),
               ],
-            ),
+            )
           ],
         ),
       ),

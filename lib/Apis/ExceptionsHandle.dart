@@ -106,12 +106,7 @@ String exceptionsHandle({required DioException error}) {
             : "هنالك خطأ ماالرجاء المحاولة لاحقا ";
       }
       return message!;
-    default:
-      message = lang == "en"
-          ? "Opps there is was an error"
-          : "هنالك خطأ ماالرجاء المحاولة لاحقا ";
-      return message;
-  }
+    }
 }
 
 String _handleValidationErrors(

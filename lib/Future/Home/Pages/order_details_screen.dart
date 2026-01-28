@@ -8,107 +8,214 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
-  const OrderDetailsScreen(
-      {super.key, required this.isNotHome, required this.order});
+  const OrderDetailsScreen({
+    super.key,
+    required this.isNotHome,
+    required this.order,
+  });
+
   final bool isNotHome;
   final OrderInformationData order;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // leading: IconButton(
-        //   style: ButtonStyle(
-        //     backgroundColor: WidgetStateColor.resolveWith(
-        //         (states) => AppColors.buttonCategoryColor),
-        //   ),
-        //   onPressed: () {
-        //     Navigator.of(context).pop();
-        //   },
-        //   icon: SvgPicture.asset(
-        //     AppImagesAssets.back,
-        //     height: 3.h,
-        //   ),
-        //   color: Colors.white,
-        //   iconSize: 20.sp,
-        // ),
-        // title: Text("orderDetails_screen_title".tr(context)),
+    // Determine Status Logic
+    bool isAccepted = order.status == "Accept";
+    bool isPending = order.status == "Checkout";
 
-        foregroundColor: Colors.white,
-        scrolledUnderElevation: 0,
-        backgroundColor: AppColors.primaryColors,
+    Color statusColor =
+        isAccepted ? Colors.green : (isPending ? Colors.orange : Colors.red);
+    IconData statusIcon = isAccepted
+        ? Icons.check_circle
+        : (isPending ? Icons.access_time_filled : Icons.cancel);
+
+    return Scaffold(
+      backgroundColor: const Color(0xFFF9F9F9),
+      appBar: AppBar(
+        foregroundColor: Colors.black87,
+        backgroundColor: Colors.white,
+        elevation: 0,
         centerTitle: true,
         title: Text(
           "orderDetails_screen_title".tr(context),
-          style:
-              const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: AppColors.textTitleAppBarColor,
+              fontSize: 14.sp),
         ),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            OrderInfoTextWidget(
-              title: "phone_number".tr(context),
-              body: order.phone?.toString() ?? "",
-              icon: Icons.phone,
-            ),
-            OrderInfoTextWidget(
-              title: "province".tr(context),
-              body: order.province?.toString() ?? "",
-              icon: Icons.public,
-            ),
-            OrderInfoTextWidget(
-              title: "region".tr(context),
-              body: order.region?.toString() ?? "",
-              icon: Icons.pin_drop,
-            ),
-            OrderInfoTextWidget(
-              title: "address".tr(context),
-              body: order.address?.toString() ?? "",
-              icon: Icons.maps_home_work,
-            ),
-            OrderInfoTextWidget(
-              title: "order_status".tr(context),
-              body: order.status?.toString().tr(context) ?? "",
-              icon: Icons.info,
-            ),
-            OrderInfoTextWidget(
-              title: "order_total_price".tr(context),
-              body: formatter.format(double.parse(order.total!).toInt()),
-              icon: Icons.monetization_on_rounded,
-            ),
-            OrderInfoTextWidget(
-              title: "order_notes".tr(context),
-              body: order.notes?.toString() ?? "",
-              icon: Icons.note_alt_sharp,
-            ),
-            const Divider(
-              color: AppColors.borderColor,
-            ),
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: order.details?.length ?? 0,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 12.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return DetailPage(
-                          product: order.details![index].product!,
-                        );
-                      }));
-                    },
-                    child: OrderTileWidget(
-                        size: order.details![index].size,
-                        product: order.details![index].product!,
-                        price: formatter.format(
-                            double.parse(order.details![index].price!).toInt()),
-                        qty: order.details![index].quantity),
+            // --- 1. Status Banner ---
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
+              color: statusColor.withOpacity(0.1),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(statusIcon, color: statusColor, size: 18.sp),
+                  SizedBox(width: 2.w),
+                  Text(
+                    order.status?.toString().tr(context) ?? "Unknown",
+                    style: TextStyle(
+                      color: statusColor,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                );
-              },
+                ],
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.all(4.w),
+              child: Column(
+                children: [
+                  // --- 2. Total Price Card ---
+                  Container(
+                    padding: EdgeInsets.all(4.w),
+                    decoration: BoxDecoration(
+                        color: AppColors.primaryColors,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                              color: AppColors.primaryColors.withOpacity(0.3),
+                              blurRadius: 15,
+                              offset: const Offset(0, 5))
+                        ]),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Total Amount", // You can translate this
+                          style: TextStyle(
+                              color: Colors.white.withOpacity(0.9),
+                              fontSize: 11.sp),
+                        ),
+                        Text(
+                          "${formatter.format(double.parse(order.total!).toInt())} ${"sp".tr(context)}",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w900),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 2.h),
+
+                  // --- 3. Delivery Information ---
+                  _SectionHeader(
+                      title: "Delivery Details",
+                      icon: Icons.local_shipping_outlined),
+                  SizedBox(height: 1.h),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(4.w),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey.withOpacity(0.05),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4))
+                        ]),
+                    child: Column(
+                      children: [
+                        _InfoRow(
+                          label: "phone_number".tr(context),
+                          value: order.phone?.toString() ?? "--",
+                          icon: Icons.phone_android_rounded,
+                        ),
+                        Divider(height: 3.h, color: Colors.grey[100]),
+                        _InfoRow(
+                          label: "province".tr(context),
+                          value: order.province?.toString() ?? "--",
+                          icon: Icons.map_outlined,
+                        ),
+                        SizedBox(height: 1.5.h),
+                        _InfoRow(
+                          label: "region".tr(context),
+                          value: order.region?.toString() ?? "--",
+                          icon: Icons.location_on_outlined,
+                        ),
+                        Divider(height: 3.h, color: Colors.grey[100]),
+                        _InfoRow(
+                          label: "address".tr(context),
+                          value: order.address?.toString() ?? "--",
+                          icon: Icons.home_rounded,
+                          isMultiLine: true,
+                        ),
+                        if (order.notes != null && order.notes!.isNotEmpty) ...[
+                          Divider(height: 3.h, color: Colors.grey[100]),
+                          _InfoRow(
+                            label: "order_notes".tr(context),
+                            value: order.notes!,
+                            icon: Icons.note_alt_outlined,
+                            isMultiLine: true,
+                            valueColor: Colors.orange.shade700,
+                          ),
+                        ]
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 3.h),
+
+                  // --- 4. Ordered Items ---
+                  _SectionHeader(
+                      title:
+                          "${"ordered_items".tr(context)} (${order.details?.length ?? 0})",
+                      icon: Icons.shopping_bag_outlined),
+                  SizedBox(height: 1.h),
+
+                  ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: order.details?.length ?? 0,
+                    separatorBuilder: (context, index) =>
+                        SizedBox(height: 1.5.h),
+                    itemBuilder: (BuildContext context, int index) {
+                      final item = order.details![index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return DetailPage(
+                              product: item.product!,
+                            );
+                          }));
+                        },
+                        // We wrap the existing OrderTileWidget in a nice container
+                        // Or you can leave OrderTileWidget as is if it has its own style
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey.withOpacity(0.05),
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 4))
+                              ]),
+                          child: OrderTileWidget(
+                              size: item.size,
+                              product: item.product!,
+                              price: formatter
+                                  .format(double.parse(item.price!).toInt()),
+                              qty: item.quantity),
+                        ),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 4.h),
+                ],
+              ),
             ),
           ],
         ),
@@ -117,31 +224,90 @@ class OrderDetailsScreen extends StatelessWidget {
   }
 }
 
-class OrderInfoTextWidget extends StatelessWidget {
-  const OrderInfoTextWidget(
-      {super.key, required this.title, required this.body, required this.icon});
+// --- Helper Widgets ---
+
+class _SectionHeader extends StatelessWidget {
   final String title;
-  final String body;
   final IconData icon;
+
+  const _SectionHeader({required this.title, required this.icon});
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: AppColors.primaryColors,
-        child: Icon(
-          icon,
-          color: Colors.white,
+    return Row(
+      children: [
+        Icon(icon, size: 14.sp, color: Colors.grey[600]),
+        SizedBox(width: 2.w),
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 12.sp,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey[800],
+          ),
         ),
-      ),
-      title: Text(
-        "$title:",
-        style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
-      ),
-      subtitle: Text(
-        body,
-        style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500),
-      ),
+      ],
+    );
+  }
+}
+
+class _InfoRow extends StatelessWidget {
+  final String label;
+  final String value;
+  final IconData icon;
+  final bool isMultiLine;
+  final Color? valueColor;
+
+  const _InfoRow({
+    required this.label,
+    required this.value,
+    required this.icon,
+    this.isMultiLine = false,
+    this.valueColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment:
+          isMultiLine ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: AppColors.primaryColors.withOpacity(0.08),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(icon, color: AppColors.primaryColors, size: 12.sp),
+        ),
+        SizedBox(width: 3.w),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 9.sp,
+                  color: Colors.grey[500],
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                value,
+                maxLines: isMultiLine ? 3 : 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontSize: 11.sp,
+                    color: valueColor ?? Colors.black87,
+                    fontWeight: FontWeight.w600,
+                    height: 1.3),
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 }

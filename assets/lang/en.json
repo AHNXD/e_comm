@@ -157,5 +157,9 @@
     "agree_terms": "I agree to the Terms and Conditions.",
     "sizes": "Sizes",
     "size": "Size",
-    "order_product" : "requset product"
+    "order_product" : "requset product",
+    "SAVE": "SAVE",
+    "ordered_items": "Ordered Items",
+    "success":"Success",
+    "no_products_here_yet": "No products here yet."
 }

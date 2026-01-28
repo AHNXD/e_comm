@@ -1,13 +1,12 @@
-import 'package:zein_store/Future/Home/Cubits/cartCubit/cart.bloc.dart';
-
-import '../../../Utils/colors.dart';
-import '../Cubits/pages_cubit/pages_cubit.dart';
-import '../Widgets/home_screen/drawer_widget.dart';
-import '/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-import '../../../Utils/enums.dart';
+import 'package:zein_store/Future/Home/Cubits/cartCubit/cart.bloc.dart';
+import 'package:zein_store/Future/Home/Cubits/pages_cubit/pages_cubit.dart';
+import 'package:zein_store/Future/Home/Widgets/home_screen/drawer_widget.dart';
+import 'package:zein_store/Utils/colors.dart';
+import 'package:zein_store/Utils/enums.dart';
+import '/main.dart';
 
 class NavBarPage extends StatefulWidget {
   const NavBarPage({super.key});
@@ -22,265 +21,214 @@ class _NavBarPageState extends State<NavBarPage> {
     return Scaffold(
       key: scaffoldKey,
       drawer: const DrawerWidget(),
-
-      // backgroundColor: AppColors.buttonCategoryColor,
+      backgroundColor: const Color(0xFFF9F9F9), // Clean background
       resizeToAvoidBottomInset: false,
-      extendBody: true,
-      body: BlocBuilder<PagesScreenCubit, PageScreenState>(
-        builder: (contextt, state) {
-          return SafeArea(
-              bottom: false,
+      extendBody: true, // Important: Allows body to go behind the nav bar
+      body: SafeArea(
+        child: BlocBuilder<PagesScreenCubit, PageScreenState>(
+          builder: (context, state) {
+            return SizedBox(
+              height: 100.h,
+              width: 100.w,
               child: state is PagesScreenChange
-                  ? Center(child: state.page)
+                  ? state.page
                   : state is PageScreenInitialState
-                      ? Center(child: state.page)
-                      : const Text("data"));
-        },
+                      ? state.page
+                      : const SizedBox(),
+            );
+          },
+        ),
       ),
-      bottomNavigationBar: BlocBuilder<PagesScreenCubit, PageScreenState>(
-        builder: (context, state) {
-          return Container(
-            clipBehavior: Clip.hardEdge,
-            margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 1.5.h),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(9.w)),
-            child: NavigationBar(
-              indicatorColor: Colors.transparent,
-              labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-              backgroundColor: AppColors.buttonCategoryColor,
-              destinations: [
-                NavigationDestination(
-                  icon: Container(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 1.7.h, horizontal: 1.w),
-                    height: 6.h,
-                    width: 12.w,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      // gradient: LinearGradient(colors: grediant),
+      // Custom Floating Navigation Bar
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          height: 80,
+          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 10),
+          color: Colors.transparent,
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColors.buttonCategoryColor, // Primary Color
+              borderRadius: BorderRadius.circular(25),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.buttonCategoryColor.withOpacity(0.3),
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
+                )
+              ],
+            ),
+            child: BlocBuilder<PagesScreenCubit, PageScreenState>(
+              builder: (context, state) {
+                int currentIndex = state is PageScreenInitialState
+                    ? state.pageType.index
+                    : state is PagesScreenChange
+                        ? state.pageType.index
+                        : 0;
+
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    // 1. Home
+                    _NavBarItem(
+                      icon: Icons.home_outlined,
+                      selectedIcon: Icons.home_rounded,
+                      label: "Home",
+                      isSelected: currentIndex == 0,
+                      onTap: () => _onItemTapped(0),
                     ),
-                    child: const Center(
-                      child: Icon(
-                        Icons.home_outlined,
-                        color: Colors.white,
-                      ),
+
+                    // 2. Cart (With Badge)
+                    BlocBuilder<CartCubit, CartState>(
+                      builder: (context, cartState) {
+                        int cartCount = context.read<CartCubit>().pcw.length;
+                        return _NavBarItem(
+                          icon: Icons.shopping_bag_outlined,
+                          selectedIcon: Icons.shopping_bag_rounded,
+                          label: "Cart",
+                          isSelected: currentIndex == 1,
+                          badgeCount: cartCount,
+                          onTap: () => _onItemTapped(1),
+                        );
+                      },
                     ),
+
+                    // 3. History
+                    _NavBarItem(
+                      icon: Icons.history_rounded,
+                      selectedIcon:
+                          Icons.history_edu_rounded, // or similar filled
+                      label: "History",
+                      isSelected: currentIndex == 2,
+                      onTap: () => _onItemTapped(2),
+                    ),
+
+                    // 4. Favorites
+                    _NavBarItem(
+                      icon: Icons.favorite_border_rounded,
+                      selectedIcon: Icons.favorite_rounded,
+                      label: "Fav",
+                      isSelected: currentIndex == 3,
+                      onTap: () => _onItemTapped(3),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _onItemTapped(int index) {
+    context
+        .read<PagesScreenCubit>()
+        .changedScreen(AppScreen.values[index], context);
+  }
+}
+
+// --- Custom Nav Bar Item Widget ---
+class _NavBarItem extends StatelessWidget {
+  final IconData icon;
+  final IconData selectedIcon;
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+  final int badgeCount;
+
+  const _NavBarItem({
+    required this.icon,
+    required this.selectedIcon,
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+    this.badgeCount = 0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOutQuint,
+        padding: EdgeInsets.symmetric(
+            horizontal: isSelected ? 4.w : 3.w, vertical: 1.h),
+        decoration: BoxDecoration(
+          color:
+              isSelected ? Colors.white.withOpacity(0.2) : Colors.transparent,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Icon Transition
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder: (child, anim) =>
+                      ScaleTransition(scale: anim, child: child),
+                  child: Icon(
+                    isSelected ? selectedIcon : icon,
+                    key: ValueKey(isSelected),
+                    color: Colors.white,
+                    size: 20.sp,
                   ),
-                  label: "Home",
-                  selectedIcon: Container(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 1.7.h, horizontal: 1.w),
-                      height: 6.h,
-                      width: 12.w,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        // gradient: LinearGradient(colors: grediant),
-                      ),
-                      child: const Icon(Icons.home_filled,
-                          color: AppColors.buttonCategoryColor)),
                 ),
-                BlocBuilder<CartCubit, CartState>(
-                  builder: (context, state) {
-                    return NavigationDestination(
-                      icon: Center(
-                        child: Stack(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 1.7.h, horizontal: 1.w),
-                              height: 6.h,
-                              width: 12.w,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                // gradient: LinearGradient(colors: grediant),
-                              ),
-                              child: Center(
-                                child: const Icon(
-                                  Icons.shopping_bag_outlined,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            if (context.read<CartCubit>().pcw.length > 0)
-                              Positioned(
-                                right: 0,
-                                top: 0,
-                                child: Container(
-                                  padding: const EdgeInsets.all(2),
-                                  decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  constraints: const BoxConstraints(
-                                    minWidth: 16,
-                                    minHeight: 16,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      context
-                                          .read<CartCubit>()
-                                          .pcw
-                                          .length
-                                          .toString(),
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                      label: "Cart",
-                      selectedIcon: Center(
-                        child: Stack(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 1.7.h, horizontal: 1.w),
-                              height: 6.h,
-                              width: 12.w,
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
-                                // gradient: LinearGradient(colors: grediant),
-                              ),
-                              child: Center(
-                                child: const Icon(Icons.shopping_bag,
-                                    color: AppColors.buttonCategoryColor),
-                              ),
-                            ),
-                            if (context.read<CartCubit>().pcw.length > 0)
-                              Positioned(
-                                right: 0,
-                                top: 0,
-                                child: Container(
-                                  padding: const EdgeInsets.all(2),
-                                  decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  constraints: const BoxConstraints(
-                                    minWidth: 16,
-                                    minHeight: 16,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      context
-                                          .read<CartCubit>()
-                                          .pcw
-                                          .length
-                                          .toString(),
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                NavigationDestination(
-                  icon: Container(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 1.7.h, horizontal: 1.w),
-                    height: 6.h,
-                    width: 12.w,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      // gradient: LinearGradient(colors: grediant),
-                    ),
-                    child: Center(
-                      child: const Icon(
-                        Icons.history_outlined,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  label: "History",
-                  selectedIcon: Container(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 1.7.h, horizontal: 1.w),
-                    height: 6.h,
-                    width: 12.w,
+
+                // Optional: Label indicator dot
+                if (isSelected)
+                  Container(
+                    margin: const EdgeInsets.only(top: 4),
+                    width: 4,
+                    height: 4,
                     decoration: const BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
-                      // gradient: LinearGradient(colors: grediant),
                     ),
-                    child: const Icon(Icons.history,
-                        color: AppColors.buttonCategoryColor),
+                  )
+              ],
+            ),
+
+            // Badge Logic
+            if (badgeCount > 0)
+              Positioned(
+                top: -5,
+                right: -5,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: const BoxDecoration(
+                      color: Colors.redAccent,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 4,
+                            offset: Offset(0, 2))
+                      ]),
+                  constraints: const BoxConstraints(
+                    minWidth: 18,
+                    minHeight: 18,
+                  ),
+                  child: Center(
+                    child: Text(
+                      badgeCount > 9 ? "9+" : badgeCount.toString(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 8.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
-                NavigationDestination(
-                    icon: Container(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 1.7.h, horizontal: 1.w),
-                      height: 6.h,
-                      width: 12.w,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        // gradient: LinearGradient(colors: grediant),
-                      ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.favorite_outline,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    label: "Fav",
-                    selectedIcon: Container(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 1.7.h, horizontal: 1.w),
-                      height: 6.h,
-                      width: 12.w,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        // gradient: LinearGradient(colors: grediant),
-                      ),
-                      child: const Icon(
-                        Icons.favorite,
-                        color: AppColors.buttonCategoryColor,
-                      ),
-                    )),
-              ],
-              selectedIndex: state is PageScreenInitialState
-                  ? state.pageType.index
-                  : state is PagesScreenChange
-                      ? state.pageType.index
-                      : 2,
-              onDestinationSelected: (index) {
-                context
-                    .read<PagesScreenCubit>()
-                    .changedScreen(AppScreen.values[index], context);
-              },
-            ),
-          );
-        },
+              ),
+          ],
+        ),
       ),
     );
   }
 }
-
-List<Color> grediant = <Color>[
-  // const Color(0xff2553DE),
-  // const Color(0xff2755DE),
-  // const Color(0xff2F5BDE),
-  // const Color(0xff2F5BDE),
-  // Color(0xff2F5BDE),
-  const Color(0xff3D65DD),
-  const Color(0xff3D65DD),
-  const Color(0xff3D65DD),
-  const Color(0xff5073DC),
-  const Color(0xff6986DB),
-  const Color(0xff889DDA),
-];

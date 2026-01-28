@@ -161,5 +161,9 @@
     "agree_terms": "اوافق على السياسات والشروط.",
     "sizes": "المقاسات",
     "size": "المقاس",
-    "order_product" : "طلب منتج"
+    "order_product" : "طلب منتج",
+    "SAVE": "توفير",
+    "ordered_items": "المنتجات المطلوبة",
+    "success": "نجاح",
+    "no_products_here_yet": "لا توجد منتجات هنا حتى الآن."
 }

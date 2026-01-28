@@ -1,5 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:zein_store/Future/Auth/Widgets/my_button_widget.dart';
+import 'package:zein_store/Future/Auth/Widgets/my_button_widget.dart'; // Ensure this uses the updated widget
 import 'package:zein_store/Future/Home/Cubits/contactUsCubit/contact_us_cubit.dart';
 import 'package:zein_store/Future/Home/Cubits/get_user/get_user_cubit.dart';
 import 'package:zein_store/Future/Home/Widgets/Contact_Us_Screen/contact_us_from.dart';
@@ -14,9 +14,7 @@ import 'package:sizer/sizer.dart';
 import '../Widgets/custom_snak_bar.dart';
 
 class ContactUsScreen extends StatefulWidget {
-  const ContactUsScreen({
-    super.key,
-  });
+  const ContactUsScreen({super.key});
 
   @override
   State<ContactUsScreen> createState() => _ContactUsScreenState();
@@ -24,28 +22,39 @@ class ContactUsScreen extends StatefulWidget {
 
 class _ContactUsScreenState extends State<ContactUsScreen> {
   late final TextEditingController userNameController;
-
   late final TextEditingController emailOrPhoneController;
-
   late final TextEditingController messageController;
-
   final GlobalKey<FormState> key1 = GlobalKey<FormState>();
 
   @override
   void initState() {
-    userNameController = TextEditingController(
-        text:
-            "${context.read<GetUserCubit>().userProfile != null ? context.read<GetUserCubit>().userProfile!.firstName : ""} ${context.read<GetUserCubit>().userProfile != null ? context.read<GetUserCubit>().userProfile!.lastName : ""}");
-    emailOrPhoneController = TextEditingController(
-        text: context.read<GetUserCubit>().userProfile != null
-            ? context.read<GetUserCubit>().userProfile!.phone
-            : "");
-    messageController = TextEditingController();
     super.initState();
+    final userProfile = context.read<GetUserCubit>().userProfile;
+
+    userNameController = TextEditingController(
+        text: userProfile != null
+            ? "${userProfile.firstName} ${userProfile.lastName}"
+            : "");
+
+    emailOrPhoneController = TextEditingController(
+        text: userProfile != null ? userProfile.phone : "");
+
+    messageController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    userNameController.dispose();
+    emailOrPhoneController.dispose();
+    messageController.dispose();
+    super.dispose();
   }
 
   Future<void> submit() async {
     if (key1.currentState!.validate()) {
+      // Close keyboard
+      FocusScope.of(context).unfocus();
+
       showAwesomeDialogForConfirm(
           order: ContactusModel(
         username: userNameController.text,
@@ -57,32 +66,35 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     }
   }
 
-  void showAwesomeDialogForConfirm({
-    required ContactusModel order,
-  }) async {
+  void showAwesomeDialogForConfirm({required ContactusModel order}) async {
     await AwesomeDialog(
-            descTextStyle: TextStyle(fontSize: 15.sp),
-            btnOkText: "yes".tr(context),
-            btnCancelText: "no".tr(context),
-            context: context,
-            dialogType: DialogType.infoReverse,
-            animType: AnimType.scale,
-            title: "confirm_info".tr(context),
-            btnOkOnPress: () {
-              context.read<ContactUsCubit>().contactUsMessageSend(order);
-            },
-            btnCancelOnPress: () {})
-        .show();
+      descTextStyle: TextStyle(fontSize: 12.sp, color: Colors.grey[700]),
+      titleTextStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+      btnOkText: "yes".tr(context),
+      btnCancelText: "no".tr(context),
+      context: context,
+      dialogType: DialogType.question, // Changed to Question for better UX
+      animType: AnimType.bottomSlide,
+      title: "confirm_info".tr(context),
+
+      btnOkOnPress: () {
+        context.read<ContactUsCubit>().contactUsMessageSend(order);
+      },
+      btnCancelOnPress: () {},
+      btnOkColor: AppColors.primaryColors,
+      btnCancelColor: Colors.grey,
+    ).show();
   }
 
-  void showAwesomeDialog({required String message}) async {
+  void showSuccessDialog({required String message}) async {
     await AwesomeDialog(
-      descTextStyle: TextStyle(fontSize: 15.sp),
+      descTextStyle: TextStyle(fontSize: 12.sp),
       btnOkText: "ok".tr(context),
       context: context,
       dialogType: DialogType.success,
       animType: AnimType.scale,
-      title: message,
+      title: "Success",
+      desc: message,
       btnOkOnPress: () {
         Navigator.of(context).pop();
       },
@@ -90,33 +102,30 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   }
 
   @override
-  void dispose() {
-    userNameController.dispose();
-    emailOrPhoneController.dispose();
-    messageController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF9F9F9), // Light Grey Background
       appBar: AppBar(
-        foregroundColor: Colors.white,
+        foregroundColor: Colors.black87,
+        backgroundColor: Colors.white,
+        elevation: 0,
         centerTitle: true,
-        backgroundColor: AppColors.primaryColors,
         title: Text(
           "contact_us".tr(context),
           style: TextStyle(
-              fontSize: 15.sp,
-              fontWeight: FontWeight.bold,
-              color: Colors.white),
+            fontSize: 14.sp,
+            fontWeight: FontWeight.bold,
+            color: AppColors.textTitleAppBarColor,
+          ),
         ),
       ),
       body: BlocListener<ContactUsCubit, ContactUsState>(
         listener: (context, state) {
           if (state is ContactUsSuccessfulState) {
-            showAwesomeDialog(message: state.msg);
-            key1.currentState!.reset();
+            showSuccessDialog(message: state.msg);
+            userNameController.clear();
+            emailOrPhoneController.clear();
+            messageController.clear();
           } else if (state is ContactUsErrorState) {
             CustomSnackBar.showMessage(
               context,
@@ -125,32 +134,74 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
             );
           }
         },
-        child: ListView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: Image.asset(
-                AppImagesAssets.logoNoBg,
-                width: 140.sp,
-                height: 140.sp,
-                // fit: BoxFit.cover,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),
+          child: Column(
+            children: [
+              // --- 1. Header Section ---
+              Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
+                        )
+                      ],
+                    ),
+                    child: Image.asset(
+                      AppImagesAssets.logoNoBg,
+                      width: 80.sp, // Reduced size for cleaner look
+                      height: 80.sp,
+                    ),
+                  ),
+                ],
               ),
-            ),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+
+              SizedBox(height: 4.h),
+
+              // --- 2. Form Card ---
+              Container(
+                padding: EdgeInsets.all(5.w),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF909090).withOpacity(0.1),
+                      blurRadius: 15,
+                      offset: const Offset(0, 5),
+                    )
+                  ],
+                ),
                 child: ContactUsFrom(
-                    key1: key1,
-                    userNameController: userNameController,
-                    emailOrPhoneController: emailOrPhoneController,
-                    descriptionController: messageController)),
-            MyButtonWidget(
-              color: AppColors.buttonCategoryColor,
-              verticalHieght: 2.h,
-              text: "submit".tr(context),
-              onPressed: submit,
-              horizontalWidth: 8.w,
-            )
-          ],
+                  key1: key1,
+                  userNameController: userNameController,
+                  emailOrPhoneController: emailOrPhoneController,
+                  descriptionController: messageController,
+                ),
+              ),
+
+              SizedBox(height: 4.h),
+
+              // --- 3. Submit Button ---
+              // Assuming MyButtonWidget is the one refactored previously
+              MyButtonWidget(
+                text: "submit".tr(context),
+                color: AppColors.buttonCategoryColor,
+                icon: Icons.send_rounded,
+                onPressed: submit,
+              ),
+
+              SizedBox(height: 2.h),
+            ],
+          ),
         ),
       ),
     );

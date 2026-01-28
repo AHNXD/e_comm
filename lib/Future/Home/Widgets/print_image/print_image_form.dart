@@ -127,7 +127,7 @@ class CustomDropDownWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
         ),
       ),
-      value: printSizeIdController.text.isNotEmpty
+      initialValue: printSizeIdController.text.isNotEmpty
           ? printSizesMap[int.parse(printSizeIdController.text)]
           : null,
       items: printSizesMap.entries.map((entry) {
