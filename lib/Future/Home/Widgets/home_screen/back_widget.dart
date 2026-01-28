@@ -1,62 +1,64 @@
-// ignore_for_file: deprecated_member_use
-
-import 'package:zein_store/Future/Home/Pages/navbar_screen.dart';
-import 'package:zein_store/Utils/colors.dart';
-import 'package:zein_store/Utils/images.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
+import 'package:zein_store/Utils/colors.dart';
 
 class BackWidget extends StatelessWidget {
-  const BackWidget(
-      {super.key,
-      required this.text,
-      required this.iconColor,
-      required this.textColor,
-      required this.hasStyle,
-      required this.hasBackButton,
-      required this.canPop});
+  const BackWidget({
+    super.key,
+    required this.text,
+    required this.iconColor,
+    required this.textColor,
+    this.hasStyle = false,
+    this.hasBackButton = true,
+    this.canPop = true,
+  });
+
   final String text;
   final Color iconColor;
   final Color textColor;
   final bool hasStyle;
   final bool hasBackButton;
   final bool canPop;
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      excludeHeaderSemantics: true,
-      automaticallyImplyLeading: true,
-      forceMaterialTransparency: true,
-      leading: hasBackButton
-          ? IconButton(
-              style: hasStyle
-                  ? ButtonStyle(
-                      backgroundColor: MaterialStateColor.resolveWith(
-                          (states) => AppColors.buttonCategoryColor),
-                    )
-                  : null,
-              onPressed: () {
-                Navigator.pop(context, MaterialPageRoute(
-                  builder: (builder) {
-                    return const NavBarPage();
-                  },
-                ));
-              },
-              icon: SvgPicture.asset(
-                AppImagesAssets.back,
-                color: iconColor,
-                height: 4.h,
+      scrolledUnderElevation: 0,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      centerTitle: true,
+      leading: (hasBackButton && canPop)
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                style: IconButton.styleFrom(
+                  backgroundColor: hasStyle
+                      ? AppColors.buttonCategoryColor.withOpacity(0.1)
+                      : Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: EdgeInsets.zero, // Centers the icon better
+                ),
+                onPressed: () {
+                  Navigator.of(context).maybePop();
+                },
+                icon: Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: iconColor,
+                  size: 16.sp,
+                ),
               ),
-              color: iconColor,
-              iconSize: 25.sp,
             )
           : null,
-      centerTitle: true,
       title: Text(
         text,
         style: TextStyle(
-            color: textColor, fontSize: 15.sp, fontWeight: FontWeight.w500),
+          color: textColor,
+          fontSize: 14.sp,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 0.5,
+        ),
       ),
     );
   }

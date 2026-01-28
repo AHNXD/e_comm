@@ -148,6 +148,12 @@ class _HomeScreenState extends State<HomeScreen> {
           controller: _refreshController,
           onRefresh: _onRefresh,
           physics: const BouncingScrollPhysics(),
+          header: WaterDropHeader(
+            waterDropColor: AppColors.primaryColors,
+            complete:
+                const Icon(Icons.check_circle, color: Colors.green, size: 20),
+            idleIcon: const Icon(Icons.autorenew, color: Colors.white),
+          ),
           child: ListView(
             controller: _scrollController,
             physics: const BouncingScrollPhysics(),

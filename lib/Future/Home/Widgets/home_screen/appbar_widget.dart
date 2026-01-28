@@ -1,99 +1,96 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-
 import 'package:zein_store/Utils/app_localizations.dart';
+import 'package:zein_store/Utils/colors.dart';
 import 'package:zein_store/Utils/constants.dart';
 import 'package:zein_store/main.dart';
-
 import '../../Pages/search_product_screen.dart';
-import '/Utils/colors.dart';
 
 class AppBarWidget extends StatelessWidget {
   final bool isHome;
   final String title;
+
   const AppBarWidget({super.key, this.isHome = true, this.title = companyName});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8),
-      decoration: const BoxDecoration(
-          color: AppColors.primaryColors,
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(32),
-              bottomRight: Radius.circular(32))),
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            isHome
-                ? Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 3.w),
-                    child: IconButton(
-                        onPressed: () {
-                          scaffoldKey.currentState!.openDrawer();
-                        },
-                        icon: const Icon(
-                          Icons.menu,
-                          color: Colors.white,
-                        )),
+      // Add top margin to separate from status bar slightly if needed
+      margin: EdgeInsets.only(left: 4.w, right: 4.w, top: 1.h),
+      padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
+      decoration: BoxDecoration(
+        color: AppColors.primaryColors,
+        borderRadius: BorderRadius.circular(
+            20), // Fully rounded corners looks more modern
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primaryColors.withOpacity(0.3),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
+          )
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // --- Left Side (Menu or Spacer) ---
+          SizedBox(
+            width: 40,
+            child: isHome
+                ? IconButton(
+                    onPressed: () => scaffoldKey.currentState!.openDrawer(),
+                    icon: const Icon(Icons.menu_rounded, color: Colors.white),
+                    tooltip: 'Menu',
                   )
-                : const SizedBox(
-                    // height: 32,
+                : null, // Empty for symmetry if not home
+          ),
+
+          // --- Center (Title/Greeting) ---
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Hug content
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (isHome)
+                  Text(
+                    "hello_msg".tr(context),
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.8), // Softer white
+                      fontSize: 9.sp,
+                      fontWeight: FontWeight.w500,
                     ),
-            isHome
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "hello_msg".tr(context),
-                        style: TextStyle(color: Colors.black, fontSize: 9.sp),
-                      ),
-                      Text(
-                        companyName,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15.sp),
-                      )
-                    ],
-                  )
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(),
-                      Text(
-                        title,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.sp),
-                      ),
-                      const SizedBox()
-                    ],
                   ),
-            isHome
-                ? Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 3.w),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.search,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (builder) {
-                          return const SearchProductScreen();
-                        }));
-                      },
-                    ),
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.sp, // Slightly smaller for elegance
+                      letterSpacing: 0.5),
+                ),
+              ],
+            ),
+          ),
+
+          // --- Right Side (Search or Spacer) ---
+          SizedBox(
+            width: 40,
+            child: isHome
+                ? IconButton(
+                    icon: const Icon(Icons.search_rounded, color: Colors.white),
+                    tooltip: 'Search',
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                        return const SearchProductScreen();
+                      }));
+                    },
                   )
-                : const SizedBox(
-                    // height: 32,
-                    ),
-          ],
-        ),
+                : null,
+          ),
+        ],
       ),
     );
   }
