@@ -8,7 +8,6 @@ import 'package:zein_store/Utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
 import '../cached_network_image.dart';
 
 class OffersWidget extends StatefulWidget {
@@ -99,7 +98,7 @@ class _OffersWidgetState extends State<OffersWidget> {
             Column(
               children: [
                 Text(
-                  "${formatter.format(double.parse(widget.data.sellingPrice!).toInt())} ${"sp".tr(context)}",
+                  "${widget.data.unit == "USD" ? double.parse(widget.data.sellingPrice!) : formatter.format(double.parse(widget.data.sellingPrice!).toInt())} ${widget.data.unit!.tr(context)}",
                   style: TextStyle(
                       color: AppColors.textButtonColors,
                       fontSize: 10.sp,
@@ -110,7 +109,7 @@ class _OffersWidgetState extends State<OffersWidget> {
                   height: 4,
                 ),
                 Text(
-                  "${formatter.format(double.parse(widget.data.offers!.priceAfterOffer!).toInt())} ${"sp".tr(context)}",
+                  "${widget.data.unit == "USD" ? double.parse(widget.data.offers!.priceAfterOffer!) : formatter.format(double.parse(widget.data.offers!.priceAfterOffer!).toInt())} ${widget.data.unit!.tr(context)}",
                   style: TextStyle(
                     color: Colors.red,
                     fontSize: 14.sp,

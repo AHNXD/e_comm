@@ -7,8 +7,8 @@ import 'package:zein_store/Future/Home/Widgets/home_screen/appbar_widget.dart';
 import 'package:zein_store/Utils/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sizer/sizer.dart';
 
+import 'package:sizer/sizer.dart';
 import '../Widgets/custom_circular_progress_indicator.dart';
 
 class MyOrdersScreen extends StatefulWidget {

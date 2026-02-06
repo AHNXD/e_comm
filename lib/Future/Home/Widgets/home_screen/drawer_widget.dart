@@ -23,7 +23,6 @@ import 'package:zein_store/conditionsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../Blocs/get_categories/get_categories_bloc.dart';
 import '../../Cubits/cartCubit/cart.bloc.dart';
 import '../../Cubits/get_print_sizes_cubit/get_print_sizes_cubit.dart';

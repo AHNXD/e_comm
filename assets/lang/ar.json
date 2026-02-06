@@ -43,7 +43,8 @@
     "send_info": "ارسال المنتج",
     "products" : "منتجات",
     "add_to_cart": "اضافة الى السلة",
-    "sp" : "ل.س",
+    "SYP" : "ل.س",
+    "USD" : "دولار",
     "product_detail_screen_title" : "تفاصيل المنتج",
     "add_product_done" : "تم اضافة المنتج الى السلة",
     "product_in_cart" : "المنتح موجود في السلة",
@@ -165,5 +166,6 @@
     "SAVE": "توفير",
     "ordered_items": "المنتجات المطلوبة",
     "success": "نجاح",
-    "no_products_here_yet": "لا توجد منتجات هنا حتى الآن."
+    "no_products_here_yet": "لا توجد منتجات هنا حتى الآن.",
+    "delivery_details": "تفاصيل التوصيل"
 }

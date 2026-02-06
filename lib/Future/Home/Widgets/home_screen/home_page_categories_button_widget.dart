@@ -5,6 +5,7 @@ import 'package:zein_store/Future/Home/Blocs/search_filter_products/search_filte
 import 'package:zein_store/Future/Home/Cubits/get_min_max_cubit/get_min_max_cubit.dart';
 import 'package:zein_store/Future/Home/Cubits/mange_search_filter_products/mange_search_filter_products_cubit.dart';
 import 'package:zein_store/Future/Home/Pages/product_screen.dart';
+import 'package:zein_store/Future/Home/Widgets/cached_network_image.dart';
 import 'package:zein_store/Future/Home/Widgets/error_widget.dart';
 import 'package:zein_store/Utils/colors.dart';
 import 'package:zein_store/Utils/images.dart';
@@ -215,20 +216,29 @@ class _CategoriesButtonWidgetState
                                   color: Colors.white,
                                   shape: BoxShape.circle,
                                 ),
-                                child: CircleAvatar(
-                                  radius: 7.w,
-                                  backgroundColor: const Color(0xFFF5F5F7),
-                                  backgroundImage: (category.files != null &&
-                                          category.files!.isNotEmpty)
-                                      ? NetworkImage(
-                                          category.files![0].path != null
-                                              ? Urls.storageCategories +
-                                                  category.files![0].name!
-                                              : category.files![0].name!,
-                                        )
-                                      : const AssetImage(AppImagesAssets.plus)
-                                          as ImageProvider,
-                                ),
+                                // --- IMAGE FIX STARTS HERE ---
+                                child: (category.files != null &&
+                                        category.files!.isNotEmpty)
+                                    ? MyCachedNetworkImage(
+                                        imageUrl:
+                                            category.files![0].path != null
+                                                ? Urls.storageCategories +
+                                                    category.files![0].name!
+                                                : category.files![0].name!,
+                                        width: 14.w,
+                                        height: 14.w,
+                                        borderRadius:
+                                            BorderRadius.circular(100.w),
+                                        fit: BoxFit.fill,
+                                      )
+                                    : CircleAvatar(
+                                        radius: 7.w,
+                                        backgroundColor:
+                                            const Color(0xFFF5F5F7),
+                                        backgroundImage: const AssetImage(
+                                            AppImagesAssets.plus),
+                                      ),
+                                // --- IMAGE FIX ENDS HERE ---
                               ),
                             ),
                           ),

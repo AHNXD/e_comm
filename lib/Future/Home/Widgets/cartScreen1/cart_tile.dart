@@ -5,7 +5,6 @@ import 'package:zein_store/Utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../../Apis/Urls.dart';
 import '../../models/product_model.dart';
 import '../cached_network_image.dart';
@@ -159,9 +158,13 @@ class CartTile extends StatelessWidget {
                     children: [
                       if (isOffer) ...[
                         Text(
-                          formatter.format(
-                              double.tryParse(product.sellingPrice!)! *
-                                  product.userQuantity),
+                          product.unit == "USD"
+                              ? (double.tryParse(product.sellingPrice!)! *
+                                      product.userQuantity)
+                                  .toString()
+                              : formatter.format(
+                                  double.tryParse(product.sellingPrice!)! *
+                                      product.userQuantity),
                           style: TextStyle(
                             color: Colors.grey[400],
                             decoration: TextDecoration.lineThrough,
@@ -171,7 +174,7 @@ class CartTile extends StatelessWidget {
                         SizedBox(width: 2.w),
                       ],
                       Text(
-                        "${formatter.format(double.tryParse(isOffer ? product.offers!.priceAfterOffer! : product.sellingPrice!)! * product.userQuantity)} ${"sp".tr(context)}",
+                        "${product.unit == "USD" ? (double.tryParse(isOffer ? product.offers!.priceAfterOffer! : product.sellingPrice!)! * product.userQuantity).toString() : formatter.format(double.tryParse(isOffer ? product.offers!.priceAfterOffer! : product.sellingPrice!)! * product.userQuantity)} ${product.unit!.tr(context)}",
                         style: TextStyle(
                           color: isOffer
                               ? const Color(0xFFDD2476)

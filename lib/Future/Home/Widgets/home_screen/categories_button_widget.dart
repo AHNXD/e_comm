@@ -17,7 +17,7 @@ class CategoriesButtonWidget extends StatelessWidget {
   });
 
   final String firstText;
-  final int parentId; // Typed as int based on usage
+  final int parentId;
   final List<CatigoriesData> children;
 
   @override

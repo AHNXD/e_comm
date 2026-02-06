@@ -2,7 +2,6 @@ import 'package:zein_store/Utils/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../../Utils/enums.dart';
 import '../../../../Utils/validation.dart';
 import '../../../Auth/Widgets/phone_field_widget.dart';

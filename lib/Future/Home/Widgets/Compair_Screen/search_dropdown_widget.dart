@@ -17,18 +17,25 @@ class SearchDropDownWidget extends StatelessWidget {
         return Container(
           margin: EdgeInsets.only(left: 2.w, right: 2.w, top: 2.h),
           child: DropdownSearch<String>(
-            dropdownDecoratorProps: DropDownDecoratorProps(
-                dropdownSearchDecoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(3.w)))),
+            decoratorProps: DropDownDecoratorProps(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(3.w),
+                ),
+              ),
+            ),
             popupProps: const PopupProps.menu(
-                showSearchBox: true, showSelectedItems: true),
-            items: namesList,
-            // dropdownSearchDecoration: InputDecoration(labelText: "Name"),
+              showSearchBox: true,
+              showSelectedItems: true,
+            ),
+            items: (filter, loadProps) {
+              return namesList.where((item) {
+                return item.toLowerCase().contains(filter.toLowerCase());
+              }).toList();
+            },
             onChanged: (s) {
-              // context
-              //     .read<CompairProductsCubit>()
-              //     .changeProduct(getPruductByName(context, s!), numberProduct);
+              // الكود الخاص بك هنا
+              // context.read<CompairProductsCubit>()...
             },
             selectedItem:
                 numberProduct == 1 ? namesList.first : namesList.elementAt(1),

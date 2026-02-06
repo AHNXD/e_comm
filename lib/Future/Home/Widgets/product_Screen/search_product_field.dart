@@ -36,8 +36,10 @@ class ShearchProductField extends StatelessWidget {
           hintStyle: TextStyle(color: Colors.grey[500], fontSize: 11.sp),
           filled: true,
           fillColor: Colors.white,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-          prefixIcon: const Icon(Icons.search_rounded, color: AppColors.primaryColors),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          prefixIcon:
+              const Icon(Icons.search_rounded, color: AppColors.primaryColors),
           suffixIcon: IconButton(
             onPressed: () {
               if (controller.text.isNotEmpty) {
@@ -58,7 +60,9 @@ class ShearchProductField extends StatelessWidget {
 
   void startSearch(BuildContext context, String value) {
     context.read<SearchFilterPoductsBloc>().add(ResetSearchFilter());
-    context.read<SearchFilterPoductsBloc>().add(SearchProductsByCatId(widget.parentId, searchText: value));
+    context
+        .read<SearchFilterPoductsBloc>()
+        .add(SearchProductsByCatId(widget.parentId, searchText: value));
     context.read<MangeSearchFilterProductsCubit>().isSearchProducts = true;
     context.read<MangeSearchFilterProductsCubit>().searchText = value;
   }
@@ -66,7 +70,9 @@ class ShearchProductField extends StatelessWidget {
   void resetSearch(BuildContext context) {
     context.read<SearchFilterPoductsBloc>().add(ResetSearchFilterToInit());
     context.read<GetProductsByCatIdBloc>().add(ResetPagination());
-    context.read<GetProductsByCatIdBloc>().add(GetAllPoductsByCatIdEvent(categoryID: widget.parentId));
+    context
+        .read<GetProductsByCatIdBloc>()
+        .add(GetAllPoductsByCatIdEvent(categoryID: widget.parentId));
     context.read<MangeSearchFilterProductsCubit>().isSearchProducts = false;
   }
 }

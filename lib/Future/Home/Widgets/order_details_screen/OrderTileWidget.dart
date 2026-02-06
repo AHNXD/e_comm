@@ -3,7 +3,6 @@ import 'package:zein_store/Utils/app_localizations.dart';
 import 'package:zein_store/Utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../../Apis/Urls.dart';
 import '../cached_network_image.dart';
 
@@ -12,14 +11,15 @@ class OrderTileWidget extends StatelessWidget {
   final String? size;
   final String? price;
   final int? qty;
+  final String? unit;
 
-  const OrderTileWidget({
-    super.key,
-    required this.qty,
-    required this.product,
-    required this.size,
-    required this.price,
-  });
+  const OrderTileWidget(
+      {super.key,
+      required this.qty,
+      required this.product,
+      required this.size,
+      required this.price,
+      required this.unit});
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +98,7 @@ class OrderTileWidget extends StatelessWidget {
 
                 // Price
                 Text(
-                  "$price ${"sp".tr(context)}",
+                  "$price ${unit!.tr(context)}",
                   style: TextStyle(
                     fontSize: 11.sp,
                     fontWeight: FontWeight.w900,

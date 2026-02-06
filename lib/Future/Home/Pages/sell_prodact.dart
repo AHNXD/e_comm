@@ -10,7 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../Utils/colors.dart';
 import '../../../Utils/constants.dart';
 import '../../Auth/Widgets/my_button_widget.dart';

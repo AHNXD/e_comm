@@ -117,7 +117,9 @@ class CartListViewItem extends StatelessWidget {
       child: Column(
         children: [
           // Checkout Summary Box
-          CheckOutBox(items: context.read<CartCubit>().pcw),
+          CheckOutBox(
+              items: context.read<CartCubit>().pcw,
+              unit: context.read<CartCubit>().unit),
 
           SizedBox(height: 2.h),
 

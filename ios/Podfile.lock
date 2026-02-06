@@ -7,7 +7,7 @@ PODS:
     - FlutterMacOS
   - restart_app (0.0.1):
     - Flutter
-  - rive_common (0.0.1):
+  - rive_native (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
     - Flutter
@@ -23,7 +23,7 @@ DEPENDENCIES:
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - restart_app (from `.symlinks/plugins/restart_app/ios`)
-  - rive_common (from `.symlinks/plugins/rive_common/ios`)
+  - rive_native (from `.symlinks/plugins/rive_native/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
@@ -37,8 +37,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   restart_app:
     :path: ".symlinks/plugins/restart_app/ios"
-  rive_common:
-    :path: ".symlinks/plugins/rive_common/ios"
+  rive_native:
+    :path: ".symlinks/plugins/rive_native/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   sqflite_darwin:
@@ -48,13 +48,13 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  image_picker_ios: 7fe1ff8e34c1790d6fff70a32484959f563a928a
-  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
+  image_picker_ios: e0ece4aa2a75771a7de3fa735d26d90817041326
+  path_provider_foundation: bb55f6dbba17d0dccd6737fe6f7f34fbd0376880
   restart_app: 9cda5378aacc5000e3f66ee76a9201534e7d3ecf
-  rive_common: 007aa316d587becf7c23da8cce6ff3d4b0be8ac7
-  shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
-  sqflite_darwin: 44bb54cc302bff1fbe5752293aba1820b157cf1c
-  url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
+  rive_native: b422cf8b48d5dea1d536b88b354f11615a638188
+  shared_preferences_foundation: 7036424c3d8ec98dfe75ff1667cb0cd531ec82bb
+  sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
+  url_launcher_ios: 7a95fa5b60cc718a708b8f2966718e93db0cef1b
 
 PODFILE CHECKSUM: 4f1c12611da7338d21589c0b2ecd6bd20b109694
 

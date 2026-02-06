@@ -165,13 +165,12 @@ class _DetailPageState extends State<DetailPage> {
                       children: [
                         Text(
                           isOffer
-                              ? "${formatter.format(offerPrice.toInt())} ${"sp".tr(context)}"
-                              : "${formatter.format(price.toInt())} ${"sp".tr(context)}",
+                              ? "${widget.product.unit == "USD" ? offerPrice : formatter.format(offerPrice.toInt())} ${widget.product.unit!.tr(context)}"
+                              : "${widget.product.unit == "USD" ? price : formatter.format(price.toInt())} ${widget.product.unit!.tr(context)}",
                           style: TextStyle(
                             fontSize: 22.sp,
                             fontWeight: FontWeight.w900,
-                            color: AppColors
-                                .buttonCategoryColor, // Or primary color
+                            color: AppColors.buttonCategoryColor,
                           ),
                         ),
                         if (isOffer) ...[
@@ -179,7 +178,7 @@ class _DetailPageState extends State<DetailPage> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 6),
                             child: Text(
-                              "${formatter.format(price.toInt())} ${"sp".tr(context)}",
+                              "${widget.product.unit == "USD" ? price : formatter.format(price.toInt())} ${widget.product.unit!.tr(context)}",
                               style: TextStyle(
                                   fontSize: 12.sp,
                                   decoration: TextDecoration.lineThrough,
@@ -369,7 +368,6 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   // --- Helper Widgets ---
-
   Widget _buildImageCarousel() {
     // Check if files exist
     bool hasImages =
@@ -379,7 +377,7 @@ class _DetailPageState extends State<DetailPage> {
       children: [
         // The Carousel
         Container(
-          color: const Color(0xFFF5F5F7), // Background for transparent images
+          color: const Color(0xFFF5F5F7),
           child: CarouselSlider(
             items: hasImages
                 ? widget.product.files!.map((file) {
@@ -393,16 +391,21 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                         );
                       },
-                      child: Center(
+                      child: Container(
+                        // FIX: Add padding to the bottom equal to the overlap amount
+                        // Total Height (50.h) - Sheet Start (42.h) = 8.h overlap
+                        // We add 9.h or 10.h to be safe and give it some breathing room.
+                        padding: EdgeInsets.only(bottom: 10.h),
+                        width: double.infinity,
+                        alignment: Alignment.center,
                         child: Hero(
-                          tag: widget.product.id
-                              .toString(), // Add Hero transition if Home has same tag
+                          tag: widget.product.id.toString(),
                           child: Image.network(
                             file.path != null
                                 ? Urls.storageProducts + file.name!
                                 : file.name!,
                             fit: BoxFit
-                                .contain, // Contain ensures the whole product is seen
+                                .contain, // Keeps the whole product visible
                             width: 100.w,
                           ),
                         ),
@@ -411,7 +414,11 @@ class _DetailPageState extends State<DetailPage> {
                   }).toList()
                 : [
                     Center(
-                      child: Image.asset(AppImagesAssets.logo, width: 50.w),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            bottom: 10.h), // Fix for placeholder too
+                        child: Image.asset(AppImagesAssets.logo, width: 50.w),
+                      ),
                     )
                   ],
             options: CarouselOptions(
@@ -428,16 +435,17 @@ class _DetailPageState extends State<DetailPage> {
           ),
         ),
 
-        // Dots Indicator (Floating at bottom of image area)
+        // Dots Indicator
         if (hasImages && widget.product.files!.length > 1)
           Positioned(
-            bottom: 10.h, // Position above the white sheet overlap
+            bottom: 10.h,
             left: 0,
             right: 0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: widget.product.files!.asMap().entries.map((entry) {
-                return Container(
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
                   width: _currentImageIndex == entry.key ? 20.0 : 8.0,
                   height: 8.0,
                   margin: const EdgeInsets.symmetric(horizontal: 4.0),

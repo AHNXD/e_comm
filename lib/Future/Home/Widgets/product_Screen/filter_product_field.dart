@@ -28,7 +28,7 @@ class FilterProductField extends StatelessWidget {
       builder: (context, state) {
         String minP = context.read<GetMinMaxCubit>().minPrice ?? "";
         String maxP = context.read<GetMinMaxCubit>().maxPrice ?? "";
-        
+
         // Only set text if empty to avoid overwriting user input
         if (minPriceController.text.isEmpty) minPriceController.text = minP;
         if (maxPriceController.text.isEmpty) maxPriceController.text = maxP;
@@ -45,15 +45,18 @@ class FilterProductField extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 3,
-                  child: _buildPriceInput(context, 'min_price'.tr(context), minPriceController),
+                  child: _buildPriceInput(
+                      context, 'min_price'.tr(context), minPriceController),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text("-", style: TextStyle(color: Colors.grey, fontSize: 14.sp)),
+                  child: Text("-",
+                      style: TextStyle(color: Colors.grey, fontSize: 14.sp)),
                 ),
                 Expanded(
                   flex: 3,
-                  child: _buildPriceInput(context, 'max_price'.tr(context), maxPriceController),
+                  child: _buildPriceInput(
+                      context, 'max_price'.tr(context), maxPriceController),
                 ),
                 SizedBox(width: 2.w),
                 BlocBuilder<CancelFilterButtonCubit, CancelFilterButtonState>(
@@ -62,15 +65,21 @@ class FilterProductField extends StatelessWidget {
                     return ElevatedButton(
                       onPressed: () => filterOnPressed(context, maxP, minP),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.buttonCategoryColor, // Or secondary color
+                        backgroundColor:
+                            AppColors.buttonCategoryColor, // Or secondary color
                         foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
                         elevation: 0,
                       ),
                       child: Text(
-                        isFiltering ? "cancel".tr(context) : "apply".tr(context),
-                        style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
+                        isFiltering
+                            ? "cancel".tr(context)
+                            : "apply".tr(context),
+                        style: TextStyle(
+                            fontSize: 10.sp, fontWeight: FontWeight.bold),
                       ),
                     );
                   },
@@ -83,7 +92,8 @@ class FilterProductField extends StatelessWidget {
     );
   }
 
-  Widget _buildPriceInput(BuildContext context, String hint, TextEditingController controller) {
+  Widget _buildPriceInput(
+      BuildContext context, String hint, TextEditingController controller) {
     return TextField(
       controller: controller,
       keyboardType: TextInputType.number,
@@ -101,7 +111,8 @@ class FilterProductField extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: Colors.grey[200]!),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         isDense: true,
       ),
     );
@@ -112,7 +123,7 @@ class FilterProductField extends StatelessWidget {
     if (context.read<CancelFilterButtonCubit>().isFilter) {
       double? minPrice = double.tryParse(minPriceController.text);
       double? maxPrice = double.tryParse(maxPriceController.text);
-      
+
       // Default to API min/max if null
       double finalMin = minPrice ?? double.tryParse(minP) ?? 0;
       double finalMax = maxPrice ?? double.tryParse(maxP) ?? 999999;
@@ -121,7 +132,8 @@ class FilterProductField extends StatelessWidget {
         startFilter(context, finalMin, finalMax);
         context.read<CancelFilterButtonCubit>().setCancelFilter();
       } else {
-        CustomSnackBar.showMessage(context, "invalid_price_range".tr(context), Colors.red);
+        CustomSnackBar.showMessage(
+            context, "invalid_price_range".tr(context), Colors.red);
       }
     } else {
       cancelFilter(context);
@@ -132,7 +144,9 @@ class FilterProductField extends StatelessWidget {
 
   void startFilter(BuildContext context, double minPrice, double maxPrice) {
     context.read<SearchFilterPoductsBloc>().add(ResetSearchFilter());
-    context.read<SearchFilterPoductsBloc>().add(FilterProductsByCatId(categoryId, min: minPrice, max: maxPrice));
+    context
+        .read<SearchFilterPoductsBloc>()
+        .add(FilterProductsByCatId(categoryId, min: minPrice, max: maxPrice));
     context.read<MangeSearchFilterProductsCubit>().isFilterProducts = true;
     context.read<MangeSearchFilterProductsCubit>().min = minPrice;
     context.read<MangeSearchFilterProductsCubit>().max = maxPrice;
@@ -141,7 +155,9 @@ class FilterProductField extends StatelessWidget {
   void cancelFilter(BuildContext context) {
     context.read<SearchFilterPoductsBloc>().add(ResetSearchFilterToInit());
     context.read<GetProductsByCatIdBloc>().add(ResetPagination());
-    context.read<GetProductsByCatIdBloc>().add(GetAllPoductsByCatIdEvent(categoryID: categoryId));
+    context
+        .read<GetProductsByCatIdBloc>()
+        .add(GetAllPoductsByCatIdEvent(categoryID: categoryId));
     context.read<MangeSearchFilterProductsCubit>().isSearchProducts = false;
     context.read<MangeSearchFilterProductsCubit>().isFilterProducts = false;
     context.read<CancelFilterButtonCubit>().setIsFilter();

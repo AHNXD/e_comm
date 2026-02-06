@@ -7,7 +7,7 @@
 // import '/Utils/colors.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:sizer/sizer.dart';
+//
 // import '../cached_network_image.dart';
 
 // class FavCardProduct extends StatefulWidget {
@@ -79,7 +79,7 @@
 //               height: 1.h,
 //             ),
 //             Text(
-//               "${widget.product.sellingPrice} ${"sp".tr(context)}",
+//               "${widget.product.sellingPrice} ${widget.product.unit!.tr(context)}",
 //               style: TextStyle(
 //                   color: AppColors.textButtonColors,
 //                   fontSize: 10.sp,

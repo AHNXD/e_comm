@@ -9,9 +9,11 @@ import 'package:sizer/sizer.dart';
 
 class CheckOutBox extends StatelessWidget {
   final List<MainProduct> items;
+  final String unit;
   const CheckOutBox({
     super.key,
     required this.items,
+    required this.unit,
   });
 
   @override
@@ -51,7 +53,7 @@ class CheckOutBox extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    'sp'.tr(context),
+                    unit.tr(context),
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

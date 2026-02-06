@@ -5,6 +5,7 @@ import 'package:zein_store/Utils/app_localizations.dart';
 import 'package:zein_store/Utils/colors.dart';
 import 'package:zein_store/Utils/functions.dart';
 import 'package:flutter/material.dart';
+
 import 'package:sizer/sizer.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
@@ -90,13 +91,13 @@ class OrderDetailsScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Total Amount", // You can translate this
+                          "total_price".tr(context), // You can translate this
                           style: TextStyle(
                               color: Colors.white.withOpacity(0.9),
                               fontSize: 11.sp),
                         ),
                         Text(
-                          "${formatter.format(double.parse(order.total!).toInt())} ${"sp".tr(context)}",
+                          "${formatter.format(double.parse(order.total!).toInt())} ${order.unit!.tr(context)}",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 16.sp,
@@ -110,7 +111,7 @@ class OrderDetailsScreen extends StatelessWidget {
 
                   // --- 3. Delivery Information ---
                   _SectionHeader(
-                      title: "Delivery Details",
+                      title: "delivery_details".tr(context),
                       icon: Icons.local_shipping_outlined),
                   SizedBox(height: 1.h),
                   Container(
@@ -204,11 +205,13 @@ class OrderDetailsScreen extends StatelessWidget {
                                     offset: const Offset(0, 4))
                               ]),
                           child: OrderTileWidget(
-                              size: item.size,
-                              product: item.product!,
-                              price: formatter
-                                  .format(double.parse(item.price!).toInt()),
-                              qty: item.quantity),
+                            size: item.size,
+                            product: item.product!,
+                            price: formatter
+                                .format(double.parse(item.price!).toInt()),
+                            qty: item.quantity,
+                            unit: item.product!.unit,
+                          ),
                         ),
                       );
                     },

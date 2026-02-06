@@ -65,7 +65,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
               color: const Color(0xFFE0E0E0).withOpacity(0.5),
               blurRadius: 5,
               spreadRadius: 0,
-              offset: const Offset(0, 4), // Soft drop shadow
+              offset: const Offset(0, 4),
             )
           ],
         ),
@@ -75,32 +75,33 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
             Stack(
               children: [
                 // 1. Background placeholder for image
+                // 1. Background placeholder for image
                 Container(
                   height: 18.h, // Fixed height for image area
                   width: double.infinity,
+                  // Add this to ensure the image respects the rounded corners
+                  clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF5F5F7), // Apple-style light grey bg
+                    color: const Color(0xFFF5F5F7),
                     borderRadius:
                         const BorderRadius.vertical(top: Radius.circular(20)),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: (widget.product.files != null &&
-                            widget.product.files!.isNotEmpty)
-                        ? Hero(
-                            tag: widget.product.id.toString(),
-                            child: MyCachedNetworkImage(
-                              imageUrl: widget.product.files![0].path != null
-                                  ? Urls.storageProducts +
-                                      widget.product.files![0].name!
-                                  : widget.product.files![0].name!,
-                              height: 1.h,
-                              width: 1.w,
-                            ),
-                          )
-                        : Icon(Icons.image_not_supported,
-                            color: Colors.grey[300], size: 40),
-                  ),
+                  child: (widget.product.files != null &&
+                          widget.product.files!.isNotEmpty)
+                      ? Hero(
+                          tag: widget.product.id.toString(),
+                          child: MyCachedNetworkImage(
+                            imageUrl: widget.product.files![0].path != null
+                                ? Urls.storageProducts +
+                                    widget.product.files![0].name!
+                                : widget.product.files![0].name!,
+                            height: double.infinity,
+                            width: double.infinity,
+                            fit: BoxFit.fill,
+                          ),
+                        )
+                      : Icon(Icons.image_not_supported,
+                          color: Colors.grey[300], size: 40),
                 ),
 
                 // 2. Discount Badge (Top Left)
@@ -251,7 +252,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "${formatter.format(double.parse(widget.product.sellingPrice!).toInt())} ${"sp".tr(context)}",
+            "${widget.product.unit == "USD" ? widget.product.sellingPrice! : formatter.format(double.parse(widget.product.sellingPrice!).toInt())} ${widget.product.unit!.tr(context)}",
             style: TextStyle(
               color: Colors.grey[400],
               fontSize: 8.sp,
@@ -260,7 +261,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
             ),
           ),
           Text(
-            "${formatter.format(double.parse(widget.product.offers!.priceAfterOffer!).toInt())} ${"sp".tr(context)}",
+            "${widget.product.unit == "USD" ? widget.product.offers!.priceAfterOffer! : formatter.format(double.parse(widget.product.offers!.priceAfterOffer!).toInt())} ${widget.product.unit!.tr(context)}",
             style: TextStyle(
               color: const Color(0xFFDD2476),
               fontSize: 12.sp,
@@ -271,7 +272,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
       );
     } else {
       return Text(
-        "${formatter.format(double.parse(widget.product.sellingPrice!).toInt())} ${"sp".tr(context)}",
+        "${widget.product.unit == "USD" ? widget.product.sellingPrice! : formatter.format(double.parse(widget.product.sellingPrice!).toInt())} ${widget.product.unit!.tr(context)}",
         style: TextStyle(
           color: const Color(0xFF2D2D2D), // Dark Grey
           fontSize: 12.sp,

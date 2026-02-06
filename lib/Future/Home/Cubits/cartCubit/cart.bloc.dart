@@ -14,6 +14,7 @@ part 'cart.state.dart';
 class CartCubit extends Cubit<CartState> {
   CartCubit() : super(EmptyCartState());
   List<MainProduct> pcw = <MainProduct>[];
+  String unit = "USD";
 
   void addToCart({
     required MainProduct p,
@@ -103,6 +104,7 @@ class CartCubit extends Cubit<CartState> {
               p.selectedSize = data["size"];
               pcw.add(p);
             }
+            unit = value.data["unit"];
             emit(GetCartSuccessfulState());
           } else {
             emit(CartErrorState(errorMessage: value.data["msg"]));

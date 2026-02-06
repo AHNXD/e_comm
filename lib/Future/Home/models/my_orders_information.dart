@@ -47,6 +47,7 @@ class OrderInformationData {
   String? totalAfterDiscount;
   int? userId;
   int? couponId;
+  String? unit;
   String? couponValue;
   String? orderDate;
   String? createdAt;
@@ -71,6 +72,7 @@ class OrderInformationData {
     orderDate = json['order_date'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    unit = json['unit'];
     if (json['details'] != null) {
       details = <Details>[];
       json['details'].forEach((v) {
@@ -94,6 +96,7 @@ class OrderInformationData {
     data['total_after_discount'] = totalAfterDiscount;
     data['user_id'] = userId;
     data['coupon_id'] = couponId;
+    data['unit'] = unit;
     data['coupon_value'] = couponValue;
     data['order_date'] = orderDate;
     data['created_at'] = createdAt;

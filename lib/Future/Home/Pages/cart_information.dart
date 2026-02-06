@@ -238,7 +238,6 @@ class _CartInformationState extends State<CartInformation> {
                                         codeController: codeController);
                                   }
                                 },
-                           
                                 color: AppColors.buttonCategoryColor)
                           ],
                         ),

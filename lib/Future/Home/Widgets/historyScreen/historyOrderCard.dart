@@ -148,6 +148,7 @@ class HistoryCardItem extends StatelessWidget {
                         value:
                             "${formatter.format(double.parse(order.total!).toInt())}",
                         isPrice: true,
+                        unit: order.unit ?? "USD",
                         context: context,
                       ),
 
@@ -155,6 +156,7 @@ class HistoryCardItem extends StatelessWidget {
                       _InfoColumn(
                         label: "products_num".tr(context),
                         value: "${order.details!.length}",
+                        unit: order.unit ?? "USD",
                         context: context,
                       ),
 
@@ -188,6 +190,7 @@ class _InfoColumn extends StatelessWidget {
   final String label;
   final String value;
   final bool isPrice;
+  final String unit;
   final BuildContext context;
 
   const _InfoColumn({
@@ -195,6 +198,7 @@ class _InfoColumn extends StatelessWidget {
     required this.value,
     this.isPrice = false,
     required this.context,
+    required this.unit,
   });
 
   @override
@@ -227,7 +231,7 @@ class _InfoColumn extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 2),
                 child: Text(
-                  "sp".tr(context),
+                  unit.tr(context),
                   style: TextStyle(
                     fontSize: 8.sp,
                     fontWeight: FontWeight.bold,

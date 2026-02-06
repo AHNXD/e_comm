@@ -42,39 +42,42 @@ class _PhoneFieldWidgetState extends State<PhoneFieldWidget> {
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 1.h),
         child: PhoneFormField(
-            textInputAction: TextInputAction.next,
-            controller: widget.controller,
-            focusNode: fNode,
-            decoration: InputDecoration(
-              hintText: widget.hintText,
-              focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Color(0xffB2B9C6)),
-                borderRadius: BorderRadius.circular(3.w),
-              ),
-              filled: true,
-              fillColor: fillColor,
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 1.2.h, horizontal: 2.5.w),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(2.w),
-                  borderSide: BorderSide.none),
+          textInputAction: TextInputAction.next,
+          controller: widget.controller,
+          focusNode: fNode,
+          decoration: InputDecoration(
+            hintText: widget.hintText,
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Color(0xffB2B9C6)),
+              borderRadius: BorderRadius.circular(3.w),
             ),
-            // or use the controller
-            validator: PhoneValidator.compose([
-              PhoneValidator.required(context,
-                  errorText: "req_number".tr(context)),
-              PhoneValidator.validMobile(context,
-                  errorText: "invaled_number".tr(context)),
-            ]),
-            // countrySelectorNavigator: const CountrySelectorNavigator.page(),
-            onChanged: (phoneNumber) => print(
-                "+${widget.controller.value.countryCode}${widget.controller.value.nsn}"),
-            enabled: true,
-            isCountrySelectionEnabled: true,
+            filled: true,
+            fillColor: fillColor,
+            contentPadding:
+                EdgeInsets.symmetric(vertical: 1.2.h, horizontal: 2.5.w),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(2.w),
+                borderSide: BorderSide.none),
+          ),
+          // or use the controller
+          validator: PhoneValidator.compose([
+            PhoneValidator.required(context,
+                errorText: "req_number".tr(context)),
+            PhoneValidator.validMobile(context,
+                errorText: "invaled_number".tr(context)),
+          ]),
+          // countrySelectorNavigator: const CountrySelectorNavigator.page(),
+          onChanged: (phoneNumber) => print(
+              "+${widget.controller.value.countryCode}${widget.controller.value.nsn}"),
+          enabled: true,
+          isCountrySelectionEnabled: true,
+          countryButtonStyle: const CountryButtonStyle(
             showDialCode: true,
-            showIsoCodeInInput: true,
-            showFlagInInput: true,
-            flagSize: 16),
+            showIsoCode: true,
+            showFlag: true,
+            flagSize: 16,
+          ),
+        ),
       ),
     );
   }

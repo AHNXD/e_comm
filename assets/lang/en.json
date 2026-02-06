@@ -43,7 +43,8 @@
     "send_info": "Send the Product",
     "products" : "Products",
     "add_to_cart": "Add to cart",
-    "sp" : "SP",
+    "SYP" : "SYP",
+    "USD" : "USD",
     "product_detail_screen_title" : "Product Details",
     "add_product_done" : "Product Added Successfully",
     "product_in_cart" : "Product already in cart",
@@ -161,5 +162,6 @@
     "SAVE": "SAVE",
     "ordered_items": "Ordered Items",
     "success":"Success",
-    "no_products_here_yet": "No products here yet."
+    "no_products_here_yet": "No products here yet.",
+    "delivery_details": "Delivery Details"
 }

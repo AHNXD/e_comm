@@ -59,7 +59,8 @@ class _TopOvalWidgetState extends State<TopOvalWidget> {
     return Container(
       padding: EdgeInsets.only(bottom: 2.h),
       decoration: BoxDecoration(
-        color: AppColors.primaryColors, // Using primary color for header background
+        color: AppColors
+            .primaryColors, // Using primary color for header background
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(30),
           bottomRight: Radius.circular(30),
@@ -85,7 +86,7 @@ class _TopOvalWidgetState extends State<TopOvalWidget> {
               textColor: Colors.white,
               text: "products".tr(context),
             ),
-            
+
             SizedBox(height: 1.h),
 
             // Toggle Buttons (Search / Filter)
@@ -110,7 +111,8 @@ class _TopOvalWidgetState extends State<TopOvalWidget> {
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               child: currentStep == 0
-                  ? ShearchProductField(controller: searchController, widget: widget)
+                  ? ShearchProductField(
+                      controller: searchController, widget: widget)
                   : FilterProductField(
                       minPriceController: minPriceController,
                       maxPriceController: maxPriceController,
@@ -143,13 +145,17 @@ class _TopOvalWidgetState extends State<TopOvalWidget> {
           setState(() => currentStep = index);
           if (index == 0) {
             // Switched to Search
-            if (context.read<MangeSearchFilterProductsCubit>().isFilterProducts) {
+            if (context
+                .read<MangeSearchFilterProductsCubit>()
+                .isFilterProducts) {
               searchController.clear();
               resetSearch(context);
             }
           } else {
             // Switched to Filter
-            if (context.read<MangeSearchFilterProductsCubit>().isSearchProducts) {
+            if (context
+                .read<MangeSearchFilterProductsCubit>()
+                .isSearchProducts) {
               resetFilter(context);
             }
             context.read<CancelFilterButtonCubit>().setIsFilter();
@@ -160,7 +166,9 @@ class _TopOvalWidgetState extends State<TopOvalWidget> {
           decoration: BoxDecoration(
             color: isSelected ? Colors.white : Colors.transparent,
             borderRadius: BorderRadius.circular(25),
-            boxShadow: isSelected ? [BoxShadow(color: Colors.black12, blurRadius: 4)] : [],
+            boxShadow: isSelected
+                ? [BoxShadow(color: Colors.black12, blurRadius: 4)]
+                : [],
           ),
           alignment: Alignment.center,
           child: Text(
@@ -179,14 +187,18 @@ class _TopOvalWidgetState extends State<TopOvalWidget> {
   void resetFilter(BuildContext context) {
     context.read<SearchFilterPoductsBloc>().add(ResetSearchFilterToInit());
     context.read<GetProductsByCatIdBloc>().add(ResetPagination());
-    context.read<GetProductsByCatIdBloc>().add(GetAllPoductsByCatIdEvent(categoryID: widget.parentId));
+    context
+        .read<GetProductsByCatIdBloc>()
+        .add(GetAllPoductsByCatIdEvent(categoryID: widget.parentId));
     context.read<MangeSearchFilterProductsCubit>().isSearchProducts = false;
   }
 
   void resetSearch(BuildContext context) {
     context.read<SearchFilterPoductsBloc>().add(ResetSearchFilterToInit());
     context.read<GetProductsByCatIdBloc>().add(ResetPagination());
-    context.read<GetProductsByCatIdBloc>().add(GetAllPoductsByCatIdEvent(categoryID: widget.parentId));
+    context
+        .read<GetProductsByCatIdBloc>()
+        .add(GetAllPoductsByCatIdEvent(categoryID: widget.parentId));
     context.read<MangeSearchFilterProductsCubit>().isFilterProducts = false;
   }
 }

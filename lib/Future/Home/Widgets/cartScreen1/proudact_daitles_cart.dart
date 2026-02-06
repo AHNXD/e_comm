@@ -1,7 +1,6 @@
 import 'package:zein_store/Utils/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../models/product_model.dart';
 
 class PrudoctDaitlesCart extends StatelessWidget {

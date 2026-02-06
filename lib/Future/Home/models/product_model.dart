@@ -48,6 +48,7 @@ class MainProduct {
   Offers? offers;
   bool? inCart;
   bool? isFav;
+  String? unit;
 
   MainProduct(
       {this.id,
@@ -62,7 +63,8 @@ class MainProduct {
       this.isOffer,
       this.offers,
       this.inCart,
-      this.isFav});
+      this.isFav,
+      this.unit});
 
   MainProduct.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -86,6 +88,7 @@ class MainProduct {
     }
     offers = json['offers'] != null ? Offers.fromJson(json['offers']) : null;
     sizes = json['sizes'] != null ? List<String>.from(json['sizes']) : null;
+    unit = json['unit'];
   }
 
   Map<String, dynamic> toJson() {
@@ -94,6 +97,7 @@ class MainProduct {
     data['name'] = name;
     data['category_id'] = categoryId;
     data['new_selling_price'] = sellingPrice;
+    data['unit'] = unit;
     data['descrption'] = descrption;
     data['IsOffer'] = isOffer;
     data['IsFav'] = isFav;

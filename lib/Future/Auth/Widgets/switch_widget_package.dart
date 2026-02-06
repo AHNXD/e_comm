@@ -1,6 +1,6 @@
 // import 'package:zein_store/Utils/colors.dart';
 // import 'package:flutter/material.dart';
-// import 'package:sizer/sizer.dart';
+//
 
 // /// This enum is for switch states.
 // /// We find next state with [nextState] function

@@ -1,5 +1,5 @@
 // import 'package:flutter/material.dart';
-// import 'package:sizer/sizer.dart';
+//
 
 // import '../../models/product_model.dart';
 // import '../home_screen/product_card_widget.dart';

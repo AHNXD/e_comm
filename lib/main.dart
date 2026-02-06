@@ -3,7 +3,7 @@ import 'package:zein_store/Future/Home/Blocs/get_favorite/get_favorite_bloc.dart
 import 'package:zein_store/Future/Home/Blocs/get_latest_products/get_latest_products_bloc.dart';
 import 'package:zein_store/Future/Home/Blocs/get_my_orders/get_my_orders_bloc.dart';
 import 'package:zein_store/Future/Home/Blocs/get_offers/get_offers_bloc.dart';
-
+import 'package:sizer/sizer.dart';
 import 'package:zein_store/Future/Home/Blocs/get_products_by_cat_id/get_products_by_cat_id_bloc.dart';
 import 'package:zein_store/Future/Home/Cubits/cancel_filter/cancel_filter_button_cubit.dart';
 import 'package:zein_store/Future/Home/Cubits/delete_profile/delete_profile_cubit.dart';
@@ -15,11 +15,9 @@ import 'package:zein_store/splashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:sizer/sizer.dart';
 
 import 'package:zein_store/Future/Home/Cubits/Maintenance/maintenance_cubit.dart';
 import 'package:zein_store/Future/Home/Cubits/aboutUs/about_us_cubit.dart';
-import 'package:zein_store/Future/Home/Cubits/all_proudcts_by_all_cat/all_products_by_all_category_cubit.dart';
 import 'package:zein_store/Future/Home/Cubits/contactUsCubit/contact_us_cubit.dart';
 import 'package:zein_store/Future/Home/Cubits/favoriteCubit/favorite_cubit.dart';
 import 'package:zein_store/Future/Home/Cubits/getProducts/get_products_cubit.dart';
@@ -81,90 +79,93 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Sizer(
-      builder: (context, orientation, deviceType) => MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => LocaleCubit()..getSaveLanguage()),
-          BlocProvider(create: (_) => AuthCubit()..checkFirstUse()),
-          BlocProvider(create: (_) => GetUserCubit()..getUserProfile()),
-          BlocProvider(
-              create: (_) => GetMyOrdersBloc()..add(GetAllMyOrdersEvent())),
-          BlocProvider(
-              create: (_) => GetFavoriteBloc()..add(GetAllFavoriteEvent())),
-          BlocProvider(
-              create: (_) => GetOffersBloc()..add(GetAllOffersEvent())),
-          BlocProvider(
-              create: (_) => GetCategoriesBloc()..add(GetAllCategoriesEvent())),
-          BlocProvider(
-              create: (_) => CartCubit()..refreshCartOnLanguageChange()),
-          BlocProvider(
-            create: (_) => GetPrintSizesCubit()..getPrintSizes(),
-          ),
-          BlocProvider(
-              create: (_) =>
-                  GetLatestProductsBloc()..add(GetAllLatestProductsEvent())),
-          BlocProvider(create: (_) => GetCatigoriesCubit()),
-          BlocProvider(create: (_) => GetProductsCubit()),
-          BlocProvider(create: (_) => FavoriteCubit()),
-          BlocProvider(create: (_) => RangeSliderCubit()),
-          BlocProvider(create: (_) => CompairProductsCubit()),
-          BlocProvider(create: (_) => PostOrdersCubit()),
-          BlocProvider(create: (_) => GetProductsByCatIdBloc()),
-          BlocProvider(create: (_) => AboutUsCubit()),
-          BlocProvider(create: (_) => MaintenanceCubit()),
-          BlocProvider(create: (_) => ContactUsCubit()),
-          BlocProvider(
-              create: (_) =>
-                  PagesScreenCubit()..changedScreen(AppScreen.home, context)),
-          BlocProvider(create: (_) => SearchProductsBloc()),
-          BlocProvider(create: (_) => SellProductCubit()),
-          BlocProvider(create: (_) => PrintImageCubit()),
-          BlocProvider(create: (_) => AllProductsByAllCategoryCubit()),
-          BlocProvider(
-            create: (_) => GetMinMaxCubit(),
-          ),
-          BlocProvider(
-            create: (_) => SearchFilterPoductsBloc(),
-          ),
-          BlocProvider(create: (_) => MangeSearchFilterProductsCubit()),
-          BlocProvider(create: (_) => EditProfileCubit()),
-          BlocProvider(create: (_) => DeleteProfileCubit()),
-          BlocProvider(create: (_) => CancelFilterButtonCubit()),
-          BlocProvider(create: (_) => OrderProductCubit())
-        ],
-        child: BlocBuilder<LocaleCubit, ChangeLocaleState>(
-          builder: (context, state) {
-            return MaterialApp(
-                locale: state.locale,
-                supportedLocales: const [
-                  Locale("en"),
-                  Locale("ar"),
-                ],
-                localizationsDelegates: const [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                localeResolutionCallback: (deviceLocal, supportedLocales) {
-                  for (var locale in supportedLocales) {
-                    if (deviceLocal != null &&
-                        deviceLocal.languageCode == locale.languageCode) {
-                      return deviceLocal;
-                    }
-                  }
-                  return supportedLocales.first;
-                },
-                debugShowCheckedModeBanner: false,
-                title: 'Syring',
-                theme: ThemeData(
-                  fontFamily: "cocon-next-arabic",
-                  colorScheme:
-                      ColorScheme.fromSeed(seedColor: AppColors.primaryColors),
+        builder: (context, orientation, deviceType) => MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                    create: (context) => LocaleCubit()..getSaveLanguage()),
+                BlocProvider(create: (_) => AuthCubit()..checkFirstUse()),
+                BlocProvider(create: (_) => GetUserCubit()..getUserProfile()),
+                BlocProvider(
+                    create: (_) =>
+                        GetMyOrdersBloc()..add(GetAllMyOrdersEvent())),
+                BlocProvider(
+                    create: (_) =>
+                        GetFavoriteBloc()..add(GetAllFavoriteEvent())),
+                BlocProvider(
+                    create: (_) => GetOffersBloc()..add(GetAllOffersEvent())),
+                BlocProvider(
+                    create: (_) =>
+                        GetCategoriesBloc()..add(GetAllCategoriesEvent())),
+                BlocProvider(
+                    create: (_) => CartCubit()..refreshCartOnLanguageChange()),
+                BlocProvider(
+                  create: (_) => GetPrintSizesCubit()..getPrintSizes(),
                 ),
-                home: const SplashScreen());
-          },
-        ),
-      ),
-    );
+                BlocProvider(
+                    create: (_) => GetLatestProductsBloc()
+                      ..add(GetAllLatestProductsEvent())),
+                BlocProvider(create: (_) => GetCatigoriesCubit()),
+                BlocProvider(create: (_) => GetProductsCubit()),
+                BlocProvider(create: (_) => FavoriteCubit()),
+                BlocProvider(create: (_) => RangeSliderCubit()),
+                BlocProvider(create: (_) => CompairProductsCubit()),
+                BlocProvider(create: (_) => PostOrdersCubit()),
+                BlocProvider(create: (_) => GetProductsByCatIdBloc()),
+                BlocProvider(create: (_) => AboutUsCubit()),
+                BlocProvider(create: (_) => MaintenanceCubit()),
+                BlocProvider(create: (_) => ContactUsCubit()),
+                BlocProvider(
+                    create: (_) => PagesScreenCubit()
+                      ..changedScreen(AppScreen.home, context)),
+                BlocProvider(create: (_) => SearchProductsBloc()),
+                BlocProvider(create: (_) => SellProductCubit()),
+                BlocProvider(create: (_) => PrintImageCubit()),
+                BlocProvider(
+                  create: (_) => GetMinMaxCubit(),
+                ),
+                BlocProvider(
+                  create: (_) => SearchFilterPoductsBloc(),
+                ),
+                BlocProvider(create: (_) => MangeSearchFilterProductsCubit()),
+                BlocProvider(create: (_) => EditProfileCubit()),
+                BlocProvider(create: (_) => DeleteProfileCubit()),
+                BlocProvider(create: (_) => CancelFilterButtonCubit()),
+                BlocProvider(create: (_) => OrderProductCubit())
+              ],
+              child: BlocBuilder<LocaleCubit, ChangeLocaleState>(
+                builder: (context, state) {
+                  return MaterialApp(
+                      locale: state.locale,
+                      supportedLocales: const [
+                        Locale("en"),
+                        Locale("ar"),
+                      ],
+                      localizationsDelegates: const [
+                        AppLocalizations.delegate,
+                        GlobalMaterialLocalizations.delegate,
+                        GlobalWidgetsLocalizations.delegate,
+                        GlobalCupertinoLocalizations.delegate,
+                      ],
+                      localeResolutionCallback:
+                          (deviceLocal, supportedLocales) {
+                        for (var locale in supportedLocales) {
+                          if (deviceLocal != null &&
+                              deviceLocal.languageCode == locale.languageCode) {
+                            return deviceLocal;
+                          }
+                        }
+                        return supportedLocales.first;
+                      },
+                      debugShowCheckedModeBanner: false,
+                      title: 'Syring',
+                      theme: ThemeData(
+                        fontFamily: "cocon-next-arabic",
+                        colorScheme: ColorScheme.fromSeed(
+                            seedColor: AppColors.primaryColors),
+                      ),
+                      home: const SplashScreen());
+                },
+              ),
+            ));
   }
 }
